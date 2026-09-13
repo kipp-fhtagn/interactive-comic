@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The mutilated fates of Gaza</title>
+  <meta name="description" content="The mutilated fates of Gaza — a scrolling visual narrative.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23d90000' d='M0 0h32v32H0z'/%3E%3Cpath fill='white' d='M7 7h18v5H12v8h8v-3h-4v-4h9v12H7z'/%3E%3C/svg%3E">
+  <style>
+    * { box-sizing: border-box; }
+    html { background: #fff; color: #000; }
+    body { margin: 0; overflow-x: clip; }
+    main { height: 200vh; height: 200svh; isolation: isolate; }
+    .scene { position: fixed; inset: 0; display: grid; place-items: end center; pointer-events: none; }
+    .frame { position: relative; width: min(100vw, 218.589svh); aspect-ratio: 12300 / 5627; }
+    .title { position: fixed; z-index: 1; margin: 0; text-align: right; will-change: transform; }
+    h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
+    h1 span { display: block; margin-top: .12em; }
+    h1 strong { color: #e00000; font-weight: 900; }
+    .intro-copy { width: 47%; margin: 1.6rem 0 0 auto; text-align: right; will-change: opacity; }
+    .subtitle { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.125rem, 2vw, 2.2rem); line-height: 1.4; font-weight: 400; }
+    .credits { margin: 1.8rem 0 0; font-family: Arial, Helvetica, sans-serif; font-size: clamp(.875rem, 1vw, 1rem); line-height: 1.5; }
+    .mobile-copy { display: none; }
+    .credits .author { color: #e00000; }
+    .scroll-cue { position: fixed; z-index: 6; right: 3vw; bottom: 1.5rem; display: flex; align-items: center; gap: 10px; margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .15em; line-height: 30px; color: #000; pointer-events: none; }
+    .scroll-cue .arrow { font-size: 24px; color: #e00000; line-height: 1; }
+    .scroll-cue[hidden] { display: none; }
+    @media (max-width: 600px) { .scroll-cue { right: 5vw; bottom: 1rem; gap: .6rem; } }
+    @media (max-width: 600px) { .intro-copy { width: 55%; margin-top: .8rem; } .credits { margin-top: .65rem; } }
+    .art { position: absolute; inset: 0; }
+    .art img { display: block; width: 100%; height: 100%; }
+    .buildings::before { content: ''; position: absolute; inset: 0; background: white; mask: url('cover_buildings.png?v=2') center / 100% 100% no-repeat; -webkit-mask: url('cover_buildings.png?v=2') center / 100% 100% no-repeat; }
+    .buildings img { position: relative; }
+    .smoke-texture { mix-blend-mode: multiply; pointer-events: none; }
+    .smoke-texture img { will-change: transform; }
+    .smoke-lines img { animation: ink-quiver .18s steps(1, end) infinite; animation-play-state: paused; }
+    .frame.smoke-active .smoke-lines img { animation-play-state: running; }
+    .dust-near img { transform: translate(var(--dust-near-x, 0px), var(--dust-near-y, 0px)); transition: transform .65s ease-out; }
+    .dust-far img { transform: translate(var(--dust-far-x, 0px), var(--dust-far-y, 0px)); transition: transform .9s ease-out; }
+    @keyframes ink-quiver {
+      0%, 100% { transform: translate(0, 0); }
+      25% { transform: translate(1.4px, -1.1px); }
+      50% { transform: translate(-1.3px, 1.2px); }
+      75% { transform: translate(.9px, .6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .smoke-lines img { animation: none !important; }
+      .smoke-texture img { transform: none !important; transition: none; }
+    }
+    .scene { z-index: 2; transform: translateY(100vh); will-change: transform; }
+    .boy { position: fixed; inset: auto; bottom: 0; z-index: 4; pointer-events: none; transform-origin: 42% 100%; will-change: transform; }
+    @media (max-width: 760px) {
+      .scene { display: block; overflow: clip; }
+      .frame { position: absolute; bottom: 0; }
+      .title { text-align: center; }
+      .intro-copy { width: 100%; margin: 1.15rem auto 0; text-align: center; }
+      .desktop-copy { display: none; }
+      .mobile-copy, .mobile-copy > span { display: block; }
+      .subtitle { font-size: clamp(1.05rem, 4.3vw, 1.4rem); line-height: 1.3; }
+      .credits { font-size: .875rem; line-height: 1.45; margin-top: .9rem; }
+      .scroll-cue { right: 5vw; bottom: max(1rem, env(safe-area-inset-bottom)); max-width: 52vw; line-height: 1.6; text-align: right; }
+    }
+    .boy img { position: absolute; bottom: 0; width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <main aria-label="The mutilated fates of Gaza">
+    <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children forever scarred by war</span><span class="mobile-copy"><span>Palestinian children</span><span>Forever scarred</span><span>by war</span></span></p><p class="credits"><span class="desktop-copy">A story by <span class="author">Francesca Mannocchi</span> · Drawings by <span class="author">Gianluca Costantini</span>.</span><span class="mobile-copy"><span>Story by</span><span class="author">Francesca Mannocchi</span><span>Drawings by</span><span class="author">Gianluca Costantini</span></span></p></div></header>
+    <div class="scene"><div class="frame">
+      <div class="art buildings"><img src="cover_buildings_smoke_lines.png" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
+      <div class="art smoke-texture dust-far" aria-hidden="true"><img src="cover_dust2.png" width="3840" height="1757" alt=""></div>
+      <div class="art smoke-texture dust-near" aria-hidden="true"><img src="cover_dust1.png" width="3840" height="1757" alt=""></div>
+      <div class="art smoke-texture smoke-lines" aria-hidden="true"><img src="cover_lines.png" width="3840" height="1757" alt=""></div>
+    </div></div>
+      <div class="art boy"><img src="cover_boy.png?v=2" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
+    <p class="scroll-cue">SCROLL TO ENTER THE STORY <span class="arrow" aria-hidden="true">↓</span></p>
+  </main>
+  <script>
+    const title = document.querySelector('.title');
+    const scrollCue = document.querySelector('.scroll-cue');
+    const introCopy = document.querySelector('.intro-copy');
+    const frame = document.querySelector('.frame');
+    const scene = document.querySelector('.scene');
+    const boy = document.querySelector('.boy');
+    let scheduled = false;
+    function render() {
+      scrollCue.hidden = window.scrollY > 24;
+      const mobile = window.innerWidth <= 760;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = scene.clientHeight;
+      // Mobile has its own crop; the title and portrait use independent sizing.
+      const mobileSceneWidth = Math.max(viewportWidth * 2, viewportHeight * 1.35);
+      frame.style.width = mobile ? mobileSceneWidth + 'px' : '';
+      frame.style.left = mobile ? -(mobileSceneWidth - viewportWidth) * .38 + 'px' : '';
+      // Measure the final, untransformed frame to keep both layers aligned.
+      const width = frame.offsetWidth;
+      const height = frame.offsetHeight;
+      const rect = { width, height, left: mobile ? -(width - viewportWidth) * .38 : (viewportWidth - width) / 2, top: viewportHeight - height };
+      const start = viewportHeight * (mobile ? .045 : .02);
+      const end = mobile ? start : Math.max(start, rect.top + rect.height * .065);
+      const distance = document.documentElement.scrollHeight - window.innerHeight;
+      // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
+      const chapter = Math.max(1, distance);
+      const progress = Math.max(0, Math.min(1, window.scrollY / chapter));
+      // Fade the supporting copy out in the first 22% of the approach.
+      frame.classList.toggle('smoke-active', progress > .03 && !document.hidden);
+
+      const boyProgress = Math.max(0, Math.min(1, window.scrollY / Math.max(1, chapter * .9)));
+      const boyWidth = mobile ? Math.min(viewportWidth * 1.85, viewportHeight * 1.15) : width;
+      const boyHeight = boyWidth * 1958 / 3840;
+      // Leave the opening headline clear, including on shallow viewports.
+      const titleSize = mobile ? viewportWidth * .094 : width * .085;
+      const headlineBottom = start + titleSize * 1.08 + Math.max(18, viewportHeight * .025);
+      // Size the visible head against the headline, rather than a width-based cap.
+      // The PNG has a small transparent margin above the hair.
+      title.style.top = start + 'px';
+      title.style.left = (mobile ? viewportWidth * .04 : rect.left + rect.width * .03) + 'px';
+      title.style.width = (mobile ? viewportWidth * .92 : rect.width * .79) + 'px';
+      title.style.setProperty('--title-size', titleSize + 'px');
+      title.style.transform = `translateY(${(end - start) * progress}px)`;
+      const availableScale = Math.max(.2, (viewportHeight - headlineBottom) / (boyHeight * .973));
+      const mobileHeadroom = Math.max(80, viewportHeight - start - title.offsetHeight - 18);
+      const initialScale = mobile ? Math.min(mobileHeadroom / (boyHeight * .973), viewportWidth * .92 / (boyWidth * .35)) : availableScale;
+      const finalScale = initialScale * (mobile ? 1.30 : .96);
+      boy.style.bottom = '0px';
+      boy.style.transformOrigin = mobile ? '42.5% 100%' : '42% 100%';
+      boy.style.left = (mobile ? viewportWidth * .5 - boyWidth * .425 : rect.left - width * .12) + 'px';
+      boy.style.width = boyWidth + 'px';
+      boy.style.height = boyHeight + 'px';
+      boy.style.transform = `scale(${initialScale + (finalScale - initialScale) * boyProgress})`;
+      // The complete drawing starts below the viewport and rises with scroll.
+      const sceneOffset = window.innerHeight - rect.top + 24;
+      scene.style.transform = `translateY(${sceneOffset * (1 - progress)}px)`;
+      // Mobile buildings grow from the bottom, finishing before the scroll stop.
+      const zoomProgress = Math.min(1, progress / .92);
+      const sceneryScale = mobile ? 1 + .35 * zoomProgress * zoomProgress * (3 - 2 * zoomProgress) : 1;
+      frame.style.transformOrigin = mobile ? `${viewportWidth * .5 - rect.left}px 100%` : '';
+      frame.style.transform = mobile ? `scale(${sceneryScale})` : '';
+      // Fade only as the approaching smoke reaches the supporting copy.
+      const smokeTop = viewportHeight - height * sceneryScale + sceneOffset * (1 - progress);
+      const copyBottom = introCopy.getBoundingClientRect().bottom;
+      const gap = smokeTop - copyBottom;
+      const currentBoyScale = initialScale + (finalScale - initialScale) * boyProgress;
+      const headGap = viewportHeight - boyHeight * currentBoyScale * .973 - copyBottom;
+      const openingHeadGap = viewportHeight - boyHeight * initialScale * .973 - copyBottom;
+      // Finish fading with clearance before either the head or smoke reaches the copy.
+      const headFade = Math.max(0, Math.min(1, (openingHeadGap - headGap) / Math.max(1, openingHeadGap - 8)));
+      const smokeFade = Math.max(0, Math.min(1, (140 - gap) / 116));
+      const fade = mobile ? Math.max(headFade, smokeFade) : Math.max(0, Math.min(1, progress / .22));
+      introCopy.style.opacity = 1 - fade * fade * (3 - 2 * fade);
+      introCopy.style.visibility = fade >= 1 ? 'hidden' : 'visible';
+      scheduled = false;
+    }
+    function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
+    const mouseMotion = matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    function moveDust(x, y) {
+      frame.style.setProperty('--dust-near-x', x * 16 + 'px');
+      frame.style.setProperty('--dust-near-y', y * 10 + 'px');
+      frame.style.setProperty('--dust-far-x', x * -9 + 'px');
+      frame.style.setProperty('--dust-far-y', y * -6 + 'px');
+    }
+    addEventListener('pointermove', event => {
+      if (!mouseMotion.matches || reducedMotion.matches || event.pointerType !== 'mouse') return;
+      moveDust(event.clientX / innerWidth * 2 - 1, event.clientY / innerHeight * 2 - 1);
+    }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => moveDust(0, 0));
+    addEventListener('blur', () => moveDust(0, 0));
+    document.addEventListener('visibilitychange', update);
+    addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    render();
+  </script>
+</body>
+</html>
