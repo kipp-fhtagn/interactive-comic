@@ -10,10 +10,12 @@
     * { box-sizing: border-box; }
     html { background: #fff; color: #000; }
     body { margin: 0; overflow-x: clip; }
-    main { height: 200vh; height: 200svh; isolation: isolate; }
-    .scene { position: fixed; inset: 0; display: grid; place-items: end center; pointer-events: none; }
+    main { isolation: isolate; }
+    .cover-track { height: 200vh; height: 200svh; position: relative; }
+    .cover-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: clip; isolation: isolate; }
+    .scene { position: absolute; inset: 0; display: grid; place-items: end center; pointer-events: none; }
     .frame { position: relative; width: min(100vw, 218.589svh); aspect-ratio: 12300 / 5627; }
-    .title { position: fixed; z-index: 1; margin: 0; text-align: right; will-change: transform; }
+    .title { position: absolute; z-index: 1; margin: 0; text-align: right; will-change: transform; }
     h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
     h1 span { display: block; margin-top: .12em; }
     h1 strong { color: #e00000; font-weight: 900; }
@@ -22,7 +24,7 @@
     .credits { margin: 1.8rem 0 0; font-family: Arial, Helvetica, sans-serif; font-size: clamp(.875rem, 1vw, 1rem); line-height: 1.5; }
     .mobile-copy { display: none; }
     .credits .author { color: #e00000; }
-    .scroll-cue { position: fixed; z-index: 6; right: 3vw; bottom: 1.5rem; display: flex; align-items: center; gap: 10px; margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .15em; line-height: 30px; color: #000; pointer-events: none; }
+    .scroll-cue { position: absolute; z-index: 6; right: 3vw; bottom: 1.5rem; display: flex; align-items: center; gap: 10px; margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .15em; line-height: 30px; color: #000; pointer-events: none; }
     .scroll-cue .arrow { font-size: 24px; color: #e00000; line-height: 1; }
     .scroll-cue[hidden] { display: none; }
     @media (max-width: 600px) { .scroll-cue { right: 5vw; bottom: 1rem; gap: .6rem; } }
@@ -48,7 +50,7 @@
       .smoke-texture img { transform: none !important; transition: none; }
     }
     .scene { z-index: 2; transform: translateY(100vh); will-change: transform; }
-    .boy { position: fixed; inset: auto; bottom: 0; z-index: 4; pointer-events: none; transform-origin: 42% 100%; will-change: transform; }
+    .boy { position: absolute; inset: auto; bottom: 0; z-index: 4; pointer-events: none; transform-origin: 42% 100%; will-change: transform; }
     @media (max-width: 760px) {
       .scene { display: block; overflow: clip; }
       .frame { position: absolute; bottom: 0; }
@@ -61,10 +63,46 @@
       .scroll-cue { right: 5vw; bottom: max(1rem, env(safe-area-inset-bottom)); max-width: 52vw; line-height: 1.6; text-align: right; }
     }
     .boy img { position: absolute; bottom: 0; width: 100%; height: auto; }
+    .emir-story { position: relative; background: white; }
+    .emir-intro { position: absolute; z-index: 2; top: 0; left: 50%; width: min(54vw, 96svh); margin: 0; translate: var(--caption-slide, 0px) 0; transform: translateX(-50%) translate(var(--caption-x, 0px), var(--caption-y, 0px)); transition: transform .7s ease-out, opacity 1.3s ease-in-out; will-change: transform, opacity; }
+    .emir-intro img { display: block; width: 100%; height: auto; clip-path: inset(11.6% 4% 14.5% 4.4%); }
+    .emir-track { height: 660svh; position: relative; }
+    .emir-stage { position: sticky; top: 0; height: 100svh; background: white; overflow: clip; }
+    .emir-panel { position: absolute; top: 24svh; width: 100%; height: 71svh; overflow: hidden; background: white; }
+    .emir-panel img { position: absolute; top: 0; left: 0; max-width: none; transform-origin: 0 0; will-change: transform; }
+    .emir-outro { position: relative; z-index: 5; min-height: 38svh; background: white; }
+    .wounded-caption { position: relative; top: -7svh; width: min(88vw, 1100px); margin: 0 auto; }
+    .wounded-caption img { width: 100%; height: auto; display: block; clip-path: inset(14% 3% 17% 2.4%); }
+    .tumama-caption { position: absolute; z-index: 5; left: 2%; top: 47%; width: min(38vw, 66svh); margin: 0; opacity: 0; transition: opacity .9s ease-in-out; pointer-events: none; }
+    .tumama-caption img { width: 100%; height: auto; display: block; clip-path: inset(13.3% 5.4% 12% 7.2%); }
+    @media (max-width: 760px) { .tumama-caption { width: 85vw; left: 0; top: 38%; } .wounded-caption { width: 98vw; } }
+    .qatar-streets { position: absolute; z-index: 4; top: 0; left: 0; width: 100%; height: auto; transform: translateY(100svh); will-change: transform; pointer-events: none; }
+    .emir-second { position: absolute; z-index: 3; top: 44%; left: 3.5%; width: min(34vw, 58svh); margin: 0; transform: translateY(-50%); opacity: 0; transition: opacity 1.3s ease-in-out; pointer-events: none; }
+    .emir-second img { display: block; width: 100%; height: auto; clip-path: inset(9.5% 9.3% 12.2% 9.1%); }
+    @media (max-width: 760px) { .emir-second { left: -3%; width: min(92vw, 65svh); } }
+    @media (prefers-reduced-motion: reduce) { .emir-intro { transition: none; transform: translateX(-50%); } }
+    @media (max-width: 760px) {
+      .emir-intro { top: 2svh; width: 100vw; }
+      .emir-panel { top: 21svh; height: 74svh; }
+      .emir-track { height: 560svh; }
+    }
+    .parents-track { position: relative; height: 500svh; background: white; }
+    .parents-stage { position: sticky; top: 0; height: 100svh; overflow: clip; background: white; }
+    .parents-panel { position: absolute; inset: 30% 0 5%; overflow: hidden; }
+    .parents-art { position: absolute; left: 0; top: 0; max-width: none; transform-origin: 0 0; will-change: transform; }
+    .parents-caption { position: absolute; z-index: 2; top: 1%; left: 50%; width: min(48vw, 58svh); margin: 0; transform: translateX(-50%); }
+    .parents-caption img { display: block; width: 100%; height: auto; }
+    .parents-caption-five img { clip-path: inset(7.8% 4% 8% 4.6%); }
+    .parents-caption-six, .parents-caption-seven { top: 4%; left: 3%; width: min(43vw, 65svh); transform: none; opacity: 0; }
+    .parents-caption-six img { clip-path: inset(10.3% 5.3% 11.5% 4.7%); }
+    .parents-caption-seven img { clip-path: inset(10% 5.3% 11.3% 4.2%); }
+    @media (max-width: 760px) { .parents-caption { width: min(96vw, 53svh); } .parents-caption-six, .parents-caption-seven { left: 2%; width: 96vw; } }
+    .parents-caption-seven { top: auto; bottom: 5%; left: auto; right: 3%; }
   </style>
 </head>
 <body>
   <main aria-label="The mutilated fates of Gaza">
+    <section class="cover-track" aria-label="Cover"><div class="cover-stage">
     <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children forever scarred by war</span><span class="mobile-copy"><span>Palestinian children</span><span>Forever scarred</span><span>by war</span></span></p><p class="credits"><span class="desktop-copy">A story by <span class="author">Francesca Mannocchi</span> · Drawings by <span class="author">Gianluca Costantini</span>.</span><span class="mobile-copy"><span>Story by</span><span class="author">Francesca Mannocchi</span><span>Drawings by</span><span class="author">Gianluca Costantini</span></span></p></div></header>
     <div class="scene"><div class="frame">
       <div class="art buildings"><img src="cover_buildings_smoke_lines.png" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
@@ -74,8 +112,31 @@
     </div></div>
       <div class="art boy"><img src="cover_boy.png?v=2" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
     <p class="scroll-cue">SCROLL TO ENTER THE STORY <span class="arrow" aria-hidden="true">↓</span></p>
+    </div></section>
+    <section class="emir-story" aria-label="The Emir of Qatar initiative">
+      <div class="emir-track"><div class="emir-stage">
+      <figure class="emir-intro"><img src="emir_of_qatar_text.png" alt="In December 2023, the Emir of Qatar launched an initiative to transfer severely wounded individuals from Gaza to receive medical treatment."></figure>
+        <figure class="emir-second" aria-hidden="true"><img src="qatar_agreement_text_2.png" alt="Thanks to an agreement between Israel, Hamas, Egypt, and Qatar, the wounded were able to leave Gaza and were transferred to Qatar on military flights."></figure>
+        <div class="emir-panel"><img src="emir_of_qatar_web.webp" alt="The Emir of Qatar surrounded by buildings, revealed from a close-up of his eyes and nose."></div>
+        <figure class="tumama-caption" aria-hidden="true"><img src="tumama_world_cup_2022_text_3.png" alt="They live in the Thumama complex, originally built for the 2022 World Cup."></figure>
+        <img class="qatar-streets" src="qatar_streets.png" width="6400" height="8833" alt="Cars in the foreground beneath signs for Hamad and Doha international airports.">
+      </div></div>
+      <div class="emir-outro"><figure class="wounded-caption"><img src="wounded_text_4.png" alt="In seven months, approximately 1,700 wounded individuals have been evacuated, including 400 children with limb amputations."></figure></div>
+    </section>
+    <section class="parents-track" aria-label="Families from Gaza"><div class="parents-stage">
+      <div class="parents-panel"><img class="parents-art" src="gaza_parents.png" alt="A family from Gaza, beginning with a close-up of their hands."></div>
+      <figure class="parents-caption parents-caption-five"><img src="united_nations_text_5.png" alt="By the end of June, according to the United Nations, 2,000 children from Gaza had undergone amputations."></figure>
+      <figure class="parents-caption parents-caption-six"><img src="prosthetic_center_text_6.png" alt="The main prosthetic center in Gaza was closed after an Israeli attack, and only a few injured children were able to evacuate."></figure>
+      <figure class="parents-caption parents-caption-seven"><img src="rafah_crossing_text_7.png" alt="On May 7, Israel had blocked the exits by controlling the Rafah crossing."></figure>
+    </div></section>
   </main>
   <script>
+    const coverTrack = document.querySelector('.cover-track');
+    const coverStage = document.querySelector('.cover-stage');
+    const emirTrack = document.querySelector('.emir-track');
+    const emirStage = document.querySelector('.emir-stage');
+    const emirPanel = document.querySelector('.emir-panel');
+    const emirImage = emirPanel.querySelector('img');
     const title = document.querySelector('.title');
     const scrollCue = document.querySelector('.scroll-cue');
     const introCopy = document.querySelector('.intro-copy');
@@ -98,12 +159,12 @@
       const rect = { width, height, left: mobile ? -(width - viewportWidth) * .38 : (viewportWidth - width) / 2, top: viewportHeight - height };
       const start = viewportHeight * (mobile ? .045 : .02);
       const end = mobile ? start : Math.max(start, rect.top + rect.height * .065);
-      const distance = document.documentElement.scrollHeight - window.innerHeight;
+      const distance = coverTrack.offsetHeight - coverStage.clientHeight;
       // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
       const chapter = Math.max(1, distance);
       const progress = Math.max(0, Math.min(1, window.scrollY / chapter));
       // Fade the supporting copy out in the first 22% of the approach.
-      frame.classList.toggle('smoke-active', progress > .03 && !document.hidden);
+      frame.classList.toggle('smoke-active', progress > .03 && coverTrack.getBoundingClientRect().bottom > 0 && !document.hidden);
 
       const boyProgress = Math.max(0, Math.min(1, window.scrollY / Math.max(1, chapter * .9)));
       const boyWidth = mobile ? Math.min(viewportWidth * 1.85, viewportHeight * 1.15) : width;
@@ -138,7 +199,7 @@
       frame.style.transform = mobile ? `scale(${sceneryScale})` : '';
       // Fade only as the approaching smoke reaches the supporting copy.
       const smokeTop = viewportHeight - height * sceneryScale + sceneOffset * (1 - progress);
-      const copyBottom = introCopy.getBoundingClientRect().bottom;
+      const copyBottom = introCopy.getBoundingClientRect().bottom - coverStage.getBoundingClientRect().top;
       const gap = smokeTop - copyBottom;
       const currentBoyScale = initialScale + (finalScale - initialScale) * boyProgress;
       const headGap = viewportHeight - boyHeight * currentBoyScale * .973 - copyBottom;
@@ -149,12 +210,119 @@
       const fade = mobile ? Math.max(headFade, smokeFade) : Math.max(0, Math.min(1, progress / .22));
       introCopy.style.opacity = 1 - fade * fade * (3 - 2 * fade);
       introCopy.style.visibility = fade >= 1 ? 'hidden' : 'visible';
+      renderEmir(mobile);
+      renderParents(mobile);
       scheduled = false;
+    }
+    let emirProgress = 0;
+    let emirLastScroll = window.scrollY;
+    function renderEmir(mobile) {
+      // Replay the same timeline backwards, with a shorter return journey.
+      const currentScroll = window.scrollY;
+      const sectionTop = emirTrack.getBoundingClientRect().top + currentScroll;
+      const sectionEnd = sectionTop + emirTrack.offsetHeight - emirStage.clientHeight;
+      if (currentScroll < emirLastScroll && emirLastScroll > sectionTop && currentScroll < sectionEnd) {
+        const reverseDistance = Math.min(emirLastScroll, sectionEnd) - Math.max(currentScroll, sectionTop);
+        if (reverseDistance > 0) {
+          const target = Math.max(sectionTop, currentScroll - reverseDistance * 1.5);
+          window.scrollTo({ top: target, behavior: "instant" });
+        }
+      }
+      emirLastScroll = window.scrollY;
+      const panelWidth = emirPanel.clientWidth;
+      const travel = Math.max(1, emirTrack.offsetHeight - emirStage.clientHeight);
+      emirProgress = Math.max(0, Math.min(1, -emirTrack.getBoundingClientRect().top / travel));
+      const storyProgress = Math.min(1, emirProgress / .65);
+      const streetProgress = Math.max(0, Math.min(1, (emirProgress - .67) / .33));
+      const p = Math.min(1, storyProgress / .6);
+      const pan = Math.max(0, Math.min(1, (storyProgress - .6) / .4));
+      const panEase = pan * pan * (3 - 2 * pan);
+      const captionProgress = Math.max(0, Math.min(1, (p - .04) / .72));
+      const captionEase = captionProgress * captionProgress * (3 - 2 * captionProgress);
+      const caption = emirStage.querySelector(".emir-intro");
+      const textScale = Math.min(.42, innerWidth * .94 / 1921);
+      document.querySelectorAll(".emir-intro, .emir-second, .tumama-caption, .wounded-caption, .parents-caption").forEach(box => { const image = box.querySelector("img"); if (image.naturalWidth) box.style.width = image.naturalWidth * textScale + "px"; });
+      const captionWidth = 1584 * textScale;
+      caption.style.width = captionWidth + "px";
+      // Account for the white inset already present in the caption PNG.
+      const captionLeft = (innerWidth - captionWidth) / 2 + captionWidth * .044;
+      const leftMargin = mobile ? innerWidth * .044 : innerWidth * .035;
+      emirStage.style.setProperty("--caption-slide", (leftMargin - captionLeft) * captionEase + "px");
+      const eased = p * p * (3 - 2 * p);
+      const opening = reducedMotion.matches ? 1 : eased;
+      const stageHeight = emirStage.clientHeight;
+      const panelHeight = stageHeight * ((mobile ? .74 : .71) + (mobile ? .26 : .29) * opening);
+      emirPanel.style.top = stageHeight * (mobile ? .21 : .24) * (1 - opening) + "px";
+      emirPanel.style.height = panelHeight + "px";
+      const sourceWidth = emirImage.naturalWidth || 4998;
+      const sourceHeight = emirImage.naturalHeight || 6894;
+      const fit = Math.max(panelWidth / sourceWidth, panelHeight / sourceHeight) * (mobile ? 1.65 : 1);
+      const zoom = Math.exp(Math.log(mobile ? 8 : 4.8) * (1 - eased));
+      const scale = fit * (reducedMotion.matches ? 1 : zoom);
+      // Reframe as the visible area expands, keeping the eyes in the panel.
+      const reframe = reducedMotion.matches ? 1 : (1 / zoom - 1 / (mobile ? 8 : 4.8)) / (1 - 1 / (mobile ? 8 : 4.8));
+      const focusX = .538 + (.5 - .538) * reframe;
+      const focusY = .198 + ((mobile ? .5 : .31) - .198) * reframe;
+      const x = Math.max(panelWidth - sourceWidth * scale, Math.min(0, panelWidth / 2 - focusX * sourceWidth * scale));
+      const zoomY = Math.max(panelHeight - sourceHeight * scale, Math.min(0, panelHeight / 2 - focusY * sourceHeight * scale));
+      const y = zoomY + (panelHeight - sourceHeight * scale - zoomY) * panEase;
+      caption.style.opacity = p >= 1 ? "0" : "1";
+      caption.setAttribute("aria-hidden", String(p >= 1));
+      const second = emirStage.querySelector(".emir-second");
+      const faceHasLeft = p >= 1 && y + sourceHeight * .32 * scale <= 0;
+      second.style.opacity = faceHasLeft && streetProgress === 0 ? "1" : "0";
+      second.setAttribute("aria-hidden", String(!faceHasLeft || streetProgress > 0));
+      const streets = emirStage.querySelector('.qatar-streets');
+      const streetWidth = mobile ? Math.max(panelWidth, stageHeight * .73) : panelWidth;
+      const streetHeight = streetWidth * 8833 / 6400;
+      streets.style.width = streetWidth + 'px';
+      streets.style.left = (panelWidth - streetWidth) / 2 + 'px';
+      const streetY = stageHeight - streetProgress * streetHeight;
+      streets.style.transform = 'translateY(' + streetY + 'px)';
+      const tumama = emirStage.querySelector('.tumama-caption');
+      const captionTop = stageHeight * (mobile ? .38 : .47);
+      const captionBottom = captionTop + tumama.clientHeight * .88;
+      const palmsBottom = streetY + streetHeight * .45;
+      const carsTop = streetY + streetHeight * .64;
+      const showTumama = streetProgress > 0 && palmsBottom < captionTop + stageHeight * .12 && carsTop > captionTop + stageHeight * .08;
+      tumama.style.opacity = showTumama ? '1' : '0';
+      tumama.setAttribute('aria-hidden', String(!showTumama));
+      // Foreground overtakes the previous scene, with a slower background push.
+      emirPanel.style.transform = 'translateY(' + (-Math.min(1, streetProgress * 2) * stageHeight * .38) + 'px)';
+      emirImage.style.width = sourceWidth + 'px';
+      emirImage.style.height = sourceHeight + 'px';
+      emirImage.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    }
+    function renderParents(mobile) {
+      const track = document.querySelector('.parents-track');
+      const stage = track.querySelector('.parents-stage');
+      const panel = track.querySelector('.parents-panel');
+      const img = track.querySelector('.parents-art');
+      const clamp = v => Math.max(0, Math.min(1, v));
+      const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
+      const progress = clamp(-track.getBoundingClientRect().top / (track.offsetHeight - stage.clientHeight));
+      const opening = reducedMotion.matches ? 1 : smooth(progress / .5);
+      const w = stage.clientWidth, h = stage.clientHeight;
+      const ph = h * (.65 + .35 * opening);
+      panel.style.top = h * .3 * (1 - opening) + 'px';
+      panel.style.height = ph + 'px';
+      const iw = img.naturalWidth || 6400, ih = img.naturalHeight || 8833;
+      const fit = Math.max(w / iw, ph / ih);
+      const scale = fit * Math.exp(Math.log(mobile ? 4 : 3.5) * (1 - opening));
+      const focusY = .625 + (.40 - .625) * opening;
+      const x = Math.max(w - iw * scale, Math.min(0, w / 2 - iw * .49 * scale));
+      const y = Math.max(ph - ih * scale, Math.min(0, ph / 2 - ih * focusY * scale));
+      img.style.width = iw + 'px'; img.style.height = ih + 'px';
+      img.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
+      const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .5) / .08) * (1 - smooth((progress - .69) / .08)), smooth((progress - .78) / .08) * (1 - smooth((progress - .94) / .06))];
+      ['five', 'six', 'seven'].forEach((name, i) => { const box = track.querySelector('.parents-caption-' + name); box.style.opacity = opacities[i]; box.setAttribute('aria-hidden', String(opacities[i] < .01)); });
     }
     function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
     const mouseMotion = matchMedia('(hover: hover) and (pointer: fine)');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     function moveDust(x, y) {
+      emirStage.style.setProperty('--caption-x', x * -10 + 'px');
+      emirStage.style.setProperty('--caption-y', y * -7 + 'px');
       frame.style.setProperty('--dust-near-x', x * 16 + 'px');
       frame.style.setProperty('--dust-near-y', y * 10 + 'px');
       frame.style.setProperty('--dust-far-x', x * -9 + 'px');
@@ -169,6 +337,8 @@
     document.addEventListener('visibilitychange', update);
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
+    emirImage.addEventListener('load', update);
+    reducedMotion.addEventListener('change', update);
     render();
   </script>
 </body>
