@@ -311,12 +311,12 @@
       const fit = Math.max(w / iw, ph / ih);
       const scale = fit * Math.exp(Math.log(mobile ? 4 : 3.5) * (1 - opening));
       const descent = smooth((progress - .5) / .4);
-      const focusY = .625 + (.40 - .625) * opening + .28 * descent;
+      const focusY = .572 + (.40 - .572) * opening + .28 * descent;
       const x = Math.max(w - iw * scale, Math.min(0, w / 2 - iw * .49 * scale));
       const y = Math.max(ph - ih * scale, Math.min(0, ph / 2 - ih * focusY * scale));
       img.style.width = iw + 'px'; img.style.height = ih + 'px';
       img.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
-      const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .5) / .08) * (1 - smooth((progress - .69) / .08)), smooth((progress - .78) / .08) * (1 - smooth((progress - .94) / .06))];
+      const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .46) / .08) * (1 - smooth((progress - .65) / .08)), smooth((progress - .74) / .08) * (1 - smooth((progress - .90) / .06))];
       ['five', 'six', 'seven'].forEach((name, i) => { const box = track.querySelector('.parents-caption-' + name); box.style.opacity = opacities[i]; box.setAttribute('aria-hidden', String(opacities[i] < .01)); });
     }
     function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
