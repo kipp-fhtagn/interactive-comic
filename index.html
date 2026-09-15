@@ -35,15 +35,15 @@
     .buildings img { position: relative; }
     .smoke-texture { mix-blend-mode: multiply; pointer-events: none; }
     .smoke-texture img { will-change: transform; }
-    .smoke-lines img { animation: ink-quiver .18s steps(1, end) infinite; animation-play-state: paused; }
+    .smoke-lines img { animation: ink-quiver 2.4s ease-in-out infinite; animation-play-state: paused; }
     .frame.smoke-active .smoke-lines img { animation-play-state: running; }
     .dust-near img { transform: translate(var(--dust-near-x, 0px), var(--dust-near-y, 0px)); transition: transform .65s ease-out; }
     .dust-far img { transform: translate(var(--dust-far-x, 0px), var(--dust-far-y, 0px)); transition: transform .9s ease-out; }
     @keyframes ink-quiver {
       0%, 100% { transform: translate(0, 0); }
-      25% { transform: translate(1.4px, -1.1px); }
-      50% { transform: translate(-1.3px, 1.2px); }
-      75% { transform: translate(.9px, .6px); }
+      25% { transform: translate(2.4px, -1.8px); }
+      50% { transform: translate(-2px, 2px); }
+      75% { transform: translate(1.6px, .9px); }
     }
     @media (prefers-reduced-motion: reduce) {
       .smoke-lines img { animation: none !important; }
@@ -99,6 +99,21 @@
     @media (max-width: 760px) { .parents-caption { width: min(96vw, 53svh); } .parents-caption-six, .parents-caption-seven { left: 2%; width: 96vw; } }
     @media (min-width: 761px) { .emir-intro { top: 5svh; } }
     .parents-caption-seven { top: auto; bottom: 5%; left: auto; right: 3%; }
+    .sanad-gap { height: 12svh; background: white; }
+    .sanad-heading { position: absolute; z-index: 6; top: 10%; left: 62%; width: 23%; padding: 0; margin: 0; }
+    .sanad-heading img { display: block; width: 100%; margin: 0; }
+    .sanad-track { position: relative; height: 450svh; }
+    .sanad-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
+    .sanad-composition { position: absolute; transform-origin: 0 0; }
+    .sanad-background { display: block; width: 100%; height: 100%; transform: scaleX(-1); }
+    .sanad-balloon { position: absolute; height: auto; opacity: 0; }
+    .sanad-one { left: 53%; top: 22%; width: 34%; z-index: 3; }
+    .sanad-two { left: 31%; top: 43%; width: 42%; z-index: 3; }
+    .sanad-tails { left: 64%; top: 36%; width: 25%; height: 17.7%; z-index: 4; }
+    .sanad-lettering { z-index: 5; clip-path: inset(17% 12% 14% 12%); pointer-events: none; }
+    .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
+    .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
+    @media (prefers-reduced-motion: reduce) { .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading, .sanad-balloon { translate: none; transition: none; } }
   </style>
 </head>
 <body>
@@ -118,18 +133,28 @@
       <div class="emir-track"><div class="emir-stage">
       <figure class="emir-intro"><img src="emir_of_qatar_text.png" alt="In December 2023, the Emir of Qatar launched an initiative to transfer severely wounded individuals from Gaza to receive medical treatment."></figure>
         <figure class="emir-second" aria-hidden="true"><img src="qatar_agreement_text_2.png" alt="Thanks to an agreement between Israel, Hamas, Egypt, and Qatar, the wounded were able to leave Gaza and were transferred to Qatar on military flights."></figure>
-        <div class="emir-panel"><img src="emir_of_qatar_web.webp" alt="The Emir of Qatar surrounded by buildings, revealed from a close-up of his eyes and nose."></div>
+        <div class="emir-panel"><img src="emir_of_qatar_v1.png" alt="The Emir of Qatar surrounded by buildings, revealed from a close-up of his eyes and nose."></div>
         <figure class="tumama-caption" aria-hidden="true"><img src="tumama_world_cup_2022_text_3.png" alt="They live in the Thumama complex, originally built for the 2022 World Cup."></figure>
-        <img class="qatar-streets" src="qatar_streets.png" width="6400" height="8833" alt="Cars in the foreground beneath signs for Hamad and Doha international airports.">
+        <img class="qatar-streets" decoding="async" src="qatar_streets_optimized.webp" width="6400" height="8833" alt="Cars in the foreground beneath signs for Hamad and Doha international airports.">
       </div></div>
       <div class="emir-outro"><figure class="wounded-caption"><img src="wounded_text_4.png" alt="In seven months, approximately 1,700 wounded individuals have been evacuated, including 400 children with limb amputations."></figure></div>
     </section>
     <section class="parents-track" aria-label="Families from Gaza"><div class="parents-stage">
-      <div class="parents-panel"><img class="parents-art" src="gaza_parents.png" alt="A family from Gaza, beginning with a close-up of their hands."></div>
+      <div class="parents-panel"><img class="parents-art" decoding="async" src="gaza_parents_optimized.webp" alt="A family from Gaza, beginning with a close-up of their hands."></div>
       <figure class="parents-caption parents-caption-five"><img src="united_nations_text_5.png" alt="By the end of June, according to the United Nations, 2,000 children from Gaza had undergone amputations."></figure>
       <figure class="parents-caption parents-caption-six"><img src="prosthetic_center_text_6.png" alt="The main prosthetic center in Gaza was closed after an Israeli attack, and only a few injured children were able to evacuate."></figure>
       <figure class="parents-caption parents-caption-seven"><img src="rafah_crossing_text_7.png" alt="On May 7, Israel had blocked the exits by controlling the Rafah crossing."></figure>
     </div></section>
+    <div class="sanad-gap" aria-hidden="true"></div>
+    <section class="sanad-track" aria-label="Sanad"><div class="sanad-stage"><div class="sanad-composition">
+      <figure class="sanad-heading"><img src="sanad_text__8.png" alt="Sanad"></figure>
+      <img class="sanad-background" decoding="async" src="sanad_optimized.webp" alt="A street between tall buildings, with people in the distance.">
+      <img class="sanad-balloon sanad-one" src="nuseirat_speech_1.png" alt="They said that Nuseirat was a safe place!">
+      <img class="sanad-balloon sanad-two" src="nuseirat_speech_2.png" alt="Now there are no safe places left, they are bombing everywhere.">
+      <img class="sanad-balloon sanad-one sanad-lettering" src="nuseirat_speech_1.png" alt="" aria-hidden="true">
+      <img class="sanad-balloon sanad-two sanad-lettering" src="nuseirat_speech_2.png" alt="" aria-hidden="true">
+      <img class="sanad-balloon sanad-tails" src="nuserait_tails.png?v=3" alt="" aria-hidden="true">
+    </div></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -213,6 +238,7 @@
       introCopy.style.visibility = fade >= 1 ? 'hidden' : 'visible';
       renderEmir(mobile);
       renderParents(mobile);
+      renderSanad();
       scheduled = false;
     }
     let emirProgress = 0;
@@ -281,7 +307,9 @@
       const streetY = stageHeight - streetProgress * streetHeight;
       streets.style.transform = 'translateY(' + streetY + 'px)';
       const tumama = emirStage.querySelector('.tumama-caption');
-      const captionTop = stageHeight * (mobile ? .38 : .47);
+      const rise = -Math.max(0, Math.min(1, (streetProgress - .55) / .35)) * stageHeight * .09;
+      tumama.style.setProperty("--scroll-rise", rise + "px");
+      const captionTop = stageHeight * (mobile ? .38 : .47) + rise;
       const captionBottom = captionTop + tumama.clientHeight * .88;
       const palmsBottom = streetY + streetHeight * .45;
       const carsTop = streetY + streetHeight * .64;
@@ -316,13 +344,49 @@
       const y = Math.max(ph - ih * scale, Math.min(0, ph / 2 - ih * focusY * scale));
       img.style.width = iw + 'px'; img.style.height = ih + 'px';
       img.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + scale + ')';
-      const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .46) / .08) * (1 - smooth((progress - .65) / .08)), smooth((progress - .74) / .08) * (1 - smooth((progress - .90) / .06))];
+      track.querySelector(".parents-caption-seven").style.setProperty("--scroll-rise", -smooth((progress - .65) / .28) * h * .07 + "px");
+      const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .46) / .08) * (1 - smooth((progress - .61) / .08)), smooth((progress - .65) / .07) * (1 - smooth((progress - .86) / .06))];
       ['five', 'six', 'seven'].forEach((name, i) => { const box = track.querySelector('.parents-caption-' + name); box.style.opacity = opacities[i]; box.setAttribute('aria-hidden', String(opacities[i] < .01)); });
+    }
+    function renderSanad() {
+      const track = document.querySelector('.sanad-track');
+      const stage = track.querySelector('.sanad-stage');
+      const composition = track.querySelector('.sanad-composition');
+      const clamp = v => Math.max(0, Math.min(1, v));
+      const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
+      const p = clamp(-track.getBoundingClientRect().top / (track.offsetHeight - stage.clientHeight));
+      const opening = reducedMotion.matches ? 1 : smooth((p + .035) / .17);
+      const w = stage.clientWidth;
+      const h = w * 8833 / 6400;
+      const zoom = Math.exp(Math.log(2) * (1 - opening));
+      const travel = smooth((p - .32) / .62);
+      const x = (stage.clientWidth / 2 - w * .62 * zoom) * (1 - opening);
+      const y = -h * .13 * (1 - opening) - Math.max(0, h - stage.clientHeight) * travel;
+      const label = track.querySelector('.sanad-heading');
+      const labelImage = label.querySelector('img');
+      const textScale = Math.min(.42, stage.clientWidth * .94 / 1921);
+      label.style.width = (labelImage.naturalWidth || 424) * textScale / zoom + 'px';
+      composition.style.width = w + 'px'; composition.style.height = h + 'px';
+      composition.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + zoom + ')';
+      ['one','two'].forEach((name,i) => {
+        const screenTop = y + h * (i ? .43 : .22) * zoom;
+        const opacity = smooth((p - (i ? .14 : .055)) / .065) * smooth((stage.clientHeight - screenTop) / (stage.clientHeight * .18));
+        track.querySelectorAll('.sanad-' + name).forEach(el => { el.style.opacity = opacity; if (!el.classList.contains('sanad-lettering')) el.setAttribute('aria-hidden', String(opacity < .01)); });
+      });
+      const tails = track.querySelector('.sanad-tails');
+      const secondTop = y + h * .43 * zoom;
+      const reveal = Math.min(clamp((p - .22) / .12), clamp((stage.clientHeight * .72 - secondTop) / (stage.clientHeight * .2)));
+      tails.style.opacity = reveal > 0 ? '1' : '0';
+      const angle = reveal * 366;
+      const mask = reveal >= 1 ? 'none' : 'conic-gradient(from 45deg at 52% 52%, black 0deg, black ' + Math.max(0, angle - 7) + 'deg, transparent ' + angle + 'deg, transparent 360deg)';
+      tails.style.maskImage = mask; tails.style.webkitMaskImage = mask;
     }
     function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
     const mouseMotion = matchMedia('(hover: hover) and (pointer: fine)');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
     function moveDust(x, y) {
+      document.documentElement.style.setProperty("--text-mouse-x", x * -10 + "px");
+      document.documentElement.style.setProperty("--text-mouse-y", y * -7 + "px");
       emirStage.style.setProperty('--caption-x', x * -10 + 'px');
       emirStage.style.setProperty('--caption-y', y * -7 + 'px');
       frame.style.setProperty('--dust-near-x', x * 16 + 'px');
