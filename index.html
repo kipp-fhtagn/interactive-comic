@@ -70,7 +70,7 @@
     .emir-stage { position: sticky; top: 0; height: 100svh; background: white; overflow: clip; }
     .emir-panel { position: absolute; top: 24svh; width: 100%; height: 71svh; overflow: hidden; background: white; }
     .emir-panel img { position: absolute; top: 0; left: 0; max-width: none; transform-origin: 0 0; will-change: transform; }
-    .emir-outro { position: relative; z-index: 5; min-height: 38svh; background: white; }
+    .emir-outro { position: relative; z-index: 5; min-height: 24svh; background: white; }
     .wounded-caption { position: relative; top: -7svh; width: min(88vw, 1100px); margin: 0 auto; }
     .wounded-caption img { width: 100%; height: auto; display: block; clip-path: inset(14% 3% 17% 2.4%); }
     .tumama-caption { position: absolute; z-index: 5; left: 2%; top: 47%; width: min(38vw, 66svh); margin: 0; opacity: 0; transition: opacity .9s ease-in-out; pointer-events: none; }
@@ -97,6 +97,7 @@
     .parents-caption-six img { clip-path: inset(10.3% 5.3% 11.5% 4.7%); }
     .parents-caption-seven img { clip-path: inset(10% 5.3% 11.3% 4.2%); }
     @media (max-width: 760px) { .parents-caption { width: min(96vw, 53svh); } .parents-caption-six, .parents-caption-seven { left: 2%; width: 96vw; } }
+    @media (min-width: 761px) { .emir-intro { top: 5svh; } }
     .parents-caption-seven { top: auto; bottom: 5%; left: auto; right: 3%; }
   </style>
 </head>
@@ -175,7 +176,7 @@
       // Size the visible head against the headline, rather than a width-based cap.
       // The PNG has a small transparent margin above the hair.
       title.style.top = start + 'px';
-      title.style.left = (mobile ? viewportWidth * .04 : rect.left + rect.width * .03) + 'px';
+      title.style.left = (mobile ? viewportWidth * .04 : rect.left + rect.width * .15) + 'px';
       title.style.width = (mobile ? viewportWidth * .92 : rect.width * .79) + 'px';
       title.style.setProperty('--title-size', titleSize + 'px');
       title.style.transform = `translateY(${(end - start) * progress}px)`;
@@ -257,12 +258,12 @@
       const sourceWidth = emirImage.naturalWidth || 4998;
       const sourceHeight = emirImage.naturalHeight || 6894;
       const fit = Math.max(panelWidth / sourceWidth, panelHeight / sourceHeight) * (mobile ? 1.65 : 1);
-      const zoom = Math.exp(Math.log(mobile ? 8 : 4.8) * (1 - eased));
+      const zoom = Math.exp(Math.log(mobile ? 6 : 3.2) * (1 - eased));
       const scale = fit * (reducedMotion.matches ? 1 : zoom);
       // Reframe as the visible area expands, keeping the eyes in the panel.
-      const reframe = reducedMotion.matches ? 1 : (1 / zoom - 1 / (mobile ? 8 : 4.8)) / (1 - 1 / (mobile ? 8 : 4.8));
+      const reframe = reducedMotion.matches ? 1 : (1 / zoom - 1 / (mobile ? 6 : 3.2)) / (1 - 1 / (mobile ? 6 : 3.2));
       const focusX = .538 + (.5 - .538) * reframe;
-      const focusY = .198 + ((mobile ? .5 : .31) - .198) * reframe;
+      const focusY = .215 + ((mobile ? .5 : .31) - .215) * reframe;
       const x = Math.max(panelWidth - sourceWidth * scale, Math.min(0, panelWidth / 2 - focusX * sourceWidth * scale));
       const zoomY = Math.max(panelHeight - sourceHeight * scale, Math.min(0, panelHeight / 2 - focusY * sourceHeight * scale));
       const y = zoomY + (panelHeight - sourceHeight * scale - zoomY) * panEase;
@@ -309,7 +310,8 @@
       const iw = img.naturalWidth || 6400, ih = img.naturalHeight || 8833;
       const fit = Math.max(w / iw, ph / ih);
       const scale = fit * Math.exp(Math.log(mobile ? 4 : 3.5) * (1 - opening));
-      const focusY = .625 + (.40 - .625) * opening;
+      const descent = smooth((progress - .5) / .4);
+      const focusY = .625 + (.40 - .625) * opening + .28 * descent;
       const x = Math.max(w - iw * scale, Math.min(0, w / 2 - iw * .49 * scale));
       const y = Math.max(ph - ih * scale, Math.min(0, ph / 2 - ih * focusY * scale));
       img.style.width = iw + 'px'; img.style.height = ih + 'px';
