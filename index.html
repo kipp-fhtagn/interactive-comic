@@ -16,16 +16,16 @@
     .scene { position: absolute; inset: 0; display: grid; place-items: end center; pointer-events: none; }
     .frame { position: relative; width: min(100vw, 197.726svh); aspect-ratio: 8000 / 4046; }
     .title { position: absolute; z-index: 1; margin: 0; text-align: right; will-change: transform; }
-    h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
+    h1 { color: #375B69; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
     h1 span { display: block; margin-top: .12em; }
-    h1 strong { color: #fff; font-weight: 900; }
+    h1 strong { color: #F9FFB0; font-weight: 900; }
     .intro-copy { width: 47%; margin: 1.6rem 0 0 auto; text-align: right; will-change: opacity; }
     .subtitle { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.125rem, 2vw, 2.2rem); line-height: 1.4; font-weight: 400; }
     .credits { margin: 1.8rem 0 0; font-family: Arial, Helvetica, sans-serif; font-size: clamp(.875rem, 1vw, 1rem); line-height: 1.5; }
     .mobile-copy { display: none; }
-    .credits .author { color: #e00000; }
+    .credits .author { color: #fff; }
     .scroll-cue { position: absolute; z-index: 6; right: 3vw; bottom: 1.5rem; display: flex; align-items: center; gap: 10px; margin: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; font-weight: 400; letter-spacing: .15em; line-height: 30px; color: #000; pointer-events: none; }
-    .scroll-cue .arrow { font-size: 24px; color: #e00000; line-height: 1; }
+    .scroll-cue .arrow { font-size: 24px; color: #fff; line-height: 1; }
     .scroll-cue[hidden] { display: none; }
     @media (max-width: 600px) { .scroll-cue { right: 5vw; bottom: 1rem; gap: .6rem; } }
     @media (max-width: 600px) { .intro-copy { width: 55%; margin-top: .8rem; } .credits { margin-top: .65rem; } }
@@ -107,9 +107,8 @@
     .sanad-composition { position: absolute; transform-origin: 0 0; }
     .sanad-background { display: block; width: 100%; height: 100%; transform: scaleX(-1); }
     .sanad-balloon { position: absolute; height: auto; opacity: 0; }
-    .sanad-one { left: 53%; top: 22%; width: 34%; z-index: 3; }
-    .sanad-two { left: 31%; top: 43%; width: 42%; z-index: 3; }
-    .sanad-tails { left: 0; top: 0; width: 100%; height: 100%; z-index: 4; }
+    .sanad-one, .sanad-two, .sanad-tails { left: 27%; top: 19%; width: 70%; height: auto; z-index: 5; }
+    .sanad-tails { z-index: 3; }
     .sanad-lettering { z-index: 5; clip-path: inset(17% 12% 14% 12%); pointer-events: none; }
     .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
     .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
@@ -146,11 +145,9 @@
     <section class="sanad-track" aria-label="Sanad"><div class="sanad-stage"><div class="sanad-composition">
       <figure class="sanad-heading"><img src="sanad_text__8.png" alt="Sanad"></figure>
       <img class="sanad-background" decoding="async" src="sanad_optimized.webp" alt="A street between tall buildings, with people in the distance.">
-      <img class="sanad-balloon sanad-one" src="nuseirat_speech_1.png" alt="They said that Nuseirat was a safe place!">
-      <img class="sanad-balloon sanad-two" src="nuseirat_speech_2.png" alt="Now there are no safe places left, they are bombing everywhere.">
-      <img class="sanad-balloon sanad-one sanad-lettering" src="nuseirat_speech_1.png" alt="" aria-hidden="true">
-      <img class="sanad-balloon sanad-two sanad-lettering" src="nuseirat_speech_2.png" alt="" aria-hidden="true">
-      <img class="sanad-balloon sanad-tails" src="sanad-tails-connected.svg" alt="" aria-hidden="true">
+      <img class="sanad-balloon sanad-one" src="nuseirat_speech_1.png?v=4" alt="They said that Nuseirat was a safe place!">
+      <img class="sanad-balloon sanad-two" src="nuseirat_speech_2.png?v=4" alt="Now there are no safe places left, they are bombing everywhere.">
+      <img class="sanad-balloon sanad-tails" src="nuseirat_speech_balloons.png?v=1" alt="" aria-hidden="true">
     </div></div></section>
   </main>
   <script>
@@ -180,8 +177,9 @@
       const width = frame.offsetWidth;
       const height = frame.offsetHeight;
       const rect = { width, height, left: mobile ? -(width - viewportWidth) * .38 : (viewportWidth - width) / 2, top: viewportHeight - height };
-      const start = viewportHeight * (mobile ? .045 : .02);
-      const end = mobile ? start : Math.max(start, rect.top + rect.height * .065);
+      const originalStart = viewportHeight * (mobile ? .045 : .02);
+      const start = originalStart + 100;
+      const end = mobile ? start : Math.max(originalStart, rect.top + rect.height * .065);
       const distance = coverTrack.offsetHeight - coverStage.clientHeight;
       // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
       const chapter = Math.max(1, distance);
@@ -205,7 +203,8 @@
       const availableScale = Math.max(.2, (viewportHeight - headlineBottom) / (boyHeight * .973));
       const mobileHeadroom = Math.max(80, viewportHeight - start - title.offsetHeight - 18);
       const initialScale = mobile ? Math.min(mobileHeadroom / (boyHeight * .973), viewportWidth * .92 / (boyWidth * .35)) : availableScale;
-      const finalScale = initialScale * (mobile ? 1.30 : .96);
+      const originalScale = mobile ? Math.min((mobileHeadroom + 100) / (boyHeight * .973), viewportWidth * .92 / (boyWidth * .35)) : Math.max(.2, (viewportHeight - headlineBottom + 100) / (boyHeight * .973));
+      const finalScale = originalScale * (mobile ? 1.30 : .96);
       boy.style.bottom = '0px';
       boy.style.transformOrigin = mobile ? '42.5% 100%' : '42% 100%';
       boy.style.left = (mobile ? viewportWidth * .5 - boyWidth * .425 : rect.left - width * .12) + 'px';
@@ -371,11 +370,14 @@
         track.querySelectorAll('.sanad-' + name).forEach(el => { el.style.opacity = opacity; if (!el.classList.contains('sanad-lettering')) el.setAttribute('aria-hidden', String(opacity < .01)); });
       });
       const tails = track.querySelector('.sanad-tails');
+      // Reveal the shared balloon artwork downwards, just after each text starts.
+      const firstReveal = clamp((p - .07) / .075);
       const secondTop = y + h * .43 * zoom;
-      const reveal = Math.min(clamp((p - .22) / .12), clamp((stage.clientHeight * .72 - secondTop) / (stage.clientHeight * .2)));
+      const secondReveal = Math.min(clamp((p - .155) / .085), clamp((stage.clientHeight - secondTop) / (stage.clientHeight * .18)));
+      const reveal = firstReveal * .48 + secondReveal * .52;
       tails.style.opacity = reveal > 0 ? '1' : '0';
-      const angle = reveal * 366;
-      const mask = reveal >= 1 ? 'none' : 'conic-gradient(from 45deg at 52% 52%, black 0deg, black ' + Math.max(0, angle - 7) + 'deg, transparent ' + angle + 'deg, transparent 360deg)';
+      const edge = reveal * 104;
+      const mask = reveal >= 1 ? 'none' : 'linear-gradient(to bottom, black ' + Math.max(0, edge - 3) + '%, transparent ' + edge + '%)';
       tails.style.maskImage = mask; tails.style.webkitMaskImage = mask;
     }
     function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
