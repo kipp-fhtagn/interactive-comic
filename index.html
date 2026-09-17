@@ -113,6 +113,27 @@
     .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
     .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
     @media (prefers-reduced-motion: reduce) { .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading, .sanad-balloon { translate: none; transition: none; } }
+    .portraits-track { position: relative; height: 440svh; background: white; }
+    .portraits-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
+    .portrait-panel { position: absolute; top: 0; height: 100%; overflow: hidden; background: white; margin: 0; }
+    .portrait-woman { left: 0; width: 100%; }
+    .portrait-baby { left: 100%; width: 50%; }
+    .portrait-panel img { position: absolute; top: 0; left: 0; max-width: none; transform-origin: 0 0; will-change: transform; }
+    .amputated-track { position: relative; height: 260svh; background: white; }
+    .bombed-track { position: relative; height: 330svh; background: white; }
+    .amputated-stage, .bombed-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
+    .amputated-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+    .amputated-stage .amputated-overlay { opacity: 0; will-change: opacity; }
+    .bombed-stage img { position: absolute; top: 0; left: 0; max-width: none; will-change: transform; }
+    .dialogue { position: absolute; z-index: 8; margin: 0; opacity: 0; pointer-events: none; translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
+    .dialogue img { display: block; position: relative; inset: auto; width: 100%; height: auto; object-fit: contain; }
+    .dialogue .dialogue-text { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+    @media (prefers-reduced-motion: reduce) { .dialogue { translate: none; transition: none; } }
+    .continuous-dialogue { position: absolute; z-index: 8; pointer-events: none; translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
+    .continuous-dialogue svg { display: block; width: 100%; height: 100%; }
+    .continuous-dialogue > img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+    .dialogue-6 { aspect-ratio: 861 / 608; }
+    .dialogue-6 .dialogue-shape { position: absolute; width: 504.297%; height: auto; left: -55.749%; top: -367.763%; clip-path: inset(54% 0 26.8% 0); }
   </style>
 </head>
 <body>
@@ -149,6 +170,21 @@
       <img class="sanad-balloon sanad-two" src="nuseirat_speech_2.png?v=4" alt="Now there are no safe places left, they are bombing everywhere.">
       <img class="sanad-balloon sanad-tails" src="nuseirat_speech_balloons.png?v=1" alt="" aria-hidden="true">
     </div></div></section>
+    <section class="portraits-track" aria-label="A woman and a child"><div class="portraits-stage">
+      <figure class="portrait-panel portrait-woman"><img src="woman_web.webp" decoding="async" width="4000" height="3666" alt="Portrait of a woman, revealed from a close-up of her eyes, nose and mouth."></figure>
+      <figure class="portrait-panel portrait-baby"><img src="baby_web.webp" decoding="async" width="4000" height="3666" alt="A child sitting on a patterned sofa, alongside the woman."></figure>
+
+      <div class="continuous-dialogue"><svg viewBox="0 0 4342 3886" aria-hidden="true"><defs><mask id="dialogue-reveal" maskUnits="userSpaceOnUse"><rect width="4342" height="3886" fill="black"/><rect data-reveal="1" x="1550" y="0" width="900" height="1110" fill="white"/><rect data-reveal="2" x="1730" y="1100" width="1020" height="520" fill="white"/><rect data-reveal="3" x="2410" y="650" width="885" height="650" fill="white"/><rect data-reveal="4" x="2850" y="1110" width="1140" height="510" fill="white"/><rect data-reveal="5" x="2730" y="1600" width="850" height="850" fill="white"/></mask></defs><image href="amputated_full_balloons.webp" width="4342" height="3886" mask="url(#dialogue-reveal)"/></svg><img data-continuous-text="1" src="amputated_full_1.webp" alt="In just a few seconds, we realized that the house was collapsing on us, with the walls falling around us."><img data-continuous-text="2" src="amputated_full_2.webp" alt="The bed had fallen on the child’s head."><img data-continuous-text="3" src="amputated_full_3.webp" alt="His hand was amputated and left beside him."><img data-continuous-text="4" src="amputated_full_4.webp" alt="His other hand was shattered, in another room."><img data-continuous-text="5" src="amputated_full_5.webp" alt="Oh, God! His face was devastated."></div>
+    </div></section>
+    <section class="amputated-track" aria-label="A wounded child"><div class="amputated-stage">
+      <img src="amputated_1_web.webp" width="4000" height="3666" decoding="async" alt="A wounded child lying on a bed.">
+      <img class="amputated-overlay" src="amputated_2_web.webp" width="4000" height="3666" decoding="async" alt="A closer view of the child's injured limbs.">
+      <figure class="dialogue dialogue-6" data-speech="6"><img class="dialogue-shape" src="amputated_full_balloons.webp" alt="" aria-hidden="true"><img class="dialogue-text" src="amputated_text_6.webp" alt="This photo was taken on the day we were traveling."></figure>
+      <figure class="dialogue dialogue-7" data-speech="7"><img class="dialogue-shape" src="amputated_balloon_7.webp" alt="" aria-hidden="true"><img class="dialogue-text" src="amputated_text_7.webp" alt="His right hand was in terrible condition. You can’t see it clearly in this image, but the other side was truly tragic."></figure>
+    </div></section>
+    <section class="bombed-track" aria-label="A bombed building"><div class="bombed-stage">
+      <img src="bombed_building_web.webp" width="6000" height="2745" decoding="async" alt="People searching through a bombed building, revealed from left to right.">
+    </div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -235,6 +271,9 @@
       renderEmir(mobile);
       renderParents(mobile);
       renderSanad();
+      renderPortraits();
+      renderAftermath();
+      renderDialogue();
       scheduled = false;
     }
     let emirProgress = 0;
@@ -380,6 +419,99 @@
       const mask = reveal >= 1 ? 'none' : 'linear-gradient(to bottom, black ' + Math.max(0, edge - 3) + '%, transparent ' + edge + '%)';
       tails.style.maskImage = mask; tails.style.webkitMaskImage = mask;
     }
+    function renderPortraits() {
+      const track = document.querySelector('.portraits-track');
+      const stage = track.querySelector('.portraits-stage');
+      const clamp = v => Math.max(0, Math.min(1, v));
+      const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
+      const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
+      const opening = reducedMotion.matches ? 1 : smooth(p / .55);
+      const entry = smooth((p - .61) / .32);
+      const w = stage.clientWidth, h = stage.clientHeight;
+      const woman = stage.querySelector('.portrait-woman');
+      const baby = stage.querySelector('.portrait-baby');
+      const womanWidth = w * (1 - .5 * entry);
+      woman.style.width = womanWidth + 'px';
+      baby.style.left = womanWidth + 'px';
+      baby.style.width = w * .5 + 'px';
+      // Keep both frames touching; reframe the woman as her panel moves left.
+      const fit = (panel, width, zoom, fx, fy) => {
+        const img = panel.querySelector('img');
+        const iw = img.naturalWidth || 4000, ih = img.naturalHeight || 3666;
+        const scale = Math.max(width / iw, h / ih) * zoom;
+        const x = Math.min(0, Math.max(width - iw * scale, width * .5 - iw * scale * fx));
+        const y = Math.min(0, Math.max(h - ih * scale, h * .5 - ih * scale * fy));
+        img.style.width = iw + 'px'; img.style.height = ih + 'px';
+        img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+      };
+      // The opening crop includes eyes, nose and mouth on desktop and mobile.
+      const initialZoom = w > h ? 2 : 1.4;
+      fit(woman, womanWidth, Math.exp(Math.log(initialZoom) * (1 - opening)), .47, .43 + .07 * opening);
+      fit(baby, w * .5, 1, .63, .5);
+    }
+    function renderAftermath() {
+      const clamp = v => Math.max(0, Math.min(1, v));
+      const progress = track => clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - track.firstElementChild.clientHeight));
+      const track = document.querySelector('.amputated-track');
+      const fade = clamp((progress(track) - .16) / .66);
+      track.querySelector('.amputated-overlay').style.opacity = fade * fade * (3 - 2 * fade);
+      const panorama = document.querySelector('.bombed-track');
+      const stage = panorama.firstElementChild;
+      const img = stage.querySelector('img');
+      const ratio = (img.naturalWidth || 6000) / (img.naturalHeight || 2745);
+      // Keep a meaningful horizontal journey even on wide desktop displays.
+      const height = Math.max(stage.clientHeight, stage.clientWidth * 1.45 / ratio);
+      const width = height * ratio;
+      const pan = clamp((progress(panorama) - .06) / .88);
+      img.style.width = width + 'px'; img.style.height = height + 'px';
+      img.style.top = (stage.clientHeight - height) * .5 + 'px';
+      img.style.transform = `translate3d(${-(width - stage.clientWidth) * pan}px, 0, 0)`;
+    }
+    function renderDialogue() {
+      const clamp = v => Math.max(0, Math.min(1, v));
+      const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
+      const timelines = [[.08,.25,.30],[.31,.51,.59],[.64,.74,.79],[.79,.87,.91],[.91,1.1,1.2],[.03,.36,.48],[.48,1.1,1.2]];
+      const group = document.querySelector('.continuous-dialogue');
+      const portraitStage = group.parentElement;
+      const portraitTrack = portraitStage.parentElement;
+      const pp = clamp(-portraitTrack.getBoundingClientRect().top / (portraitTrack.offsetHeight-portraitStage.clientHeight));
+      const scale = Math.min(.36, portraitStage.clientWidth * .73 / 2440, portraitStage.clientHeight * .87 / 2120);
+      group.style.width = 4342*scale+'px'; group.style.height = 3886*scale+'px';
+      group.style.left = (portraitStage.clientWidth*.97-3990*scale)+'px';
+      group.style.top = portraitStage.clientHeight*.045+'px';
+      const regions = [[1550,0,900,1110],[1730,1100,1020,520],[2410,650,885,650],[2850,1110,1140,510],[2730,1600,850,850]];
+      group.querySelectorAll('[data-continuous-text]').forEach(img => {
+        const i=Number(img.dataset.continuousText), start=timelines[i-1][0];
+        const alpha=smooth((pp-start)/.065);
+        img.style.opacity=alpha; img.setAttribute('aria-hidden',String(alpha<.01));
+        const rect=group.querySelector('[data-reveal="'+i+'"]');
+        const r=regions[i-1], reveal=clamp((pp-start-.015)/.065);
+        rect.setAttribute('width',r[2]*(i>=3 ? reveal : 1));
+        rect.setAttribute('height',r[3]*(i<3 ? reveal : 1));
+      });
+      document.querySelectorAll('.dialogue').forEach(box => {
+        const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
+        const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
+        const [start, exit, end] = timelines[i-1];
+        const alpha = smooth((p-start)/.065) * (1-smooth((p-exit)/(end-exit)));
+        const shape = box.querySelector('.dialogue-shape');
+        const ratio = (shape.naturalHeight || 500)/(shape.naturalWidth || 800);
+        const letteringScale = Math.min(.38, stage.clientWidth * .78 / 999, stage.clientHeight * .46 / 919);
+        const width = (i === 6 ? 861 : (shape.naturalWidth || 845)) * letteringScale;
+        box.style.width = width + 'px';
+        box.style.left = (i <= 2 ? stage.clientWidth-width-stage.clientWidth*.035 : i <= 5 ? stage.clientWidth-width-stage.clientWidth*.025 : stage.clientWidth*.04) + 'px';
+        box.style.top = (stage.clientHeight * (i===2 ? .40 : i===4 ? .39 : i===5 ? .61 : i===7 ? .40 : .055)) + 'px';
+        box.style.opacity = 1-smooth((p-exit)/(end-exit));
+        box.setAttribute('aria-hidden',String(alpha<.01));
+        box.querySelector('.dialogue-text').style.opacity = alpha;
+        const reveal = clamp((p-start-.015)/.065);
+        const edge = reveal*103;
+        const direction = i>=3 && i<=5 ? 'to right' : 'to bottom';
+        shape.style.maskImage = reveal >= 1 ? 'none' : `linear-gradient(${direction}, black ${Math.max(0,edge-3)}%, transparent ${edge}%)`;
+        if (i === 6) { shape.style.maskImage = 'none'; shape.style.clipPath = `inset(54% 0 26.8% ${(1-reveal)*100}%)`; }
+        shape.style.opacity = reveal>0 ? 1 : 0;
+      });
+    }
     function update() { if (!scheduled) { scheduled = true; requestAnimationFrame(render); } }
     const mouseMotion = matchMedia('(hover: hover) and (pointer: fine)');
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -403,6 +535,7 @@
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     emirImage.addEventListener('load', update);
+    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .dialogue-shape').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
     render();
   </script>
