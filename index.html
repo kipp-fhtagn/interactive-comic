@@ -12,13 +12,13 @@
     body { margin: 0; overflow-x: clip; }
     main { isolation: isolate; }
     .cover-track { height: 200vh; height: 200svh; position: relative; }
-    .cover-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: clip; isolation: isolate; }
+    .cover-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: clip; isolation: isolate; background: #a4d5ea; }
     .scene { position: absolute; inset: 0; display: grid; place-items: end center; pointer-events: none; }
-    .frame { position: relative; width: min(100vw, 218.589svh); aspect-ratio: 12300 / 5627; }
+    .frame { position: relative; width: min(100vw, 197.726svh); aspect-ratio: 8000 / 4046; }
     .title { position: absolute; z-index: 1; margin: 0; text-align: right; will-change: transform; }
     h1 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
     h1 span { display: block; margin-top: .12em; }
-    h1 strong { color: #e00000; font-weight: 900; }
+    h1 strong { color: #fff; font-weight: 900; }
     .intro-copy { width: 47%; margin: 1.6rem 0 0 auto; text-align: right; will-change: opacity; }
     .subtitle { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.125rem, 2vw, 2.2rem); line-height: 1.4; font-weight: 400; }
     .credits { margin: 1.8rem 0 0; font-family: Arial, Helvetica, sans-serif; font-size: clamp(.875rem, 1vw, 1rem); line-height: 1.5; }
@@ -31,7 +31,7 @@
     @media (max-width: 600px) { .intro-copy { width: 55%; margin-top: .8rem; } .credits { margin-top: .65rem; } }
     .art { position: absolute; inset: 0; }
     .art img { display: block; width: 100%; height: 100%; }
-    .buildings::before { content: ''; position: absolute; inset: 0; background: white; mask: url('cover_buildings.png?v=2') center / 100% 100% no-repeat; -webkit-mask: url('cover_buildings.png?v=2') center / 100% 100% no-repeat; }
+
     .buildings img { position: relative; }
     .smoke-texture { mix-blend-mode: multiply; pointer-events: none; }
     .smoke-texture img { will-change: transform; }
@@ -109,7 +109,7 @@
     .sanad-balloon { position: absolute; height: auto; opacity: 0; }
     .sanad-one { left: 53%; top: 22%; width: 34%; z-index: 3; }
     .sanad-two { left: 31%; top: 43%; width: 42%; z-index: 3; }
-    .sanad-tails { left: 64%; top: 36%; width: 25%; height: 17.7%; z-index: 4; }
+    .sanad-tails { left: 0; top: 0; width: 100%; height: 100%; z-index: 4; }
     .sanad-lettering { z-index: 5; clip-path: inset(17% 12% 14% 12%); pointer-events: none; }
     .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
     .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
@@ -121,12 +121,9 @@
     <section class="cover-track" aria-label="Cover"><div class="cover-stage">
     <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children forever scarred by war</span><span class="mobile-copy"><span>Palestinian children</span><span>Forever scarred</span><span>by war</span></span></p><p class="credits"><span class="desktop-copy">A story by <span class="author">Francesca Mannocchi</span> · Drawings by <span class="author">Gianluca Costantini</span>.</span><span class="mobile-copy"><span>Story by</span><span class="author">Francesca Mannocchi</span><span>Drawings by</span><span class="author">Gianluca Costantini</span></span></p></div></header>
     <div class="scene"><div class="frame">
-      <div class="art buildings"><img src="cover_buildings_smoke_lines.png" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
-      <div class="art smoke-texture dust-far" aria-hidden="true"><img src="cover_dust2.png" width="3840" height="1757" alt=""></div>
-      <div class="art smoke-texture dust-near" aria-hidden="true"><img src="cover_dust1.png" width="3840" height="1757" alt=""></div>
-      <div class="art smoke-texture smoke-lines" aria-hidden="true"><img src="cover_lines.png" width="3840" height="1757" alt=""></div>
+      <div class="art buildings smoke-lines"><img src="cover_buildings_color.webp" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
     </div></div>
-      <div class="art boy"><img src="cover_boy.png?v=2" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
+      <div class="art boy"><img src="cover_boy_color.webp" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
     <p class="scroll-cue">SCROLL TO ENTER THE STORY <span class="arrow" aria-hidden="true">↓</span></p>
     </div></section>
     <section class="emir-story" aria-label="The Emir of Qatar initiative">
@@ -153,7 +150,7 @@
       <img class="sanad-balloon sanad-two" src="nuseirat_speech_2.png" alt="Now there are no safe places left, they are bombing everywhere.">
       <img class="sanad-balloon sanad-one sanad-lettering" src="nuseirat_speech_1.png" alt="" aria-hidden="true">
       <img class="sanad-balloon sanad-two sanad-lettering" src="nuseirat_speech_2.png" alt="" aria-hidden="true">
-      <img class="sanad-balloon sanad-tails" src="nuserait_tails.png?v=3" alt="" aria-hidden="true">
+      <img class="sanad-balloon sanad-tails" src="sanad-tails-connected.svg" alt="" aria-hidden="true">
     </div></div></section>
   </main>
   <script>
@@ -194,7 +191,7 @@
 
       const boyProgress = Math.max(0, Math.min(1, window.scrollY / Math.max(1, chapter * .9)));
       const boyWidth = mobile ? Math.min(viewportWidth * 1.85, viewportHeight * 1.15) : width;
-      const boyHeight = boyWidth * 1958 / 3840;
+      const boyHeight = boyWidth * 4046 / 8000;
       // Leave the opening headline clear, including on shallow viewports.
       const titleSize = mobile ? viewportWidth * .094 : width * .085;
       const headlineBottom = start + titleSize * 1.08 + Math.max(18, viewportHeight * .025);
