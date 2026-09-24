@@ -18,7 +18,7 @@
     .title { position: absolute; z-index: 1; margin: 0; text-align: right; will-change: transform; }
     h1 { color: #375B69; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: var(--title-size, 8.5vw); font-weight: 700; line-height: 1.08; letter-spacing: -.045em; }
     h1 span { display: block; margin-top: .12em; }
-    h1 strong { color: #F9FFB0; font-weight: 900; }
+    h1 strong { color: #f3e5ba; font-weight: 900; }
     .intro-copy { width: 47%; margin: 1.6rem 0 0 auto; text-align: right; will-change: opacity; }
     .subtitle { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.125rem, 2vw, 2.2rem); line-height: 1.4; font-weight: 400; }
     .credits { margin: 1.8rem 0 0; font-family: Arial, Helvetica, sans-serif; font-size: clamp(.875rem, 1vw, 1rem); line-height: 1.5; }
@@ -120,7 +120,7 @@
     .portrait-baby { left: 100%; width: 50%; }
     .portrait-panel img { position: absolute; top: 0; left: 0; max-width: none; transform-origin: 0 0; will-change: transform; }
     .amputated-track { position: relative; height: 260svh; background: white; }
-    .bombed-track { position: relative; height: 330svh; background: white; }
+    .bombed-track { position: relative; height: 850svh; background: white; }
     .amputated-stage, .bombed-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
     .amputated-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
     .amputated-stage .amputated-overlay { opacity: 0; will-change: opacity; }
@@ -134,12 +134,35 @@
     .continuous-dialogue > img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
     .dialogue-6 { aspect-ratio: 861 / 608; }
     .dialogue-6 .dialogue-shape { position: absolute; width: 504.297%; height: auto; left: -55.749%; top: -367.763%; clip-path: inset(54% 0 26.8% 0); }
+    .emir-intro, .emir-second, .tumama-caption, .wounded-caption, .parents-caption { filter: url(#ink-shadow); }
+    .mother-arrival { position: absolute; inset: 0; background: white; transform: translateX(100%); }
+    .mother-window, .children-window { position: absolute; margin: 0; overflow: hidden; }
+    .bombed-stage .mother-window img, .bombed-stage .children-window img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 35%; }
+    .children-window { inset: 0; transform: translateX(100%); }
+    .bombed-stage .children-window img { object-position: 70% 45%; }
+    .continuation-panel { position: relative; height: 100svh; margin: 0; overflow: hidden; }
+    .continuation-panel img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+    .rescuers-track { position: relative; height: 480svh; }
+    .rescuers-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+    .rescuers-stage img { position: absolute; max-width: none; will-change: transform; }
+    @media(max-width:760px) { .subtitle { font-size: clamp(.9rem,4vw,1.4rem); } }
+  
+    .title strong { display:inline-block; filter:url(#ink-outline); }
+    .hospital-track { height:300svh; position:relative; }
+    .hospital-stage { position:sticky;top:0;height:100svh;overflow:hidden;background:white; }
+    .hospital-window { position:absolute;overflow:hidden;margin:0; }
+    .hospital-window img { position:absolute;max-width:none;transform-origin:0 0; }
   </style>
 </head>
 <body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none"><defs>
+
+<filter id="ink-outline" x="-10%" y="-15%" width="120%" height="130%" color-interpolation-filters="sRGB"><feMorphology in="SourceAlpha" operator="dilate" radius="1.35" result="edge"/><feTurbulence type="fractalNoise" baseFrequency=".075 .11" numOctaves="2" seed="17" result="noise"/><feDisplacementMap in="edge" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G" result="rough"/><feFlood flood-color="#111"/><feComposite in2="rough" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+<filter id="ink-shadow" x="-10%" y="-10%" width="130%" height="130%" color-interpolation-filters="sRGB"><feOffset in="SourceAlpha" dx="6" dy="8" result="offset"/><feTurbulence type="fractalNoise" baseFrequency=".06 .09" numOctaves="2" seed="23" result="noise"/><feDisplacementMap in="offset" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" result="rough"/><feFlood flood-color="#a4d5ea"/><feComposite in2="rough" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs></svg>
   <main aria-label="The mutilated fates of Gaza">
     <section class="cover-track" aria-label="Cover"><div class="cover-stage">
-    <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children forever scarred by war</span><span class="mobile-copy"><span>Palestinian children</span><span>Forever scarred</span><span>by war</span></span></p><p class="credits"><span class="desktop-copy">A story by <span class="author">Francesca Mannocchi</span> · Drawings by <span class="author">Gianluca Costantini</span>.</span><span class="mobile-copy"><span>Story by</span><span class="author">Francesca Mannocchi</span><span>Drawings by</span><span class="author">Gianluca Costantini</span></span></p></div></header>
+    <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children<br>forever scarred by war</span><span class="mobile-copy"><span>The Palestinian children</span><span>forever scarred by war</span></span></p><p class="credits"><span class="desktop-copy">A story by <span class="author">Francesca Mannocchi</span> · Drawings by <span class="author">Gianluca Costantini</span>.</span><span class="mobile-copy"><span>Story by</span><span class="author">Francesca Mannocchi</span><span>Drawings by</span><span class="author">Gianluca Costantini</span></span></p></div></header>
     <div class="scene"><div class="frame">
       <div class="art buildings smoke-lines"><img src="cover_buildings_color.webp" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
     </div></div>
@@ -184,7 +207,12 @@
     </div></section>
     <section class="bombed-track" aria-label="A bombed building"><div class="bombed-stage">
       <img src="bombed_building_web.webp" width="6000" height="2745" decoding="async" alt="People searching through a bombed building, revealed from left to right.">
+      <div class="mother-arrival"><figure class="mother-window"><picture><source media="(max-width: 760px)" srcset="mother_of_gaza_1_mobile.webp"><img src="mother_of_gaza_1_desktop.webp" decoding="async" alt="A mother from Gaza in profile, with her hands clasped."></picture></figure><figure class="children-window"><picture><source media="(max-width: 760px)" srcset="children_of_gaza_1_mobile.webp"><img src="children_of_gaza_1_desktop.webp" decoding="async" alt="A child lying on a patterned sofa."></picture></figure></div>
     </div></section>
+    <section class="continuation-panel" aria-label="A mother from Gaza"><picture><source media="(max-width: 760px)" srcset="mother_of_gaza_2_mobile.webp"><img src="mother_of_gaza_2_desktop.webp" decoding="async" alt="A mother holding her hand in front of her face."></picture></section>
+    <section class="rescuers-track" aria-label="Rescuers at work"><div class="rescuers-stage"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_1_mobile.webp"><img src="rescuers_of_gaza_1_desktop.webp" decoding="async" alt="Rescuers treating an injured child, viewed from left to right."></picture></div></section>
+    <section class="hospital-track stretcher-track" aria-label="A child on a stretcher"><div class="hospital-stage"><figure class="hospital-window"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_2_mobile.webp"><img src="rescuers_of_gaza_2_desktop.webp" decoding="async" alt="People accompanying a child on a stretcher."></picture></figure></div></section>
+    <section class="hospital-track" aria-label="Hospital treatment"><div class="hospital-stage"><figure class="hospital-window"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_3_mobile.webp"><img src="rescuers_of_gaza_3_desktop.webp" decoding="async" alt="Medical staff caring for a child in hospital."></picture></figure></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -273,8 +301,11 @@
       renderSanad();
       renderPortraits();
       renderAftermath();
+      renderRescuers();
+      renderHospital();
       renderDialogue();
       scheduled = false;
+      if (revealPending) { revealPending=false; update(); }
     }
     let emirProgress = 0;
     let emirLastScroll = window.scrollY;
@@ -383,6 +414,34 @@
       const opacities = [1 - smooth((progress - .25) / .12), smooth((progress - .46) / .08) * (1 - smooth((progress - .61) / .08)), smooth((progress - .65) / .07) * (1 - smooth((progress - .86) / .06))];
       ['five', 'six', 'seven'].forEach((name, i) => { const box = track.querySelector('.parents-caption-' + name); box.style.opacity = opacities[i]; box.setAttribute('aria-hidden', String(opacities[i] < .01)); });
     }
+    const revealValues = new Map();
+    let revealPending = false;
+    function soften(key, target) {
+      const old = revealValues.get(key) ?? target;
+      const next = reducedMotion.matches || Math.abs(target-old)<.0001 ? target : old+(target-old)*.16;
+      revealValues.set(key,next);
+      if(next!==target) revealPending=true;
+      return next;
+    }
+    // Expand the frame while independently pulling the camera back.
+    function fitOpening(img,w,h,p,fx,fy,zoom) {
+      const iw=img.naturalWidth||3200, ih=img.naturalHeight||2933;
+      const scale=Math.max(w/iw,h/ih)*(1+(zoom-1)*(1-p));
+      const x=Math.min(0,Math.max(w-iw*scale,w*.5-iw*scale*fx));
+      const y=Math.min(0,Math.max(h-ih*scale,h*.5-ih*scale*fy));
+      img.style.width=iw*scale+'px';img.style.height=ih*scale+'px';
+      img.style.left=x+'px';img.style.top=y+'px';
+    }
+    function renderHospital() {
+      document.querySelectorAll('.hospital-track').forEach(track => {
+      const stage=track.firstElementChild,frame=stage.firstElementChild,stretcher=track.classList.contains('stretcher-track');
+      let p=Math.max(0,Math.min(1,(-track.getBoundingClientRect().top/(track.offsetHeight-stage.clientHeight)-.08)/.78));
+      p=p*p*(3-2*p);
+      const w=stage.clientWidth*(.78+.22*p),h=stage.clientHeight*(.78+.22*p);
+      frame.style.cssText=`left:${stage.clientWidth*(stretcher?.16:.06)*(1-p)}px;top:${stage.clientHeight*.06*(1-p)}px;width:${w}px;height:${h}px`;
+      fitOpening(frame.querySelector('img'),w,h,p,stretcher?.53:.48,stretcher?.69-.19*p:.72-.22*p,stretcher?2.5:2.15);
+      });
+    }
     function renderSanad() {
       const track = document.querySelector('.sanad-track');
       const stage = track.querySelector('.sanad-stage');
@@ -405,7 +464,7 @@
       composition.style.transform = 'translate(' + x + 'px,' + y + 'px) scale(' + zoom + ')';
       ['one','two'].forEach((name,i) => {
         const screenTop = y + h * (i ? .43 : .22) * zoom;
-        const opacity = smooth((p - (i ? .14 : .055)) / .065) * smooth((stage.clientHeight - screenTop) / (stage.clientHeight * .18));
+        const opacity = soften('sanad-text-'+i,smooth((p - (i ? .14 : .055)) / .065)) * smooth((stage.clientHeight - screenTop) / (stage.clientHeight * .18));
         track.querySelectorAll('.sanad-' + name).forEach(el => { el.style.opacity = opacity; if (!el.classList.contains('sanad-lettering')) el.setAttribute('aria-hidden', String(opacity < .01)); });
       });
       const tails = track.querySelector('.sanad-tails');
@@ -413,7 +472,7 @@
       const firstReveal = clamp((p - .07) / .075);
       const secondTop = y + h * .43 * zoom;
       const secondReveal = Math.min(clamp((p - .155) / .085), clamp((stage.clientHeight - secondTop) / (stage.clientHeight * .18)));
-      const reveal = firstReveal * .48 + secondReveal * .52;
+      const reveal = soften("sanad-shape",firstReveal * .48 + secondReveal * .52);
       tails.style.opacity = reveal > 0 ? '1' : '0';
       const edge = reveal * 104;
       const mask = reveal >= 1 ? 'none' : 'linear-gradient(to bottom, black ' + Math.max(0, edge - 3) + '%, transparent ' + edge + '%)';
@@ -462,10 +521,41 @@
       // Keep a meaningful horizontal journey even on wide desktop displays.
       const height = Math.max(stage.clientHeight, stage.clientWidth * 1.45 / ratio);
       const width = height * ratio;
-      const pan = clamp((progress(panorama) - .06) / .88);
+      const sequence = progress(panorama);
+      const pan = clamp((sequence - .02) / .29);
+      const ease = v => { v=clamp(v); return v*v*(3-2*v); };
+      const arrival = ease((sequence-.33)/.16);
+      const expand = ease((sequence-.52)/.20);
+      const close = ease((sequence-.77)/.20);
+      const mother = stage.querySelector('.mother-arrival');
+      mother.style.transform = `translateX(${(1-arrival)*100}%)`;
+      const window = mother.querySelector('.mother-window');
+      const left = stage.clientWidth*.055*(1-expand), top=stage.clientHeight*.05*(1-expand);
+      const fw=stage.clientWidth*(.78+.22*expand), fh=stage.clientHeight*(.80+.20*expand);
+      window.style.left=left+'px'; window.style.top=top+'px';
+      window.style.width=fw+'px'; window.style.height=fh+'px';
+      window.style.clipPath="none";
+      window.style.transform=`translateX(${-stage.clientWidth*close}px)`;
+      fitOpening(window.querySelector('img'),fw,fh,expand,.64,.36+.04*expand,1.75);
+      mother.querySelector('.children-window').style.transform=`translateX(${(1-close)*100}%)`;
       img.style.width = width + 'px'; img.style.height = height + 'px';
       img.style.top = (stage.clientHeight - height) * .5 + 'px';
-      img.style.transform = `translate3d(${-(width - stage.clientWidth) * pan}px, 0, 0)`;
+      img.style.transform = `translate3d(${-(width - stage.clientWidth) * pan-stage.clientWidth*arrival}px, 0, 0)`;
+    }
+    function renderRescuers() {
+      const track=document.querySelector('.rescuers-track'), stage=track.firstElementChild, img=stage.querySelector('img');
+      const clamp=v=>Math.max(0,Math.min(1,v));
+      const p=clamp(-track.getBoundingClientRect().top/(track.offsetHeight-stage.clientHeight));
+      const ratio=(img.naturalWidth||6000)/(img.naturalHeight||2745);
+      const baseHeight=Math.max(stage.clientHeight,stage.clientWidth*1.45/ratio), baseWidth=baseHeight*ratio;
+      let opening=clamp((p-.04)/.43); opening=opening*opening*(3-2*opening);
+      const zoom=1+1.5*(1-opening),height=baseHeight*zoom,width=baseWidth*zoom;
+      const initialX=Math.min(0,Math.max(stage.clientWidth-width,stage.clientWidth*.5-width*.115));
+      const initialY=Math.min(0,Math.max(stage.clientHeight-height,stage.clientHeight*.5-height*.80));
+      const x=initialX*(1-opening)-(baseWidth-stage.clientWidth)*clamp((p-.53)/.43);
+      const y=initialY*(1-opening)+(stage.clientHeight-baseHeight)*.5*opening;
+      img.style.width=width+'px'; img.style.height=height+'px';img.style.top=y+'px';
+      img.style.transform=`translateX(${x}px)`;
     }
     function renderDialogue() {
       const clamp = v => Math.max(0, Math.min(1, v));
@@ -482,10 +572,10 @@
       const regions = [[1550,0,900,1110],[1730,1100,1020,520],[2410,650,885,650],[2850,1110,1140,510],[2730,1600,850,850]];
       group.querySelectorAll('[data-continuous-text]').forEach(img => {
         const i=Number(img.dataset.continuousText), start=timelines[i-1][0];
-        const alpha=smooth((pp-start)/.065);
+        const alpha=soften("text-"+i,smooth((pp-start)/.065));
         img.style.opacity=alpha; img.setAttribute('aria-hidden',String(alpha<.01));
         const rect=group.querySelector('[data-reveal="'+i+'"]');
-        const r=regions[i-1], reveal=clamp((pp-start-.015)/.065);
+        const r=regions[i-1], reveal=soften("shape-"+i,clamp((pp-start-.015)/.065));
         rect.setAttribute('width',r[2]*(i>=3 ? reveal : 1));
         rect.setAttribute('height',r[3]*(i<3 ? reveal : 1));
       });
@@ -493,7 +583,7 @@
         const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
         const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
         const [start, exit, end] = timelines[i-1];
-        const alpha = smooth((p-start)/.065) * (1-smooth((p-exit)/(end-exit)));
+        const alpha = soften("text-"+i,smooth((p-start)/.065) * (1-smooth((p-exit)/(end-exit))));
         const shape = box.querySelector('.dialogue-shape');
         const ratio = (shape.naturalHeight || 500)/(shape.naturalWidth || 800);
         const letteringScale = Math.min(.38, stage.clientWidth * .78 / 999, stage.clientHeight * .46 / 919);
@@ -504,7 +594,7 @@
         box.style.opacity = 1-smooth((p-exit)/(end-exit));
         box.setAttribute('aria-hidden',String(alpha<.01));
         box.querySelector('.dialogue-text').style.opacity = alpha;
-        const reveal = clamp((p-start-.015)/.065);
+        const reveal = soften("shape-"+i,clamp((p-start-.015)/.065));
         const edge = reveal*103;
         const direction = i>=3 && i<=5 ? 'to right' : 'to bottom';
         shape.style.maskImage = reveal >= 1 ? 'none' : `linear-gradient(${direction}, black ${Math.max(0,edge-3)}%, transparent ${edge}%)`;
@@ -535,7 +625,7 @@
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     emirImage.addEventListener('load', update);
-    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .dialogue-shape').forEach(img => img.addEventListener('load', update));
+    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
     render();
   </script>
