@@ -99,7 +99,7 @@
     @media (max-width: 760px) { .parents-caption { width: min(96vw, 53svh); } .parents-caption-six, .parents-caption-seven { left: 2%; width: 96vw; } }
     @media (min-width: 761px) { .emir-intro { top: 5svh; } }
     .parents-caption-seven { top: auto; bottom: 5%; left: auto; right: 3%; }
-    .sanad-gap { height: 12svh; background: white; }
+    .sanad-gap { height: 0; background: white; }
     .sanad-heading { position: absolute; z-index: 6; top: 10%; left: 62%; width: 23%; padding: 0; margin: 0; }
     .sanad-heading img { display: block; width: 100%; margin: 0; }
     .sanad-track { position: relative; height: 450svh; }
@@ -152,7 +152,26 @@
     .hospital-stage { position:sticky;top:0;height:100svh;overflow:hidden;background:white; }
     .hospital-window { position:absolute;overflow:hidden;margin:0; }
     .hospital-window img { position:absolute;max-width:none;transform-origin:0 0; }
-  </style>
+  
+.departure-track {height:1000svh;}
+.departure-layer {position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:0;}
+.departure-layer img,.focus-stage img {position:absolute;max-width:none;will-change:transform,opacity;}
+.walking-layer img {width:100%;height:100%;object-fit:contain;}
+.focus-track {height:290svh;position:relative;}
+.focus-stage,.skyline-stage {position:sticky;top:0;height:100svh;overflow:hidden;background:white;}
+.skyline-track {height:440svh;position:relative;margin-top:-22svh;z-index:2;}
+.skyline-stage {background:transparent;}
+.skyline-stage picture {position:absolute;inset:0;}
+.skyline-stage img {width:100%;height:100%;object-fit:cover;}
+.skyline-stage .woman-rise img {display:block;width:100%;height:auto;object-fit:initial;}
+
+.comic-frame::after {content:"";position:absolute;inset:0;pointer-events:none;z-index:1;box-sizing:border-box;border-style:solid;border-color:#000;border-width:var(--edge-top,0px) var(--edge-right,0px) var(--edge-bottom,0px) var(--edge-left,0px);}
+
+/* Keep frame strokes inside the artwork's own stacking context. */
+.emir-panel,.parents-panel,.portrait-panel {isolation:isolate;z-index:0;}
+.emir-intro,.emir-second,.tumama-caption,.wounded-caption,.parents-caption {z-index:30;}
+.dialogue,.continuous-dialogue {z-index:30;}
+</style>
 </head>
 <body>
   <svg width="0" height="0" aria-hidden="true" style="position:absolute;pointer-events:none"><defs>
@@ -212,7 +231,10 @@
     <section class="continuation-panel" aria-label="A mother from Gaza"><picture><source media="(max-width: 760px)" srcset="mother_of_gaza_2_mobile.webp"><img src="mother_of_gaza_2_desktop.webp" decoding="async" alt="A mother holding her hand in front of her face."></picture></section>
     <section class="rescuers-track" aria-label="Rescuers at work"><div class="rescuers-stage"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_1_mobile.webp"><img src="rescuers_of_gaza_1_desktop.webp" decoding="async" alt="Rescuers treating an injured child, viewed from left to right."></picture></div></section>
     <section class="hospital-track stretcher-track" aria-label="A child on a stretcher"><div class="hospital-stage"><figure class="hospital-window"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_2_mobile.webp"><img src="rescuers_of_gaza_2_desktop.webp" decoding="async" alt="People accompanying a child on a stretcher."></picture></figure></div></section>
-    <section class="hospital-track" aria-label="Hospital treatment"><div class="hospital-stage"><figure class="hospital-window"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_3_mobile.webp"><img src="rescuers_of_gaza_3_desktop.webp" decoding="async" alt="Medical staff caring for a child in hospital."></picture></figure></div></section>
+    <section class="hospital-track departure-track" aria-label="Hospital treatment and departure"><div class="hospital-stage"><figure class="hospital-window"><picture><source media="(max-width: 760px)" srcset="rescuers_of_gaza_3_mobile.webp"><img src="rescuers_of_gaza_3_desktop.webp" decoding="async" alt="Medical staff caring for a child in hospital."></picture></figure><div class="departure-layer walking-layer"><picture><source media="(max-width:760px)" srcset="woman_children_gaza_1_mobile.webp"><img src="woman_children_gaza_1_desktop.webp" decoding="async" alt="A woman and child walking away."></picture></div><div class="departure-layer street-layer"><picture><source media="(max-width:760px)" srcset="woman_children_gaza_2_mobile.webp"><img src="woman_children_gaza_2_desktop.webp" decoding="async" alt="A mother and child outside a building."></picture></div></div></section>
+<section class="focus-track" aria-label="A mother’s expression"><div class="focus-stage"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_3_mobile.webp"><img src="mother_of_gaza_3_desktop.webp" decoding="async" alt="A mother frowning, her hand against her mouth."></picture></div></section>
+<section class="continuation-panel" aria-label="A child playing"><picture><source media="(max-width:760px)" srcset="children_of_gaza_2_mobile.webp"><img src="children_of_gaza_2_desktop.webp" decoding="async" alt="A child sitting on playground equipment."></picture></section>
+<section class="skyline-track" aria-label="Buildings and a woman in Gaza"><div class="skyline-stage"><picture><source media="(max-width:760px)" srcset="buildings_gaza_1_mobile.webp"><img src="buildings_gaza_1_desktop.webp" decoding="async" alt="Buildings in Gaza."></picture><div class="woman-rise"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" decoding="async" alt="Portrait of a woman from Gaza."></picture></div></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -303,6 +325,8 @@
       renderAftermath();
       renderRescuers();
       renderHospital();
+      renderNewScenes();
+      renderPanelBorders();
       renderDialogue();
       scheduled = false;
       if (revealPending) { revealPending=false; update(); }
@@ -435,11 +459,64 @@
     function renderHospital() {
       document.querySelectorAll('.hospital-track').forEach(track => {
       const stage=track.firstElementChild,frame=stage.firstElementChild,stretcher=track.classList.contains('stretcher-track');
-      let p=Math.max(0,Math.min(1,(-track.getBoundingClientRect().top/(track.offsetHeight-stage.clientHeight)-.08)/.78));
+      const raw=Math.max(0,Math.min(1,-track.getBoundingClientRect().top/(track.offsetHeight-stage.clientHeight)));
+      const departure=track.classList.contains('departure-track');
+      let p=Math.max(0,Math.min(1,(raw-.025)/(departure?.20:.78)));
       p=p*p*(3-2*p);
+      if(departure) frame.style.opacity=1-easyRange(raw,.25,.32);
       const w=stage.clientWidth*(.78+.22*p),h=stage.clientHeight*(.78+.22*p);
       frame.style.cssText=`left:${stage.clientWidth*(stretcher?.16:.06)*(1-p)}px;top:${stage.clientHeight*.06*(1-p)}px;width:${w}px;height:${h}px`;
+      if(departure) frame.style.opacity=1-easyRange(raw,.25,.32);
       fitOpening(frame.querySelector('img'),w,h,p,stretcher?.53:.48,stretcher?.69-.19*p:.72-.22*p,stretcher?2.5:2.15);
+      });
+    }
+    // Cubic Bezier (0.42, 0, 0.58, 1), evaluated in scroll space.
+    function easyRange(value,start,end) {
+      const x=Math.max(0,Math.min(1,(value-start)/(end-start)));
+      let lo=0,hi=1,t=x;
+      for(let i=0;i<12;i++){t=(lo+hi)/2;const bx=3*.42*(1-t)*(1-t)*t+3*.58*(1-t)*t*t+t*t*t;if(bx<x)lo=t;else hi=t;}
+      return x===0||x===1?x:3*(1-t)*t*t+t*t*t;
+    }
+    function chapterProgress(track){return Math.max(0,Math.min(1,-track.getBoundingClientRect().top/(track.offsetHeight-track.firstElementChild.clientHeight)));}
+    function renderNewScenes(){
+      const track=document.querySelector('.departure-track'),stage=track.firstElementChild;
+      const p=soften('departure-camera',chapterProgress(track)),w=stage.clientWidth,h=stage.clientHeight;
+      const walk=stage.querySelector('.walking-layer'),street=stage.querySelector('.street-layer');
+      const enter=easyRange(p,.33,.41),leave=easyRange(p,.51,.66),open=easyRange(p,.73,.97);
+      walk.style.opacity=enter*(1-leave);
+      walk.style.transform=`translate(${w*.07}px,${h*.10*(1-enter)-h*.06*leave}px) scale(${.93-.58*leave})`;
+      street.style.opacity=easyRange(p,.71,.77);
+      fitOpening(street.querySelector('img'),w,h,open,.13+.37*open,.055+.445*open,5);
+      const focus=document.querySelector('.focus-track'),fs=focus.firstElementChild;
+      const fp=easyRange(soften('mother-focus',chapterProgress(focus)),.08,.88);
+      fitOpening(fs.querySelector('img'),fs.clientWidth,fs.clientHeight,1-fp,.55,.48,1.85);
+      const sky=document.querySelector('.skyline-track'),ss=sky.firstElementChild;
+      const sp=soften('skyline-camera',chapterProgress(sky));
+      const buildings=ss.querySelector(':scope > picture'),woman=ss.querySelector('.woman-rise picture');
+      const arrival=1-Math.max(0,Math.min(1,sky.getBoundingClientRect().top/ss.clientHeight));
+      const rise=easyRange(arrival,0,1),portrait=easyRange(sp,.30,.64);
+      buildings.style.transform=`translateY(${(1-rise)*8}%)`;
+      buildings.style.opacity=1-portrait;
+      const portraitImage=woman.querySelector('img');
+      const imageHeight=ss.clientWidth*(portraitImage.naturalHeight||5627)/(portraitImage.naturalWidth||3226);
+      // Eyebrows begin around 19% of the original image; retain a little headroom.
+      const maxTravel=Math.max(0,imageHeight*.19-ss.clientHeight*.035);
+      const travel=easyRange(sp,.70,.98)*maxTravel;
+      woman.style.transform=`translateY(${(1-portrait)*ss.clientHeight-travel}px)`;
+      woman.style.opacity=easyRange(sp,.30,.44);
+    }
+    function renderPanelBorders() {
+      const selectors='.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage';
+      document.querySelectorAll(selectors).forEach(frame=>{
+        frame.classList.add('comic-frame');
+        const r=frame.getBoundingClientRect(),w=innerWidth,h=innerHeight;
+        const inset=r.left>1&&r.right<w-1;
+        const visible=v=>v>1&&v<h-1;
+        frame.style.setProperty('--edge-top',visible(r.top)?'5px':'0px');
+        frame.style.setProperty('--edge-bottom',(inset||r.height<h-2)&&visible(r.bottom)?'5px':'0px');
+        frame.style.setProperty('--edge-left',r.left>1&&r.left<w-1?'5px':'0px');
+        const shared=frame.matches('.portrait-woman,.mother-window')&&!inset;
+        frame.style.setProperty('--edge-right',!shared&&r.right>1&&r.right<w-1?'5px':'0px');
       });
     }
     function renderSanad() {
@@ -625,7 +702,7 @@
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     emirImage.addEventListener('load', update);
-    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape').forEach(img => img.addEventListener('load', update));
+    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
     render();
   </script>
