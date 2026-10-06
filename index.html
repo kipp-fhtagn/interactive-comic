@@ -13,6 +13,7 @@
     main { isolation: isolate; }
     .cover-track { height: 200vh; height: 200svh; position: relative; }
     .cover-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: clip; isolation: isolate; background: #fff; }
+    .cover-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: #000; z-index: 40; pointer-events: none; }
     .scene { position: absolute; inset: 0; display: grid; place-items: end center; pointer-events: none; }
     .frame { position: relative; width: min(100vw, 197.726svh); aspect-ratio: 8000 / 4046; }
     .title { position: absolute; z-index: 1; margin: 0; text-align: right; will-change: transform; }
