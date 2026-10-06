@@ -171,6 +171,12 @@
 .emir-panel,.parents-panel,.portrait-panel {isolation:isolate;z-index:0;}
 .emir-intro,.emir-second,.tumama-caption,.wounded-caption,.parents-caption {z-index:30;}
 .dialogue,.continuous-dialogue {z-index:30;}
+
+    .story-credits-band { min-height: 32svh; display: grid; place-items: center; padding: 4rem 6vw; background: #a4d5ea; }
+    .story-credits-band p { margin: 0; max-width: 60rem; color: #fff; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: clamp(1rem, 1.6vw, 1.5rem); line-height: 1.6; opacity: 0; transform: translateY(12px); transition: opacity 1.2s ease-out, transform 1.2s ease-out; }
+    .story-credits-band.is-visible p { opacity: 1; transform: translateY(0); }
+    @media (max-width: 760px) { .story-credits-band { min-height: 28svh; padding: 3rem 8vw; } }
+    @media (prefers-reduced-motion: reduce) { .story-credits-band p { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
@@ -188,6 +194,9 @@
       <div class="art boy"><img src="cover_boy_color.webp" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
     <p class="scroll-cue">SCROLL TO ENTER THE STORY <span class="arrow" aria-hidden="true">↓</span></p>
     </div></section>
+    <section class="story-credits-band" aria-label="Story and illustration credits">
+      <p>A story by Francesca Mannocchi · Drawings by Gianluca Costantini.</p>
+    </section>
     <section class="emir-story" aria-label="The Emir of Qatar initiative">
       <div class="emir-track"><div class="emir-stage">
       <figure class="emir-intro"><img src="emir_of_qatar_text.png" alt="In December 2023, the Emir of Qatar launched an initiative to transfer severely wounded individuals from Gaza to receive medical treatment."></figure>
@@ -704,6 +713,14 @@
     emirImage.addEventListener('load', update);
     document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
+
+    const creditsBand = document.querySelector('.story-credits-band');
+    const creditsObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        creditsBand.classList.toggle('is-visible', entry.isIntersecting);
+      });
+    }, { threshold: .35 });
+    creditsObserver.observe(creditsBand);
     render();
   </script>
 </body>
