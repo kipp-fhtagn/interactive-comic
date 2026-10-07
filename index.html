@@ -173,6 +173,33 @@
 .emir-intro,.emir-second,.tumama-caption,.wounded-caption,.parents-caption {z-index:30;}
 .dialogue,.continuous-dialogue {z-index:30;}
 
+    .rafah-track {height:1600svh;margin-top:-100svh;position:relative;z-index:3;pointer-events:none}
+    .rafah-stage {position:sticky;top:0;height:100svh;overflow:hidden}
+    .rafah-door,.rafah-ascent,.rafah-street,.rafah-sky,.rafah-dark,.rafah-mothers,.rafah-mother,.rafah-child-stage {position:absolute;inset:0}
+    .rafah-door {background:white;overflow:hidden}
+    .rafah-door::after {content:"";position:absolute;top:0;bottom:0;left:var(--door-edge,100%);width:5px;background:black;opacity:var(--door-line,0);pointer-events:none}
+    .rafah-street,.rafah-sky {background:white}
+    .rafah-sky {bottom:auto;height:100%;top:-100%;overflow:hidden}
+    .rafah-track picture {display:block;width:100%;height:100%}
+    .rafah-track img {display:block;width:100%;height:100%;object-fit:cover}
+    .rafah-street img {object-position:50% 75%}
+    .rafah-sky img {object-fit:cover;object-position:center bottom}
+    .rafah-base {position:absolute;inset:0;background:white;overflow:hidden}
+    .rafah-track .rafah-base img {height:auto;width:100%}
+    .rafah-dark {background:black}
+    .rafah-mothers {overflow:hidden;background:black}
+    .rafah-mother {margin:0;background:transparent}
+    .rafah-mother img {object-fit:cover}
+    .rafah-mother-four img {object-position:50% 43%}
+    .rafah-mother-five {overflow:hidden}
+    .rafah-mother-five img {position:absolute;max-width:none;object-fit:fill}
+    .rafah-mother-five {background:white}
+    .rafah-child-stage {background:white}
+    .rafah-child-window {position:absolute;margin:0;overflow:hidden;background:white}
+    .rafah-child-window img {position:absolute;max-width:none;object-fit:fill}
+    .rafah-child-four {position:absolute;inset:0;margin:0;background:white}
+    .rafah-child-four img {object-position:65% 50%}
+
     .story-credits-band { min-height: clamp(100px, 6.5vw, 180px); display: grid; place-items: center; padding: 1.25rem 6vw; background: #a4d5ea; }
     .story-credits-band p { margin: 0; max-width: 60rem; color: #fff; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: clamp(1rem, 1.6vw, 1.5rem); line-height: 1.6; opacity: 0; transform: translateY(12px); transition: opacity 1.2s ease-out, transform 1.2s ease-out; }
     .story-credits-band.is-visible p { opacity: 1; transform: translateY(0); }
@@ -245,6 +272,7 @@
 <section class="focus-track" aria-label="A mother’s expression"><div class="focus-stage"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_3_mobile.webp"><img src="mother_of_gaza_3_desktop.webp" decoding="async" alt="A mother frowning, her hand against her mouth."></picture></div></section>
 <section class="continuation-panel" aria-label="A child playing"><picture><source media="(max-width:760px)" srcset="children_of_gaza_2_mobile.webp"><img src="children_of_gaza_2_desktop.webp" decoding="async" alt="A child sitting on playground equipment."></picture></section>
 <section class="skyline-track" aria-label="Buildings and a woman in Gaza"><div class="skyline-stage"><picture><source media="(max-width:760px)" srcset="buildings_gaza_1_mobile.webp"><img src="buildings_gaza_1_desktop.webp" decoding="async" alt="Buildings in Gaza."></picture><div class="woman-rise"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" decoding="async" alt="Portrait of a woman from Gaza."></picture></div></div></section>
+<section id="rafah" class="rafah-track" aria-label="Rafah, the sky, a mother and her child"><div class="rafah-stage"><div class="rafah-base"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" alt="" aria-hidden="true"></picture></div><div class="rafah-door"><div class="rafah-ascent"><div class="rafah-sky"><picture><source media="(max-width:760px)" srcset="rafah_sky_mobile.webp"><img src="rafah_sky_desktop.webp" decoding="async" alt="An aircraft above Rafah."></picture></div><div class="rafah-street"><picture><source media="(max-width:760px)" srcset="rafah_streets_mobile.webp"><img src="rafah_streets_desktop.webp" decoding="async" alt="Cars carrying people and belongings through Rafah."></picture></div></div></div><div class="rafah-dark"></div><div class="rafah-mothers"><figure class="rafah-mother rafah-mother-four"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_4_mobile.webp"><img src="mother_of_gaza_4_desktop.webp" decoding="async" alt="Close-up of a mother from Gaza."></picture></figure><figure class="rafah-mother rafah-mother-five"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_5_mobile.webp"><img src="mother_of_gaza_5_desktop.webp" decoding="async" alt="A mother sitting beside her child."></picture></figure></div><div class="rafah-child-stage"><figure class="rafah-child-window"><picture><source media="(max-width:760px)" srcset="children_of_gaza_3_mobile.webp"><img src="children_of_gaza_3_desktop.webp" decoding="async" alt="A child wearing glasses."></picture></figure><figure class="rafah-child-four"><picture><source media="(max-width:760px)" srcset="children_of_gaza_4_mobile.webp"><img src="children_of_gaza_4_desktop.webp" decoding="async" alt="The child playing with a toy vehicle."></picture></figure></div></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -336,6 +364,7 @@
       renderRescuers();
       renderHospital();
       renderNewScenes();
+      renderRafah();
       renderPanelBorders();
       renderDialogue();
       scheduled = false;
@@ -524,8 +553,54 @@
       woman.style.transform=`translateY(${(1-portrait)*ss.clientHeight-travel}px)`;
       woman.style.opacity=easyRange(sp,.30,.44);
     }
+
+    function renderRafah(){
+      const track=document.querySelector('.rafah-track'),stage=track.firstElementChild;
+      const p=soften('rafah-camera',chapterProgress(track)),w=stage.clientWidth,h=stage.clientHeight;
+      const door=stage.querySelector('.rafah-door'),ascent=stage.querySelector('.rafah-ascent');
+      const opening=easyRange(p,0,.085),up=easyRange(p,.12,.20);
+      const base=stage.querySelector('.rafah-base img');
+      base.style.transform=`translateY(${-Math.max(0,w*(base.naturalHeight||5627)/(base.naturalWidth||3226)*.19-h*.035)}px)`;
+      door.style.clipPath=`inset(0 0 0 ${(1-opening)*100}%)`;
+      door.style.setProperty('--door-edge',`${(1-opening)*100}%`);
+      door.style.setProperty('--door-line',opening>0&&opening<1?'1':'0');
+      ascent.style.transform=`translateY(${up*h}px)`;
+      const skyImage=stage.querySelector('.rafah-sky img');
+      const skyRatio=(skyImage.naturalWidth||4366)/(skyImage.naturalHeight||5627);
+      const skyHeight=Math.max(h*1.25,w/skyRatio),skyWidth=skyHeight*skyRatio;
+      skyImage.style.position='absolute';skyImage.style.width=skyWidth+'px';skyImage.style.height=skyHeight+'px';
+      skyImage.style.left=(w-skyWidth)/2+'px';
+      skyImage.style.top=-(skyHeight-h)*(1-easyRange(p,.20,.30))+'px';
+      const dark=stage.querySelector('.rafah-dark');
+      dark.style.opacity=easyRange(p,.32,.39);
+      const mothers=stage.querySelector('.rafah-mothers'),four=stage.querySelector('.rafah-mother-four'),five=stage.querySelector('.rafah-mother-five');
+      mothers.style.opacity=easyRange(p,.43,.48);
+      const white=easyRange(p,.49,.54),shade=Math.round(255*white);
+      mothers.style.backgroundColor=`rgb(${shade},${shade},${shade})`;
+      const push=easyRange(p,.57,.66);
+      // Keep both faces in the viewport; on narrow screens the white artwork
+      // continues into the full-screen white panel rather than cropping a face.
+      const pair=five.querySelector('img'),iw=pair.naturalWidth||5489,ih=pair.naturalHeight||5627;
+      const scale=Math.min(Math.max(w/iw,h/ih),w/(iw*.94),h/(ih*.60));
+      pair.style.width=iw*scale+'px';pair.style.height=ih*scale+'px';
+      pair.style.left=(w-iw*scale)/2+'px';pair.style.top=(h*.5-ih*scale*.40)+'px';
+      four.style.transform=`translateX(${-push*w}px)`;
+      five.style.transform=`translateX(${(1-push)*w}px)`;
+      const down=easyRange(p,.70,.78),expand=easyRange(p,.80,.90),next=easyRange(p,.93,.995);
+      mothers.style.transform=`translateY(${-down*h}px)`;
+      const childStage=stage.querySelector('.rafah-child-stage');
+      childStage.style.transform=`translateY(${(1-down)*h}px)`;
+      const child=stage.querySelector('.rafah-child-window');
+      const initialW=w*.86,initialH=Math.min(h*.48,initialW*.58);
+      const cw=initialW+(w-initialW)*expand,ch=initialH+(h-initialH)*expand;
+      child.style.left=(w-cw)/2+'px';child.style.top=((h-ch)*.42-next*h)+'px';
+      child.style.width=cw+'px';child.style.height=ch+'px';
+      fitOpening(child.querySelector('img'),cw,ch,expand,.43,.51,1.65);
+      const last=stage.querySelector('.rafah-child-four');
+      last.style.transform=`translateY(${(1-next)*h}px)`;
+    }
     function renderPanelBorders() {
-      const selectors='.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage';
+      const selectors='.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage,.rafah-child-window,.rafah-child-four,.rafah-mother-four';
       document.querySelectorAll(selectors).forEach(frame=>{
         frame.classList.add('comic-frame');
         const r=frame.getBoundingClientRect(),w=innerWidth,h=innerHeight;
@@ -721,7 +796,7 @@
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     emirImage.addEventListener('load', update);
-    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img').forEach(img => img.addEventListener('load', update));
+    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img, .rafah-track img').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
 
     const creditsBand = document.querySelector('.story-credits-band');
@@ -735,3 +810,4 @@
   </script>
 </body>
 </html>
+
