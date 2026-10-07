@@ -184,8 +184,6 @@
     .rafah-track img {display:block;width:100%;height:100%;object-fit:cover}
     .rafah-street img {object-position:50% 75%}
     .rafah-sky img {object-fit:cover;object-position:center bottom}
-    .rafah-base {position:absolute;inset:0;background:white;overflow:hidden}
-    .rafah-track .rafah-base img {height:auto;width:100%}
     .rafah-dark {background:black}
     .rafah-mothers {overflow:hidden;background:black}
     .rafah-mother {margin:0;background:transparent}
@@ -272,7 +270,7 @@
 <section class="focus-track" aria-label="A mother’s expression"><div class="focus-stage"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_3_mobile.webp"><img src="mother_of_gaza_3_desktop.webp" decoding="async" alt="A mother frowning, her hand against her mouth."></picture></div></section>
 <section class="continuation-panel" aria-label="A child playing"><picture><source media="(max-width:760px)" srcset="children_of_gaza_2_mobile.webp"><img src="children_of_gaza_2_desktop.webp" decoding="async" alt="A child sitting on playground equipment."></picture></section>
 <section class="skyline-track" aria-label="Buildings and a woman in Gaza"><div class="skyline-stage"><picture><source media="(max-width:760px)" srcset="buildings_gaza_1_mobile.webp"><img src="buildings_gaza_1_desktop.webp" decoding="async" alt="Buildings in Gaza."></picture><div class="woman-rise"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" decoding="async" alt="Portrait of a woman from Gaza."></picture></div></div></section>
-<section id="rafah" class="rafah-track" aria-label="Rafah, the sky, a mother and her child"><div class="rafah-stage"><div class="rafah-base"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" alt="" aria-hidden="true"></picture></div><div class="rafah-door"><div class="rafah-ascent"><div class="rafah-sky"><picture><source media="(max-width:760px)" srcset="rafah_sky_mobile.webp"><img src="rafah_sky_desktop.webp" decoding="async" alt="An aircraft above Rafah."></picture></div><div class="rafah-street"><picture><source media="(max-width:760px)" srcset="rafah_streets_mobile.webp"><img src="rafah_streets_desktop.webp" decoding="async" alt="Cars carrying people and belongings through Rafah."></picture></div></div></div><div class="rafah-dark"></div><div class="rafah-mothers"><figure class="rafah-mother rafah-mother-four"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_4_mobile.webp"><img src="mother_of_gaza_4_desktop.webp" decoding="async" alt="Close-up of a mother from Gaza."></picture></figure><figure class="rafah-mother rafah-mother-five"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_5_mobile.webp"><img src="mother_of_gaza_5_desktop.webp" decoding="async" alt="A mother sitting beside her child."></picture></figure></div><div class="rafah-child-stage"><figure class="rafah-child-window"><picture><source media="(max-width:760px)" srcset="children_of_gaza_3_mobile.webp"><img src="children_of_gaza_3_desktop.webp" decoding="async" alt="A child wearing glasses."></picture></figure><figure class="rafah-child-four"><picture><source media="(max-width:760px)" srcset="children_of_gaza_4_mobile.webp"><img src="children_of_gaza_4_desktop.webp" decoding="async" alt="The child playing with a toy vehicle."></picture></figure></div></div></section>
+<section id="rafah" class="rafah-track" aria-label="Rafah, the sky, a mother and her child"><div class="rafah-stage"><div class="rafah-door"><div class="rafah-ascent"><div class="rafah-sky"><picture><source media="(max-width:760px)" srcset="rafah_sky_mobile.webp"><img src="rafah_sky_desktop.webp" decoding="async" alt="An aircraft above Rafah."></picture></div><div class="rafah-street"><picture><source media="(max-width:760px)" srcset="rafah_streets_mobile.webp"><img src="rafah_streets_desktop.webp" decoding="async" alt="Cars carrying people and belongings through Rafah."></picture></div></div></div><div class="rafah-dark"></div><div class="rafah-mothers"><figure class="rafah-mother rafah-mother-four"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_4_mobile.webp"><img src="mother_of_gaza_4_desktop.webp" decoding="async" alt="Close-up of a mother from Gaza."></picture></figure><figure class="rafah-mother rafah-mother-five"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_5_mobile.webp"><img src="mother_of_gaza_5_desktop.webp" decoding="async" alt="A mother sitting beside her child."></picture></figure></div><div class="rafah-child-stage"><figure class="rafah-child-window"><picture><source media="(max-width:760px)" srcset="children_of_gaza_3_mobile.webp"><img src="children_of_gaza_3_desktop.webp" decoding="async" alt="A child wearing glasses."></picture></figure><figure class="rafah-child-four"><picture><source media="(max-width:760px)" srcset="children_of_gaza_4_mobile.webp"><img src="children_of_gaza_4_desktop.webp" decoding="async" alt="The child playing with a toy vehicle."></picture></figure></div></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -404,17 +402,14 @@
       const captionLeft = (innerWidth - captionWidth) / 2 + captionWidth * .044;
       const leftMargin = mobile ? innerWidth * .044 : innerWidth * .035;
       emirStage.style.setProperty("--caption-slide", (leftMargin - captionLeft) * captionEase + "px");
-      const eased = p * p * (3 - 2 * p);
+      const eased = easyRange(p, 0, .72);
       const opening = reducedMotion.matches ? 1 : eased;
       const stageHeight = emirStage.clientHeight;
       const captionHeight = caption.clientHeight;
-      // Match the reference: credits above the caption, with its lower edge over the art.
-      const initialPanelTop = mobile
-        ? Math.max(96, captionHeight * .70)
-        : Math.max(120, innerWidth * .108);
-      const panelTop = Math.min(stageHeight * .45, initialPanelTop) * (1 - opening);
-      const panelHeight = stageHeight - panelTop;
-      caption.style.top = (Math.max(4, innerWidth * .002) - captionHeight * .116) + "px";
+      // Restore the initial framed shot, then open it earlier in the scroll.
+      const panelTop = stageHeight * (mobile ? .21 : .24) * (1 - opening);
+      const panelHeight = stageHeight * ((mobile ? .74 : .71) + (mobile ? .26 : .29) * opening);
+      caption.style.top = (stageHeight * .065 - captionHeight * .116) + "px";
       emirPanel.style.top = panelTop + "px";
       // Continue the credits band behind the overlapping caption up to the artwork.
       emirStage.style.background = "linear-gradient(to bottom, #a4d5ea 0px, #a4d5ea " + panelTop + "px, #fff " + panelTop + "px)";
@@ -540,6 +535,9 @@
       fitOpening(fs.querySelector('img'),fs.clientWidth,fs.clientHeight,1-fp,.55,.48,1.85);
       const sky=document.querySelector('.skyline-track'),ss=sky.firstElementChild;
       const sp=soften('skyline-camera',chapterProgress(sky));
+      // Keep the original portrait in place beneath the sliding Rafah scene.
+      const rafahOffset=Math.max(0,-document.querySelector('.rafah-track').getBoundingClientRect().top);
+      ss.style.transform=`translateY(${rafahOffset}px)`;
       const buildings=ss.querySelector(':scope > picture'),woman=ss.querySelector('.woman-rise picture');
       const arrival=1-Math.max(0,Math.min(1,sky.getBoundingClientRect().top/ss.clientHeight));
       const rise=easyRange(arrival,0,1),portrait=easyRange(sp,.30,.64);
@@ -559,8 +557,6 @@
       const p=soften('rafah-camera',chapterProgress(track)),w=stage.clientWidth,h=stage.clientHeight;
       const door=stage.querySelector('.rafah-door'),ascent=stage.querySelector('.rafah-ascent');
       const opening=easyRange(p,0,.085),up=easyRange(p,.12,.20);
-      const base=stage.querySelector('.rafah-base img');
-      base.style.transform=`translateY(${-Math.max(0,w*(base.naturalHeight||5627)/(base.naturalWidth||3226)*.19-h*.035)}px)`;
       door.style.clipPath=`inset(0 0 0 ${(1-opening)*100}%)`;
       door.style.setProperty('--door-edge',`${(1-opening)*100}%`);
       door.style.setProperty('--door-line',opening>0&&opening<1?'1':'0');
