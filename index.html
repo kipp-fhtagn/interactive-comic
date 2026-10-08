@@ -198,6 +198,19 @@
     .rafah-child-four {position:absolute;inset:0;margin:0;background:white}
     .rafah-child-four img {object-position:65% 50%}
 
+
+    /* Final chapter: pauses and camera moves share the existing Bezier easing. */
+    .gaza-final-track {position:relative;height:1900svh;margin-top:-100svh;z-index:4;pointer-events:none}
+    .gaza-final-stage {position:sticky;top:0;height:100svh;overflow:hidden;background:#000}
+    .gaza-final-panel {position:absolute;inset:0;margin:0;overflow:hidden;background:#000}
+    .gaza-final-panel picture {display:block;width:100%;height:100%}
+    .gaza-final-panel img {position:absolute;max-width:none;object-fit:fill;transform-origin:0 0;will-change:transform}
+    .gaza-final-panel::after {content:"";position:absolute;inset:0;border-left:5px solid #000;pointer-events:none}
+    .gaza-final-first::after,.gaza-final-six::after,.gaza-final-eight::after {display:none}
+    .gaza-playground-track {position:relative;height:450svh;background:#fff;z-index:4}
+    .gaza-playground-stage {position:sticky;top:0;height:100svh;overflow:hidden;border-top:5px solid #000;box-sizing:border-box;background:#fff}
+    .gaza-playground-stage img {position:absolute;max-width:none;will-change:transform}
+
     .story-credits-band { min-height: clamp(100px, 6.5vw, 180px); display: grid; place-items: center; padding: 1.25rem 6vw; background: #a4d5ea; }
     .story-credits-band p { margin: 0; max-width: 60rem; color: #fff; text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: clamp(1rem, 1.6vw, 1.5rem); line-height: 1.6; opacity: 0; transform: translateY(12px); transition: opacity 1.2s ease-out, transform 1.2s ease-out; }
     .story-credits-band.is-visible p { opacity: 1; transform: translateY(0); }
@@ -271,6 +284,7 @@
 <section class="continuation-panel" aria-label="A child playing"><picture><source media="(max-width:760px)" srcset="children_of_gaza_2_mobile.webp"><img src="children_of_gaza_2_desktop.webp" decoding="async" alt="A child sitting on playground equipment."></picture></section>
 <section class="skyline-track" aria-label="Buildings and a woman in Gaza"><div class="skyline-stage"><picture><source media="(max-width:760px)" srcset="buildings_gaza_1_mobile.webp"><img src="buildings_gaza_1_desktop.webp" decoding="async" alt="Buildings in Gaza."></picture><div class="woman-rise"><picture><source media="(max-width:760px)" srcset="woman_gaza_2_mobile.webp"><img src="woman_gaza_2_desktop.webp" decoding="async" alt="Portrait of a woman from Gaza."></picture></div></div></section>
 <section id="rafah" class="rafah-track" aria-label="Rafah, the sky, a mother and her child"><div class="rafah-stage"><div class="rafah-door"><div class="rafah-ascent"><div class="rafah-sky"><picture><source media="(max-width:760px)" srcset="rafah_sky_mobile.webp"><img src="rafah_sky_desktop.webp" decoding="async" alt="An aircraft above Rafah."></picture></div><div class="rafah-street"><picture><source media="(max-width:760px)" srcset="rafah_streets_mobile.webp"><img src="rafah_streets_desktop.webp" decoding="async" alt="Cars carrying people and belongings through Rafah."></picture></div></div></div><div class="rafah-dark"></div><div class="rafah-mothers"><figure class="rafah-mother rafah-mother-four"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_4_mobile.webp"><img src="mother_of_gaza_4_desktop.webp" decoding="async" alt="Close-up of a mother from Gaza."></picture></figure><figure class="rafah-mother rafah-mother-five"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_5_mobile.webp"><img src="mother_of_gaza_5_desktop.webp" decoding="async" alt="A mother sitting beside her child."></picture></figure></div><div class="rafah-child-stage"><figure class="rafah-child-window"><picture><source media="(max-width:760px)" srcset="children_of_gaza_3_mobile.webp"><img src="children_of_gaza_3_desktop.webp" decoding="async" alt="A child wearing glasses."></picture></figure><figure class="rafah-child-four"><picture><source media="(max-width:760px)" srcset="children_of_gaza_4_mobile.webp"><img src="children_of_gaza_4_desktop.webp" decoding="async" alt="The child playing with a toy vehicle."></picture></figure></div></div></section>
+<section class="gaza-final-track" aria-label="Children and mothers of Gaza"><div class="gaza-final-stage"><figure class="gaza-final-panel gaza-final-first"><picture><source media="(max-width:760px)" srcset="children_of_gaza_4_mobile.webp"><img src="children_of_gaza_4_desktop.webp" decoding="async" alt="A child playing with a toy vehicle."></picture></figure><figure class="gaza-final-panel gaza-final-five"><picture><source media="(max-width:760px)" srcset="children_of_gaza_5_mobile.webp"><img src="children_of_gaza_5_desktop.webp" decoding="async" alt="The back of a child’s head."></picture></figure><figure class="gaza-final-panel gaza-final-six"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_6_mobile.webp"><img src="mother_of_gaza_6_desktop.webp" decoding="async" alt="A mother wiping her eyes."></picture></figure><figure class="gaza-final-panel gaza-final-seven"><picture><source media="(max-width:760px)" srcset="mother_of_gaza_7_mobile.webp"><img src="mother_of_gaza_7_desktop.webp" decoding="async" alt="A mother holding a phone showing her child."></picture></figure><figure class="gaza-final-panel gaza-final-eight"><picture><source media="(max-width:760px)" srcset="children_of_gaza_8_mobile.webp"><img src="children_of_gaza_8_desktop.webp" decoding="async" alt="The child pictured on the phone, standing on playground steps."></picture></figure></div></section><section class="gaza-playground-track" aria-label="Children playing, revealed from left to right"><div class="gaza-playground-stage"><picture><source media="(max-width:760px)" srcset="children_of_gaza_7_mobile.webp"><img src="children_of_gaza_7_desktop.webp" decoding="async" alt="Children playing on slides in a playground."></picture></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -363,6 +377,7 @@
       renderHospital();
       renderNewScenes();
       renderRafah();
+      renderGazaFinal();
       renderPanelBorders();
       renderDialogue();
       scheduled = false;
@@ -595,6 +610,55 @@
       const last=stage.querySelector('.rafah-child-four');
       last.style.transform=`translateY(${(1-next)*h}px)`;
     }
+
+    function renderGazaFinal(){
+      const track=document.querySelector('.gaza-final-track'),stage=track.firstElementChild;
+      const p=soften('gaza-final-camera',chapterProgress(track)),w=stage.clientWidth,h=stage.clientHeight;
+      const panel=name=>stage.querySelector('.gaza-final-'+name);
+      // Fit a cover crop, then move a chosen source point to the screen centre.
+      // Interpolate in logarithmic scale for a steady photographic zoom.
+      const camera=(frame,t,fx,fy,zoom,initialFx=.5,initialFy=.5)=>{
+        const img=frame.querySelector('img'),iw=img.naturalWidth||1760,ih=img.naturalHeight||1436;
+        const base=Math.max(w/iw,h/ih),scale=base*Math.exp(Math.log(zoom)*t);
+        const bx=Math.min(0,Math.max(w-iw*base,w*.5-iw*base*initialFx));
+        const by=Math.min(0,Math.max(h-ih*base,h*.5-ih*base*initialFy));
+        const x=bx*(1-t)+(w*.5-iw*scale*fx)*t;
+        const y=by*(1-t)+(h*.5-ih*scale*fy)*t;
+        img.style.width=iw+'px';img.style.height=ih+'px';
+        img.style.transform=`translate3d(${x}px,${y}px,0) scale(${scale})`;
+      };
+      const first=panel('first'),five=panel('five'),six=panel('six'),seven=panel('seven'),eight=panel('eight');
+      const push=easyRange(p,.12,.18);
+      camera(first,easyRange(p,.035,.10),.65,.32,2.2,.65,.5);
+      first.style.transform=`translateX(${-push*w}px)`;
+      first.style.opacity=p<.19?1:0;
+      camera(five,easyRange(p,.23,.32),.38,.32,5);
+      five.style.transform=`translateX(${(1-push)*w}px)`;
+      // The crop is wholly inside the black hair before revealing the black backing.
+      five.style.opacity=1-easyRange(p,.32,.34);
+      camera(six,0,.5,.5,1,.64,.46);
+      six.style.opacity=easyRange(p,.39,.44)*(1-easyRange(p,.51,.57));
+      const entry=easyRange(p,.58,.64),phone=easyRange(p,.70,.82),dissolve=easyRange(p,.80,.86);
+      const phoneImage=seven.querySelector('img');
+      const iw=phoneImage.naturalWidth||1760,ih=phoneImage.naturalHeight||1436;
+      // Phone display occupies approximately x=.095..=.272, y=.456..=.906.
+      const cover=Math.max(w/iw,h/ih);
+      const phoneZoom=Math.max(w/(iw*.177),h/(ih*.45))/cover;
+      camera(seven,phone,.184,.681,phoneZoom,.5,.5);
+      seven.style.transform=`translateX(${(1-entry)*w}px)`;
+      seven.style.opacity=1-dissolve;
+      camera(eight,0,.5,.5,1,.55,.5);
+      eight.style.opacity=dissolve;
+      // Normal vertical scrolling follows the last held image, without a spacer.
+      const playground=document.querySelector('.gaza-playground-track'),ps=playground.firstElementChild,img=ps.querySelector('img');
+      const ratio=(img.naturalWidth||12300)/(img.naturalHeight||7074);
+      const height=Math.max(ps.clientHeight,ps.clientWidth*1.45/ratio),width=height*ratio;
+      const pan=Math.max(0,Math.min(1,(chapterProgress(playground)-.04)/.92));
+      img.style.width=width+'px';img.style.height=height+'px';
+      img.style.top=(ps.clientHeight-height)*.5+'px';
+      img.style.transform=`translate3d(${-(width-ps.clientWidth)*easyRange(pan,0,1)}px,0,0)`;
+    }
+
     function renderPanelBorders() {
       const selectors='.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage,.rafah-child-window,.rafah-child-four,.rafah-mother-four';
       document.querySelectorAll(selectors).forEach(frame=>{
@@ -792,7 +856,7 @@
     addEventListener('scroll', update, { passive: true });
     addEventListener('resize', update);
     emirImage.addEventListener('load', update);
-    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img, .rafah-track img').forEach(img => img.addEventListener('load', update));
+    document.querySelectorAll('.portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img, .rafah-track img, .gaza-final-track img, .gaza-playground-track img').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
 
     const creditsBand = document.querySelector('.story-credits-band');
