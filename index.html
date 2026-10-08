@@ -226,7 +226,7 @@
 .children-nine-stage img { object-position: 48% 35%; }
 .children-ten-panel img { object-position: 52% 35%; }
 @media (max-width: 760px) { .children-ten-panel img { object-position: 24% 35%; } }
-/* One shared stroke joins children 9 and 10; the panorama below has no stroke. */
+/* Shared frame strokes join the successive full-screen panels. */
 .children-ten-panel::before { content: ''; position: absolute; inset: 0 0 auto; height: 5px; z-index: 2; background: #000; pointer-events: none; }
 .bombed-two-track { height: 560svh; position: relative; background: #fff; }
 .bombed-two-stage img { position: absolute; left: 0; max-width: none; will-change: transform, opacity; }
@@ -234,6 +234,9 @@
 .after-bombs-panel { position: absolute; inset: 0; margin: 0; opacity: 0; will-change: opacity; }
 .after-bombs-one img { object-position: 58% 45%; }
 .after-bombs-two img { object-position: 50% 42%; }
+.children-ten-track {height:165svh;position:relative;background:#fff}
+.children-ten-panel {position:sticky;top:0}
+.bombed-two-track::before {content:'';position:absolute;top:0;left:0;right:0;height:5px;background:#000;z-index:6;pointer-events:none}
 </style>
 </head>
 <body>
