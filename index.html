@@ -237,6 +237,18 @@
 .children-ten-track {height:165svh;position:relative;background:#fff}
 .children-ten-panel {position:sticky;top:0}
 .bombed-two-track::before {content:'';position:absolute;top:0;left:0;right:0;height:5px;background:#000;z-index:6;pointer-events:none}
+
+.children-play-track {height:1900svh;position:relative;background:#fff;z-index:6}
+.children-play-stage {position:sticky;top:0;height:100svh;overflow:hidden;background:#fff}
+.children-play-stage figure {position:absolute;inset:0;margin:0;overflow:hidden;background:#fff;will-change:transform,clip-path}
+.children-play-stage picture {display:block;width:100%;height:100%}
+.children-play-stage img {display:block;width:100%;height:100%;object-fit:cover}
+.play-eleven img {position:absolute;max-width:none;transform-origin:0 0}
+.children-play-stage .play-fifteen img {object-fit:contain}
+.play-twelve:after,.play-thirteen:after,.play-fourteen:before {content:"";position:absolute;background:#000;pointer-events:none}
+.play-twelve:after {left:var(--seam);top:0;bottom:0;width:5px;opacity:var(--seam-visible)}
+.play-thirteen:after {top:var(--seam);left:0;right:0;height:5px;opacity:var(--seam-visible)}
+.play-fourteen:before {z-index:2;right:var(--closing);top:0;bottom:0;width:5px;opacity:var(--closing-visible)}
 </style>
 </head>
 <body>
@@ -310,6 +322,7 @@
 <section class="children-ten-track" aria-label="A child and a woman from Gaza"><section class="children-ten-panel"><picture><source media="(max-width:760px)" srcset="children_of_gaza_10_mobile.webp"><img src="children_of_gaza_10_desktop.webp" loading="lazy" decoding="async" alt="The child sitting beside a woman."></picture></section></section>
 <section class="bombed-two-track" aria-label="A panorama of bombed buildings"><div class="bombed-two-stage"><picture><source media="(max-width:760px)" srcset="bombed_buildings_2_mobile.webp"><img src="bombed_buildings_2_desktop.webp" loading="lazy" decoding="async" alt="Smoke rising over bombed buildings in Gaza."></picture></div></section>
 <section class="after-bombs-track" aria-label="After the bombs"><div class="after-bombs-stage"><figure class="after-bombs-panel after-bombs-one"><picture><source media="(max-width:760px)" srcset="after_the_bombs_1_mobile.webp"><img src="after_the_bombs_1_desktop.webp" loading="lazy" decoding="async" alt="A child being carried beside an ambulance after the bombing."></picture></figure><figure class="after-bombs-panel after-bombs-two"><picture><source media="(max-width:760px)" srcset="after_the_bombs_2_mobile.webp"><img src="after_the_bombs_2_desktop.webp" loading="lazy" decoding="async" alt="People holding a wounded child after the bombing."></picture></figure></div></section>
+<section id="children-play" class="children-play-track" aria-label="Children playing and daily life"><div class="children-play-stage"><figure class="play-eleven"><picture><source media="(max-width:760px)" srcset="children_of_gaza_11_mobile.webp"><img src="children_of_gaza_11_desktop.webp" decoding="async" alt="Two children playing football."></picture></figure><figure class="play-twelve"><picture><source media="(max-width:760px)" srcset="children_of_gaza_12_mobile.webp"><img src="children_of_gaza_12_desktop.webp" decoding="async" alt="A child walking beside a football."></picture></figure><figure class="play-thirteen"><picture><source media="(max-width:760px)" srcset="children_of_gaza_13_mobile.webp"><img src="children_of_gaza_13_desktop.webp" decoding="async" alt="A child watching football on a tablet."></picture></figure><figure class="play-fourteen"><picture><source media="(max-width:760px)" srcset="children_of_gaza_14_mobile.webp"><img src="children_of_gaza_14_desktop.webp" decoding="async" alt="A child being cared for."></picture></figure><figure class="play-fifteen"><picture><source media="(max-width:760px)" srcset="children_of_gaza_15_mobile.webp"><img src="children_of_gaza_15_desktop.webp" decoding="async" alt="A child sitting on a wheeled board."></picture></figure></div></section>
   </main>
   <script>
     const coverTrack = document.querySelector('.cover-track');
@@ -404,6 +417,7 @@
       renderRafah();
       renderGazaFinal();
       renderBombsContinuation();
+      renderChildrenPlay();
       renderPanelBorders();
       renderDialogue();
       scheduled = false;
@@ -711,13 +725,48 @@
       const second = aftermath.querySelector('.after-bombs-two');
       // Fade the first image over white, hold it, then crossfade both images together.
       first.style.opacity = fadeIn * (1 - crossfade);
-      second.style.opacity = crossfade;
+      second.style.opacity = crossfade * (1 - easyRange(ap, .84, .98));
       first.setAttribute('aria-hidden', String(fadeIn * (1 - crossfade) < .01));
       second.setAttribute('aria-hidden', String(crossfade < .01));
     }
 
+
+    function renderChildrenPlay() {
+      const track=document.querySelector('.children-play-track'),stage=track.firstElementChild;
+      const p=soften('children-play-camera',chapterProgress(track)),w=stage.clientWidth,h=stage.clientHeight;
+      const a=stage.querySelector('.play-eleven'),b=stage.querySelector('.play-twelve'),c=stage.querySelector('.play-thirteen'),d=stage.querySelector('.play-fourteen'),e=stage.querySelector('.play-fifteen');
+      // Scroll holds separate each camera move; all transitions use the same Bezier ease.
+      const enter=easyRange(p,.045,.105),open=easyRange(p,.135,.255);
+      const ih0=h*.76,iw0=Math.min(w*.42,ih0*.38);
+      const fw=iw0+(w-iw0)*open,fh=ih0+(h-ih0)*open;
+      a.style.inset='auto';a.style.width=fw+'px';a.style.height=fh+'px';
+      a.style.left=(w-iw0-w*.08)*(1-open)+'px';
+      a.style.top=(h*.08*(1-open)+(1-enter)*h)+'px';
+      const im=a.querySelector('img'),iw=im.naturalWidth||6139,ih=im.naturalHeight||5627;
+      // A narrow crop from ball to lifted foot, widening to the complete scene.
+      const startScale=Math.max(iw0/(iw*.25),ih0/(ih*.69));
+      const endScale=Math.max(w/iw,h/ih),scale=startScale+(endScale-startScale)*open;
+      im.style.width=iw*scale+'px';im.style.height=ih*scale+'px';
+      const fx=.595+(.5-.595)*open,fy=.51;
+      im.style.left=Math.min(0,Math.max(fw-iw*scale,fw*.5-iw*scale*fx))+'px';
+      im.style.top=Math.min(0,Math.max(fh-ih*scale,fh*.5-ih*scale*fy))+'px';
+      const right=easyRange(p,.32,.405),up=easyRange(p,.455,.54),down=easyRange(p,.62,.715),close=easyRange(p,.79,.855),slide=easyRange(p,.92,.985);
+      a.style.visibility=p>=.405?'hidden':'visible';
+      b.style.visibility=p>=.54?'hidden':'visible';
+      b.style.clipPath=`inset(0 0 0 ${(1-right)*100}%)`;
+      b.style.setProperty('--seam',`${(1-right)*100}%`);b.style.setProperty('--seam-visible',right>0&&right<1?'1':'0');
+      c.style.clipPath=`inset(${(1-up)*100}% 0 0 0)`;
+      c.style.setProperty('--seam',`${(1-up)*100}%`);c.style.setProperty('--seam-visible',up>0&&up<1?'1':'0');
+      c.style.transform=`translateY(${-down*h}px)`;
+      d.style.transform=`translateY(${(1-down)*h}px)`;
+      d.style.clipPath=`inset(0 ${close*100}% 0 0)`;
+      d.style.setProperty('--closing',`${close*100}%`);d.style.setProperty('--closing-visible',close>0&&close<1?'1':'0');
+      e.style.transform=`translateX(${(slide-1)*w}px)`;
+      [b,c,d].forEach((f,i)=>f.querySelector('img').style.objectPosition= i===0?'50% 57%':i===1?'60% 50%':'44% 50%');
+    }
+
     function renderPanelBorders() {
-      const selectors='.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage,.rafah-child-window,.rafah-mother-four';
+      const selectors='.play-eleven,.play-fourteen,.emir-panel,.parents-panel,.sanad-stage,.portrait-panel,.amputated-stage,.bombed-stage,.mother-window,.children-window,.continuation-panel,.rescuers-stage,.hospital-window,.street-layer,.focus-stage,.rafah-child-window,.rafah-mother-four';
       document.querySelectorAll(selectors).forEach(frame=>{
         frame.classList.add('comic-frame');
         const r=frame.getBoundingClientRect(),w=innerWidth,h=innerHeight;
@@ -927,3 +976,4 @@
   </script>
 </body>
 </html>
+
