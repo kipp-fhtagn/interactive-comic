@@ -397,7 +397,9 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       title.style.left = (mobile ? viewportWidth * .04 : rect.left + rect.width * .15) + 'px';
       title.style.width = (mobile ? viewportWidth * .92 : rect.width * .79) + 'px';
       title.style.setProperty('--title-size', titleSize + 'px');
-      title.style.transform = `translateY(${(end - start) * progress}px)`;
+      // Cap the headline at the reference composition (top at roughly 20% of the viewport).
+      const titleDescent = Math.min((end - start) * progress, Math.max(0, viewportHeight * .20 - start));
+      title.style.transform = `translateY(${titleDescent}px)`;
       const availableScale = Math.max(.2, (viewportHeight - headlineBottom) / (boyHeight * .973));
       const mobileHeadroom = Math.max(80, viewportHeight - start - title.offsetHeight - 18);
       const hairline = start + titleSize * .30;
