@@ -264,6 +264,14 @@
 .story-credits-band{background:#fff;min-height:100px}
 .story-credits-band p{color:#111;font:400 12px/18px Arial,Helvetica,sans-serif}
 .story-credits-band .credit-author,.story-credits-band a{color:#ff4d00;text-decoration:none}
+
+/* A two-line headline and credits share the cover alignment. */
+h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
+.intro-copy .credits{margin:1rem 0 0;font:400 12px/18px Arial,Helvetica,sans-serif;color:#111;text-align:inherit}
+.intro-copy .credit-author,.intro-copy .credits a{color:#ff4d00;text-decoration:none}
+.emir-story{margin-top:-18svh;z-index:5}
+.emir-stage{background:white}
+@media(max-width:760px){.intro-copy .credits{font-size:11px;line-height:16px;margin-top:.7rem}}
 </style>
 </head>
 <body>
@@ -274,17 +282,14 @@
 </defs></svg>
   <main aria-label="The mutilated fates of Gaza">
     <section class="cover-track" aria-label="Cover"><div class="cover-stage">
-    <header class="title"><h1>The mutilated fates<span>of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children<br>forever scarred by war</span><span class="mobile-copy"><span>The Palestinian children</span><span>forever scarred by war</span></span></p></div></header>
+    <header class="title"><h1><span>The mutilated</span><span>fates of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children<br>forever scarred by war</span><span class="mobile-copy"><span>The Palestinian children</span><span>forever scarred by war</span></span></p><p class="credits">A story by <span class="credit-author">Francesca Mannocchi</span> · Drawings by <a href="https://www.channeldraw.org/about/">Gianluca Costantini</a>.</p></div></header>
     <div class="scene"><div class="frame">
       <div class="art buildings smoke-lines"><img src="cover_buildings_smoke_lines.png" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
     </div></div>
       <div class="art boy"><img src="cover_boy.png" width="3840" height="1958" alt="Illustrated portrait of a boy"></div>
     <p class="scroll-cue">SCROLL TO ENTER THE STORY <span class="arrow" aria-hidden="true">↓</span></p>
     </div></section>
-    <section class="story-credits-band" aria-label="Story and illustration credits">
-      <p>A story by <span class="credit-author">Francesca Mannocchi</span> · Drawings by <a href="https://www.channeldraw.org/about/">Gianluca Costantini</a>.</p>
-    </section>
-    <section class="emir-story" aria-label="The Emir of Qatar initiative">
+<section class="emir-story" aria-label="The Emir of Qatar initiative">
       <div class="emir-track"><div class="emir-stage">
       <figure class="emir-intro"><svg class="caption-code" data-source-width="1584" viewBox="0 0 1584 616" role="img" aria-label="In December 2023, the Emir of Qatar launched an initiative to transfer severely wounded individuals from Gaza to receive medical treatment." xmlns="http://www.w3.org/2000/svg"><rect x="75" y="76" width="1439" height="445" fill="white" stroke="black" stroke-width="6"/><g font-family="SanadCostantini" fill="black"><text x="115" y="191" font-size="92" textLength="1370" lengthAdjust="spacingAndGlyphs">In December 2023, the Emir of Qatar</text><text x="120" y="283" font-size="92" textLength="1270" lengthAdjust="spacingAndGlyphs">launched an initiative to transfer</text><text x="114" y="375" font-size="92" textLength="1264" lengthAdjust="spacingAndGlyphs">severely wounded individuals from</text><text x="115" y="467" font-size="92" textLength="1341" lengthAdjust="spacingAndGlyphs">Gaza to receive medical treatment.</text></g></svg></figure>
         <figure class="emir-second" aria-hidden="true"><svg class="caption-code" data-source-width="1022" viewBox="0 0 1022 1166" role="img" aria-label="Thanks to an agreement between Israel, Hamas, Egypt, and Qatar, the wounded were able to leave Gaza and were transferred to Qatar on military flights." xmlns="http://www.w3.org/2000/svg"><rect x="97" y="115" width="825" height="903" fill="white" stroke="black" stroke-width="6"/><g font-family="SanadCostantini" fill="black"><text x="149" y="222" font-size="92" textLength="512" lengthAdjust="spacingAndGlyphs">Thanks to an</text><text x="148" y="314" font-size="92" textLength="709" lengthAdjust="spacingAndGlyphs">agreement between</text><text x="148" y="406" font-size="92" textLength="730" lengthAdjust="spacingAndGlyphs">Israel, Hamas, Egypt,</text><text x="148" y="498" font-size="92" textLength="647" lengthAdjust="spacingAndGlyphs">and Qatar, the</text><text x="148" y="590" font-size="92" textLength="678" lengthAdjust="spacingAndGlyphs">wounded were able</text><text x="152" y="682" font-size="92" textLength="674" lengthAdjust="spacingAndGlyphs">to leave Gaza and</text><text x="148" y="774" font-size="92" textLength="637" lengthAdjust="spacingAndGlyphs">were transferred</text><text x="152" y="866" font-size="92" textLength="444" lengthAdjust="spacingAndGlyphs">to Qatar on</text><text x="148" y="958" font-size="92" textLength="585" lengthAdjust="spacingAndGlyphs">military flights.</text></g></svg></figure>
@@ -365,7 +370,7 @@
       const height = frame.offsetHeight;
       const rect = { width, height, left: mobile ? -(width - viewportWidth) * .38 : (viewportWidth - width) / 2, top: viewportHeight - height };
       const originalStart = viewportHeight * (mobile ? .045 : .02);
-      const start = originalStart + 100;
+      const start = originalStart + (mobile ? 28 : 48);
       const end = mobile ? start : Math.max(originalStart, rect.top + rect.height * .065);
       const distance = coverTrack.offsetHeight - coverStage.clientHeight;
       // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
@@ -379,7 +384,7 @@
       const boyHeight = boyWidth * 4046 / 8000;
       // Leave the opening headline clear, including on shallow viewports.
       const titleSize = mobile ? viewportWidth * .094 : width * .085;
-      const headlineBottom = start + titleSize * 1.08 + Math.max(18, viewportHeight * .025);
+      const headlineBottom = start + titleSize * 2.16 + Math.max(18, viewportHeight * .025);
       // Size the visible head against the headline, rather than a width-based cap.
       // The PNG has a small transparent margin above the hair.
       title.style.top = start + 'px';
@@ -451,7 +456,7 @@
         }
       }
       emirLastScroll = window.scrollY;
-      const panelWidth = emirPanel.clientWidth;
+      let panelWidth = emirStage.clientWidth;
       const travel = Math.max(1, emirTrack.offsetHeight - emirStage.clientHeight);
       emirProgress = Math.max(0, Math.min(1, -emirTrack.getBoundingClientRect().top / travel));
       const storyProgress = Math.min(1, emirProgress / .65);
@@ -470,14 +475,18 @@
       const captionLeft = (innerWidth - captionWidth) / 2 + captionWidth * .044;
       const leftMargin = mobile ? innerWidth * .044 : innerWidth * .035;
       emirStage.style.setProperty("--caption-slide", (leftMargin - captionLeft) * captionEase + "px");
-      const eased = easyRange(p, 0, .72);
+      const eased = easyRange(p, 0, .65);
       const opening = reducedMotion.matches ? 1 : eased;
       const stageHeight = emirStage.clientHeight;
       const captionHeight = caption.clientHeight;
       // Restore the initial framed shot, then open it earlier in the scroll.
-      const panelTop = stageHeight * (mobile ? .21 : .24) * (1 - opening);
-      const panelHeight = stageHeight * ((mobile ? .74 : .71) + (mobile ? .26 : .29) * opening);
-      caption.style.top = (stageHeight * .065 - captionHeight * .116) + "px";
+      const panelTop = stageHeight * .07 * (1 - opening);
+      const panelHeight = stageHeight * (.86 + .14 * opening);
+      const panelInset = emirStage.clientWidth * .045 * (1 - opening);
+      panelWidth = emirStage.clientWidth - panelInset * 2;
+      emirPanel.style.left = panelInset + "px";
+      emirPanel.style.width = panelWidth + "px";
+      caption.style.top = (stageHeight * (.145 - .08 * captionEase) - captionHeight * .116) + "px";
       emirPanel.style.top = panelTop + "px";
       // Continue the credits band behind the overlapping caption up to the artwork.
       emirStage.style.background = "white";
@@ -978,17 +987,11 @@
     document.querySelectorAll('.children-nine-stage img, .children-ten-panel img, .bombed-two-stage img, .after-bombs-panel img, .portrait-panel img, .bombed-stage img, .rescuers-stage img, .dialogue-shape, .departure-layer img, .focus-stage img, .skyline-stage img, .rafah-track img, .gaza-final-track img, .gaza-playground-track img').forEach(img => img.addEventListener('load', update));
     reducedMotion.addEventListener('change', update);
 
-    const creditsBand = document.querySelector('.story-credits-band');
-    const creditsObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        creditsBand.classList.toggle('is-visible', entry.isIntersecting);
-      });
-    }, { threshold: .35 });
-    creditsObserver.observe(creditsBand);
     render();
   </script>
 </body>
 </html>
+
 
 
 
