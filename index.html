@@ -871,10 +871,10 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         const y = Math.min(0, Math.max(h - ih * scale, h * .5 - ih * scale * fy));
         img.style.width = iw + 'px'; img.style.height = ih + 'px';
         img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-        if(panel.classList.contains('portrait-woman')) stage.dataset.speakerMouth=JSON.stringify([x+iw*.50*scale,y+ih*.51*scale]);
+        if(panel.classList.contains('portrait-woman')) stage.dataset.speakerMouth=JSON.stringify([x+iw*.50*scale,y+ih*.56*scale]);
       };
       // The opening crop includes eyes, nose and mouth on desktop and mobile.
-      const initialZoom = w > h ? 2 : 1.4;
+      const initialZoom = w > h ? 1.15 : 1.1;
       fit(woman, womanWidth, Math.exp(Math.log(initialZoom) * (1 - opening)), .47, .43 + .07 * opening);
       fit(baby, w * .5, 1, .63, .5);
     }
