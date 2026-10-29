@@ -148,7 +148,7 @@
     .rescuers-stage img { position: absolute; max-width: none; will-change: transform; }
     @media(max-width:760px) { .subtitle { font-size: clamp(.9rem,4vw,1.4rem); } }
   
-    .title strong { display:inline-block; filter:url(#ink-outline); }
+    .title strong { display:inline-block; filter:none; }
     .hospital-track { height:300svh; position:relative; }
     .hospital-stage { position:sticky;top:0;height:100svh;overflow:hidden;background:white; }
     .hospital-window { position:absolute;overflow:hidden;margin:0; }
@@ -394,9 +394,10 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       title.style.transform = `translateY(${(end - start) * progress}px)`;
       const availableScale = Math.max(.2, (viewportHeight - headlineBottom) / (boyHeight * .973));
       const mobileHeadroom = Math.max(80, viewportHeight - start - title.offsetHeight - 18);
-      const initialScale = mobile ? Math.min(mobileHeadroom / (boyHeight * .973), viewportWidth * .92 / (boyWidth * .35)) : availableScale;
+      const hairline = start + titleSize * .30;
+      const initialScale = Math.max(.2, (viewportHeight - hairline) / (boyHeight * .973));
       const originalScale = mobile ? Math.min((mobileHeadroom + 100) / (boyHeight * .973), viewportWidth * .92 / (boyWidth * .35)) : Math.max(.2, (viewportHeight - headlineBottom + 100) / (boyHeight * .973));
-      const finalScale = originalScale * (mobile ? 1.30 : .96);
+      const finalScale = initialScale * (mobile ? 1.06 : 1.04);
       boy.style.bottom = '0px';
       boy.style.transformOrigin = mobile ? '42.5% 100%' : '42% 100%';
       boy.style.left = (mobile ? viewportWidth * .5 - boyWidth * .425 : rect.left - width * .12) + 'px';
@@ -421,7 +422,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       // Finish fading with clearance before either the head or smoke reaches the copy.
       const headFade = Math.max(0, Math.min(1, (openingHeadGap - headGap) / Math.max(1, openingHeadGap - 8)));
       const smokeFade = Math.max(0, Math.min(1, (140 - gap) / 116));
-      const fade = mobile ? Math.max(headFade, smokeFade) : Math.max(0, Math.min(1, progress / .22));
+      const fade = Math.max(0, Math.min(1, progress / .28));
       introCopy.style.opacity = 1 - fade * fade * (3 - 2 * fade);
       introCopy.style.visibility = fade >= 1 ? 'hidden' : 'visible';
       renderEmir(mobile);
@@ -475,18 +476,19 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const captionLeft = (innerWidth - captionWidth) / 2 + captionWidth * .044;
       const leftMargin = mobile ? innerWidth * .044 : innerWidth * .035;
       emirStage.style.setProperty("--caption-slide", (leftMargin - captionLeft) * captionEase + "px");
-      const eased = easyRange(p, 0, .65);
+      const eased = easyRange(p, .14, .78);
       const opening = reducedMotion.matches ? 1 : eased;
       const stageHeight = emirStage.clientHeight;
       const captionHeight = caption.clientHeight;
       // Restore the initial framed shot, then open it earlier in the scroll.
-      const panelTop = stageHeight * .07 * (1 - opening);
-      const panelHeight = stageHeight * (.86 + .14 * opening);
-      const panelInset = emirStage.clientWidth * .045 * (1 - opening);
+      const panelTop = stageHeight * (mobile ? .36 : .37) * (1 - opening);
+      const initialHeight = Math.min(stageHeight * .46, emirStage.clientWidth * .84 / 1.85);
+      const panelHeight = initialHeight + (stageHeight - initialHeight) * opening;
+      const panelInset = emirStage.clientWidth * .08 * (1 - opening);
       panelWidth = emirStage.clientWidth - panelInset * 2;
       emirPanel.style.left = panelInset + "px";
       emirPanel.style.width = panelWidth + "px";
-      caption.style.top = (stageHeight * (.145 - .08 * captionEase) - captionHeight * .116) + "px";
+      caption.style.top = (stageHeight * (.065 - .03 * captionEase) - captionHeight * .116) + "px";
       emirPanel.style.top = panelTop + "px";
       // Continue the credits band behind the overlapping caption up to the artwork.
       emirStage.style.background = "white";
@@ -499,7 +501,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       // Reframe as the visible area expands, keeping the eyes in the panel.
       const reframe = reducedMotion.matches ? 1 : (1 / zoom - 1 / (mobile ? 6 : 3.2)) / (1 - 1 / (mobile ? 6 : 3.2));
       const focusX = .538 + (.5 - .538) * reframe;
-      const focusY = .215 + ((mobile ? .5 : .31) - .215) * reframe;
+      const focusY = .17 + ((mobile ? .5 : .31) - .17) * reframe;
       const x = Math.max(panelWidth - sourceWidth * scale, Math.min(0, panelWidth / 2 - focusX * sourceWidth * scale));
       const zoomY = Math.max(panelHeight - sourceHeight * scale, Math.min(0, panelHeight / 2 - focusY * sourceHeight * scale));
       const y = zoomY + (panelHeight - sourceHeight * scale - zoomY) * panEase;
@@ -991,6 +993,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
   </script>
 </body>
 </html>
+
 
 
 
