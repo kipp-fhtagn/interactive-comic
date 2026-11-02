@@ -1025,6 +1025,30 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         // Fade out completely before fading the next text in.
         const opacity=current===next?(i===current?1:0):i===current?1-smooth(change*2):i===next?smooth((change-.5)*2):0;
         Object.assign(box.style,{left:x+'px',top:y+'px',width:bw+'px',height:bh+'px',fontSize:fs+'px',opacity,visibility:opacity>0?'visible':'hidden'});
+        // Reference body bounds and ink bounds, measured independently for each balloon.
+        const lettering=[
+          {body:[448,488],ink:[62,47,391,441],step:50},
+          {body:[420,274],ink:[48,57,370,201],step:50},
+          {body:[473,258],ink:[69,46,416,192],step:50},
+          {body:[468,256],ink:[35,44,433,188],step:50},
+          {body:[333,268],ink:[29,56,308,201],step:50}
+        ][i];
+        const text=box.querySelector('p');
+        const lines=Array.from(text.childNodes).map(n=>n.nodeName==='BR'?'\n':n.textContent).join('').split('\n').filter(Boolean);
+        const canvas=renderDialogue.measureCanvas||(renderDialogue.measureCanvas=document.createElement('canvas'));
+        const ctx=canvas.getContext('2d');ctx.font='100px CaptionCostantini';
+        const metrics=lines.map(line=>ctx.measureText(line));
+        const widest=Math.max(...metrics.map(m=>m.width));
+        const scale=bw/lettering.body[0];
+        const fontSize=(lettering.ink[2]-lettering.ink[0])*scale*100/widest;
+        const lineHeight=lettering.step*scale;
+        ctx.font=fontSize+'px CaptionCostantini';
+        const first=ctx.measureText(lines[0]||'A');
+        const fontAscent=first.fontBoundingBoxAscent||fontSize*.8;
+        const fontDescent=first.fontBoundingBoxDescent||fontSize*.2;
+        const inkTop=lettering.ink[1]*scale;
+        const inset=inkTop-((lineHeight-fontAscent-fontDescent)/2+fontAscent-first.actualBoundingBoxAscent);
+        Object.assign(text.style,{position:'absolute',left:((lettering.ink[0]+lettering.ink[2])/2*scale-bw/2)+'px',top:inset+'px',width:'100%',fontSize:fontSize+'px',lineHeight:lineHeight+'px'});
         box.setAttribute('aria-hidden',String(opacity===0||alpha===0));
       });
       const svg=speech.querySelector('.speaker-tail');
