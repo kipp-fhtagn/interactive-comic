@@ -114,7 +114,7 @@
     .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
     .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
     @media (prefers-reduced-motion: reduce) { .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading, .sanad-balloon { translate: none; transition: none; } }
-    .portraits-track { position: relative; height: 440svh; background: white; }
+    .portraits-track { position: relative; height: 760svh; background: white; }
     .portraits-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
     .portrait-panel { position: absolute; top: 0; height: 100%; overflow: hidden; background: white; margin: 0; }
     .portrait-woman { left: 0; width: 100%; }
@@ -1034,8 +1034,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       svg.querySelector('.morph-body').setAttribute('d',`M ${x+bw*.25} ${y+1}
         C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
         C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
-        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-.23*fs}
-        ${last?`C ${ax-25} ${ay-.28*fs},${x-50} ${ay-.60*fs},${-35} ${ay-.72*fs} L ${-35} ${ay-.56*fs} C ${x-50} ${ay-.44*fs},${ax-25} ${ay-.02*fs},${ax+.08*fs} ${ay+.16*fs}`:current===3?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
+        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-(last?.06:.23)*fs}
+        ${last?`C ${ax-28} ${ay-.18*fs},${x-50} ${ay-.43*fs},-35 ${ay-.55*fs} L -35 ${ay-.43*fs} C ${x-50} ${ay-.31*fs},${ax-28} ${ay-.06*fs},${ax} ${ay+.06*fs}`:current===3?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
         C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}`}
         C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
         C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
@@ -1132,40 +1132,33 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 </script>
 
 <script>
-// Reading stops apply only to this dialogue, once per forward visit.
+// Continuous wheel easing in the dialogue: no timer, snap points or forced stops.
 (()=>{
  const track=document.querySelector('.portraits-track');
- const stops=[.12,.284,.448,.612,.776];
- let read=new Set(),hold=null,previous=scrollY,correcting=false;
- const at=i=>scrollY+track.getBoundingClientRect().top+(track.offsetHeight-track.firstElementChild.clientHeight)*stops[i];
- const release=()=>{if(hold){clearTimeout(hold.timer);hold=null;}};
- const lock=i=>{
-  const y=at(i);hold={i,y,timer:null};
-  correcting=true;window.scrollTo({top:y,behavior:'instant'});previous=y;correcting=false;
-  // Start the three seconds only after the text is fully opaque and settled.
-  const wait=()=>{
-   if(!hold||hold.i!==i)return;
-   const box=track.querySelectorAll('.single-speech')[i];
-   const visible=getComputedStyle(box).visibility==='visible'&&Number(getComputedStyle(box).opacity)>.99&&Number(getComputedStyle(box.parentElement).opacity)>.99;
-   if(!visible){hold.timer=setTimeout(wait,50);return;}
-   hold.timer=setTimeout(()=>{read.add(i);hold=null;},3000);
-  };hold.timer=setTimeout(wait,100);
+ let target=scrollY,frame=0,lastTime=0;
+ const cancel=()=>{cancelAnimationFrame(frame);frame=0;target=scrollY;lastTime=0;};
+ const tick=time=>{
+  const dt=Math.min(40,lastTime?time-lastTime:16);lastTime=time;
+  const gap=target-scrollY;
+  const step=Math.sign(gap)*Math.min(Math.abs(gap)*(1-Math.exp(-dt/180)),innerHeight*.00075*dt);
+  if(Math.abs(gap)<.8){cancel();return;}
+  scrollTo({top:scrollY+step,behavior:'instant'});frame=requestAnimationFrame(tick);
  };
- addEventListener('scroll',()=>{
-  if(correcting)return;
-  const y=scrollY;
-  if(y<8){release();read.clear();previous=y;return;}
-  if(hold){
-   if(y<hold.y-2){release();previous=y;return;}
-   if(y>hold.y){correcting=true;scrollTo({top:hold.y,behavior:'instant'});correcting=false;}
-   previous=hold.y;return;
-  }
-  if(y>previous){for(let i=0;i<stops.length;i++){const target=at(i);if(!read.has(i)&&previous<=target+2&&y>=target){lock(i);return;}}}
-  previous=y;
- },{passive:true});
- addEventListener('wheel',e=>{if(hold&&e.deltaY>0)e.preventDefault();},{passive:false});
- addEventListener('keydown',e=>{if(hold&&['ArrowDown','PageDown','End',' '].includes(e.key)&&!e.target.closest('button,a,input,textarea,select'))e.preventDefault();});
- addEventListener('resize',()=>{if(hold){hold.y=at(hold.i);scrollTo({top:hold.y,behavior:'instant'});}});
+ addEventListener('wheel',e=>{
+  const r=track.getBoundingClientRect();
+  if(e.ctrlKey||r.top>0||r.bottom<=innerHeight||matchMedia('(prefers-reduced-motion: reduce)').matches){cancel();return;}
+  e.preventDefault();
+  const delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
+  if(!frame)target=scrollY;
+  if(Math.sign(delta)!==Math.sign(target-scrollY))target=scrollY;
+  // A fast gesture cannot queue several unread balloons ahead.
+  target=Math.max(scrollY-innerHeight*.42,Math.min(scrollY+innerHeight*.42,target+delta*.65));
+  if(!frame)frame=requestAnimationFrame(tick);
+ },{passive:false});
+ addEventListener('touchstart',cancel,{passive:true});
+ addEventListener('keydown',cancel);
+ addEventListener('pointerdown',cancel);
+ addEventListener('resize',cancel);
 })();
 </script>
 </body>
