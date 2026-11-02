@@ -1030,40 +1030,36 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const svg=speech.querySelector('.speaker-tail');
       svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
       svg.style.opacity=separateExit?(change<.5?1-smooth(change*2):smooth((change-.5)*2)):1;
-      // Body and short tail are a single continuous outline, without a joining stroke.
-      // Tail anchors depend only on the viewport, never on the morphing body height.
-      const ax=x+1,ay=bottom-1.3*fs;
-      const tx=ax-.55*fs,ty=ay-.05*fs;
-      svg.querySelector('.morph-body').setAttribute('d',`M ${x+bw*.25} ${y+1}
-        C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
-        C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
-        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-(last?.06:.23)*fs}
-        ${last?`C ${ax-28} ${ay-.18*fs},${x-50} ${ay-.43*fs},-35 ${ay-.55*fs} L -35 ${ay-.43*fs} C ${x-50} ${ay-.31*fs},${ax-28} ${ay-.06*fs},${ax} ${ay+.06*fs}`:current===3?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
-        C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}`}
-        C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
-        C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
-        C ${x+bw*.82} ${bottom-4},${x+bw*.94} ${bottom-bh*.09},${x+bw*.97} ${bottom-bh*.22}
-        C ${x+bw+1} ${y+bh*.60},${x+bw-1} ${y+bh*.46},${x+bw*.985} ${y+bh*.32}
-        C ${x+bw*.99} ${y+bh*.14},${x+bw*.92} ${y+bh*.055},${x+bw*.80} ${y+bh*.02}
-        C ${x+bw*.67} ${y-2},${x+bw*.57} ${y+1},${x+bw*.48} ${y}
-        C ${x+bw*.39} ${y-1},${x+bw*.32} ${y+2},${x+bw*.25} ${y+1} Z`);
-      if(last){
-        // Parallel sides continue through the attachment: no triangular widening.
-        const join=y+bh*.48, gap=Math.max(6,bw*.026),end=-40;
-        const d=`M ${x+bw*.25} ${y+1}
-          C ${x+bw*.10} ${y-1},${x+1} ${y+bh*.12},${x+1} ${join}
-          C ${x-28} ${join-38},${end+35} ${join-52},${end} ${join-28}
-          L ${end} ${join-28+gap}
-          C ${end+35} ${join-52+gap},${x-28} ${join-38+gap},${x+1} ${join+gap}
-          C ${x-1} ${bottom-bh*.18},${x+bw*.08} ${bottom-2},${x+bw*.28} ${bottom+1}
-          C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
-          C ${x+bw*.82} ${bottom-4},${x+bw*.94} ${bottom-bh*.09},${x+bw*.97} ${bottom-bh*.22}
-          C ${x+bw+1} ${y+bh*.60},${x+bw-1} ${y+bh*.46},${x+bw*.985} ${y+bh*.32}
-          C ${x+bw*.99} ${y+bh*.14},${x+bw*.92} ${y+bh*.055},${x+bw*.80} ${y+bh*.02}
-          C ${x+bw*.67} ${y-2},${x+bw*.57} ${y+1},${x+bw*.48} ${y}
-          C ${x+bw*.39} ${y-1},${x+bw*.32} ${y+2},${x+bw*.25} ${y+1} Z`;
-        svg.querySelector('.morph-body').setAttribute('d',d);
+      // Body landmarks traced from the five supplied close-ups, excluding their tails.
+      // Matching landmark order preserves a smooth morph between the first four bodies.
+      const contours=[
+       [[.00,.68],[.00,.48],[.005,.27],[.035,.14],[.17,.045],[.39,0],[.62,.012],[.80,.035],[.95,.13],[1,.25],[1,.46],[.98,.66],[.91,.84],[.77,.98],[.58,1],[.39,.995],[.23,.94],[.10,.86]],
+       [[.02,.68],[.00,.48],[0,.28],[.045,.14],[.19,.025],[.36,0],[.60,.005],[.84,.025],[.96,.12],[1,.29],[.98,.49],[.92,.70],[.82,.86],[.72,.98],[.56,.99],[.34,1],[.22,.96],[.10,.84]],
+       [[.015,.68],[0,.49],[.025,.29],[.095,.10],[.24,.012],[.43,.015],[.63,.008],[.79,.015],[.87,.14],[.95,.24],[.99,.47],[1,.66],[.93,.80],[.80,.85],[.65,.98],[.49,1],[.30,1],[.23,.94]],
+       [[.025,.68],[0,.49],[.025,.29],[.09,.15],[.24,.025],[.41,0],[.66,0],[.82,.045],[.91,.15],[.98,.26],[1,.44],[.96,.60],[.87,.71],[.75,.94],[.61,1],[.40,1],[.24,.97],[.10,.85]],
+       [[.00,.68],[.00,.49],[.03,.29],[.065,.15],[.22,.025],[.40,0],[.64,.01],[.79,.035],[.93,.13],[.99,.28],[1,.49],[1,.69],[.94,.87],[.82,.97],[.60,1],[.36,.99],[.17,.97],[.06,.88]]
+      ];
+      const pts=contours[current].map((v,i)=>v.map((n,j)=>mix(n,contours[next][i][j]))).map(([u,v])=>[x+u*bw,y+v*bh]);
+      const hasTail=current!==3||last;
+      // Insert the existing tail at the left edge; body landmarks remain independent.
+      const attachment=last?1:0;
+      let d=`M ${pts[0][0]} ${pts[0][1]}`;
+      for(let i=0;i<pts.length;i++){
+       const prev=pts[(i+pts.length-1)%pts.length],a=pts[i],b=pts[(i+1)%pts.length],after=pts[(i+2)%pts.length];
+       if(hasTail&&i===attachment){
+        const ax=a[0],ay=a[1];
+        if(last){
+         const gap=Math.max(6,bw*.026),end=-40;
+         d+=` C ${ax-28} ${ay-38},${end+35} ${ay-52},${end} ${ay-28} L ${end} ${ay-28-gap} C ${end+35} ${ay-52-gap},${ax-28} ${ay-38-gap},${ax} ${ay-gap}`;
+        }else{
+         const tx=ax-.55*fs,ty=ay-.05*fs;
+         d+=` C ${ax-.18*fs} ${ay+.18*fs},${tx+.04*fs} ${ty+.12*fs},${tx} ${ty} C ${tx-.07*fs} ${ty-.12*fs},${ax-.15*fs} ${ay-.17*fs},${ax} ${ay-.23*fs}`;
+        }
+       }
+       const k=.14;
+       d+=` C ${a[0]+(b[0]-prev[0])*k} ${a[1]+(b[1]-prev[1])*k},${b[0]-(after[0]-a[0])*k} ${b[1]-(after[1]-a[1])*k},${b[0]} ${b[1]}`;
       }
+      svg.querySelector('.morph-body').setAttribute('d',d+' Z');
       document.querySelectorAll('.dialogue').forEach(box => {
         const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
         const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
