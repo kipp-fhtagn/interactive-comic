@@ -1044,6 +1044,23 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         C ${x+bw*.99} ${y+bh*.14},${x+bw*.92} ${y+bh*.055},${x+bw*.80} ${y+bh*.02}
         C ${x+bw*.67} ${y-2},${x+bw*.57} ${y+1},${x+bw*.48} ${y}
         C ${x+bw*.39} ${y-1},${x+bw*.32} ${y+2},${x+bw*.25} ${y+1} Z`);
+      if(last){
+        // Parallel sides continue through the attachment: no triangular widening.
+        const join=y+bh*.48, gap=Math.max(3,bw*.012),end=-40;
+        const d=`M ${x+bw*.25} ${y+1}
+          C ${x+bw*.10} ${y-1},${x+1} ${y+bh*.12},${x+1} ${join}
+          C ${x-25} ${join-12},${end+25} ${join-28},${end} ${join-24}
+          L ${end} ${join-24+gap}
+          C ${end+25} ${join-28+gap},${x-25} ${join-12+gap},${x+1} ${join+gap}
+          C ${x-1} ${bottom-bh*.18},${x+bw*.08} ${bottom-2},${x+bw*.28} ${bottom+1}
+          C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
+          C ${x+bw*.82} ${bottom-4},${x+bw*.94} ${bottom-bh*.09},${x+bw*.97} ${bottom-bh*.22}
+          C ${x+bw+1} ${y+bh*.60},${x+bw-1} ${y+bh*.46},${x+bw*.985} ${y+bh*.32}
+          C ${x+bw*.99} ${y+bh*.14},${x+bw*.92} ${y+bh*.055},${x+bw*.80} ${y+bh*.02}
+          C ${x+bw*.67} ${y-2},${x+bw*.57} ${y+1},${x+bw*.48} ${y}
+          C ${x+bw*.39} ${y-1},${x+bw*.32} ${y+2},${x+bw*.25} ${y+1} Z`;
+        svg.querySelector('.morph-body').setAttribute('d',d);
+      }
       document.querySelectorAll('.dialogue').forEach(box => {
         const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
         const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
@@ -1131,36 +1148,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 })();
 </script>
 
-<script>
-// Continuous wheel easing in the dialogue: no timer, snap points or forced stops.
-(()=>{
- const track=document.querySelector('.portraits-track');
- let target=scrollY,frame=0,lastTime=0;
- const cancel=()=>{cancelAnimationFrame(frame);frame=0;target=scrollY;lastTime=0;};
- const tick=time=>{
-  const dt=Math.min(40,lastTime?time-lastTime:16);lastTime=time;
-  const gap=target-scrollY;
-  const step=Math.sign(gap)*Math.min(Math.abs(gap)*(1-Math.exp(-dt/180)),innerHeight*.00075*dt);
-  if(Math.abs(gap)<.8){cancel();return;}
-  scrollTo({top:scrollY+step,behavior:'instant'});frame=requestAnimationFrame(tick);
- };
- addEventListener('wheel',e=>{
-  const r=track.getBoundingClientRect();
-  if(e.ctrlKey||r.top>0||r.bottom<=innerHeight||matchMedia('(prefers-reduced-motion: reduce)').matches){cancel();return;}
-  e.preventDefault();
-  const delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
-  if(!frame)target=scrollY;
-  if(Math.sign(delta)!==Math.sign(target-scrollY))target=scrollY;
-  // A fast gesture cannot queue several unread balloons ahead.
-  target=Math.max(scrollY-innerHeight*.42,Math.min(scrollY+innerHeight*.42,target+delta*.65));
-  if(!frame)frame=requestAnimationFrame(tick);
- },{passive:false});
- addEventListener('touchstart',cancel,{passive:true});
- addEventListener('keydown',cancel);
- addEventListener('pointerdown',cancel);
- addEventListener('resize',cancel);
-})();
-</script>
+
 </body>
 </html>
 
