@@ -1008,8 +1008,9 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const mouth=JSON.parse(portraitStage.dataset.speakerMouth||'[0,0]');
       const entry=smooth((phase-.22)/.49);
       const last=current===4;
-      const x=last?w*.055:w-9.8*fs-w*.035-w*entry;
-      const bottom=last?h*.88:Math.max(10.2*fs+h*.025,mouth[1]+1.15*fs);
+      const desktopSpeech = w >= 1024;
+      const x=last?w*.055:w-9.8*fs-w*.035-w*entry-(desktopSpeech?Math.min(64,w*.04):0);
+      const bottom=last?h*.88:Math.max(10.2*fs+h*.025, mouth[1]+1.15*fs-(desktopSpeech?Math.min(28,h*.035):0));
       const y=bottom-bh;
       const alpha=smooth((phase-.025)/.035)*(1-smooth((phase-.91)/.035));
       speech.style.opacity=alpha;
