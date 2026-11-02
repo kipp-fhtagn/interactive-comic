@@ -384,11 +384,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const distance = coverTrack.offsetHeight - coverStage.clientHeight;
       // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
       const chapter = Math.max(1, distance);
-      // Hold the final composition in place as the next section covers it.
-      // Counteract sticky's end-of-container upward motion; artwork never pans further.
-      const coverExit = Math.max(0, Math.min(coverStage.clientHeight, window.scrollY - distance));
-      coverStage.style.transform = `translateY(${coverExit}px)`;
-      coverStage.style.visibility = coverTrack.getBoundingClientRect().bottom <= 0 ? 'hidden' : 'visible';
+      // Once the cover animation finishes, sticky releases into normal document flow.
+      // Both sections share the same page scroll, without covering one another.
       const progress = Math.max(0, Math.min(1, window.scrollY / chapter));
       // Fade the supporting copy out in the first 22% of the approach.
       frame.classList.toggle('smoke-active', progress > .03 && coverTrack.getBoundingClientRect().bottom > 0 && !document.hidden);
