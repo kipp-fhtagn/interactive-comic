@@ -1012,29 +1012,21 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
       // Body and short tail are a single continuous outline, without a joining stroke.
       // Tail anchors depend only on the viewport, never on the morphing body height.
-      // Individual asymmetric outlines, sampled from the five printed references.
-      // Identical topology permits a continuous morph without scaling the lettering.
-      const outlines=[
-        [[.02,.68],[.02,.30],[.055,.13],[.18,.045],[.39,.005],[.62,.018],[.81,.04],[.95,.14],[.99,.31],[.98,.62],[.92,.84],[.74,.98],[.51,.99],[.30,.96],[.12,.86]],
-        [[.03,.68],[.01,.31],[.06,.13],[.20,.025],[.40,.025],[.63,.03],[.84,.045],[.97,.19],[.98,.41],[.93,.70],[.80,.91],[.66,.98],[.45,.99],[.27,.97],[.10,.83]],
-        [[.02,.68],[.015,.40],[.075,.15],[.22,.045],[.43,.04],[.65,.025],[.79,.025],[.87,.15],[.97,.28],[.99,.63],[.91,.79],[.79,.83],[.61,.98],[.31,.99],[.22,.92]],
-        [[.025,.68],[.015,.37],[.12,.14],[.27,.035],[.47,.035],[.66,.035],[.81,.09],[.89,.20],[.97,.36],[.99,.61],[.88,.76],[.77,.96],[.53,.99],[.30,.98],[.10,.86]],
-        [[.02,.68],[.035,.35],[.09,.16],[.26,.045],[.47,.03],[.68,.04],[.84,.09],[.96,.25],[.99,.46],[.98,.72],[.88,.91],[.69,.99],[.45,.995],[.25,.98],[.08,.88]]
-      ];
-      const points=outlines[current].map((v,i)=>v.map((n,j)=>mix(n,outlines[next][i][j]))).map(([u,v])=>[x+u*bw,y+v*bh]);
-      // Keep the short lateral tip at mouth height across all four woman balloons.
-      const ay=bottom-1.3*fs;
-      if(!last){points[0]=[x+.02*bw,ay];}
-      let d=`M ${points[0][0]} ${points[0][1]}`;
-      for(let i=0;i<points.length;i++){
-        const a=points[(i+points.length-1)%points.length],b=points[i],c=points[(i+1)%points.length],e=points[(i+2)%points.length];
-        const k=.13;
-        if(i===points.length-1&&!last){
-          d+=` Q ${x+.035*bw} ${bottom-.8*fs} ${x+.02*bw} ${ay+.13*fs} Q ${x-.55*fs} ${ay+.12*fs} ${x-.55*fs} ${ay-.02*fs} Q ${x-.25*fs} ${ay-.12*fs} ${points[0][0]} ${points[0][1]}`;
-        }else d+=` C ${b[0]+(c[0]-a[0])*k} ${b[1]+(c[1]-a[1])*k},${c[0]-(e[0]-b[0])*k} ${c[1]-(e[1]-b[1])*k},${c[0]} ${c[1]}`;
-      }
-      svg.querySelector('.morph-body').setAttribute('d',d+' Z');
-      svg.querySelector('.morph-body').setAttribute('stroke-width',Math.max(1.2,fs*.052));
+      const ax=x+1,ay=bottom-1.3*fs;
+      const tx=ax-.55*fs,ty=ay-.05*fs;
+      svg.querySelector('.morph-body').setAttribute('d',`M ${x+bw*.25} ${y+1}
+        C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
+        C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
+        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-.23*fs}
+        C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
+        C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}
+        C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
+        C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
+        C ${x+bw*.82} ${bottom-4},${x+bw*.94} ${bottom-bh*.09},${x+bw*.97} ${bottom-bh*.22}
+        C ${x+bw+1} ${y+bh*.60},${x+bw-1} ${y+bh*.46},${x+bw*.985} ${y+bh*.32}
+        C ${x+bw*.99} ${y+bh*.14},${x+bw*.92} ${y+bh*.055},${x+bw*.80} ${y+bh*.02}
+        C ${x+bw*.67} ${y-2},${x+bw*.57} ${y+1},${x+bw*.48} ${y}
+        C ${x+bw*.39} ${y-1},${x+bw*.32} ${y+2},${x+bw*.25} ${y+1} Z`);
       document.querySelectorAll('.dialogue').forEach(box => {
         const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
         const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
