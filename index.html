@@ -292,6 +292,22 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
  .emir-second,.tumama-caption,.wounded-caption,.parents-caption,.sanad-heading,.sanad-code,.portrait-speech,.dialogue{translate:none;transition:none}
  .emir-intro{transform:translateX(-50%);transition:none}
 }
+
+/* A shared, slow drift keeps the lettering alive without changing glyph metrics. */
+@property --idle-x{syntax:"<length>";inherits:true;initial-value:0px}
+@property --idle-y{syntax:"<length>";inherits:true;initial-value:0px}
+@keyframes lettering-breathe{
+  0%,100%{--idle-x:-1.4px;--idle-y:1px}
+  28%{--idle-x:.6px;--idle-y:-1.7px}
+  57%{--idle-x:1.5px;--idle-y:-.3px}
+  79%{--idle-x:-.5px;--idle-y:1.6px}
+}
+:root{animation:lettering-breathe 16s ease-in-out infinite}
+.emir-second,.tumama-caption,.wounded-caption,.parents-caption,.sanad-heading,.sanad-code,.portrait-speech,.dialogue{
+ translate:calc(var(--text-mouse-x,0px) + var(--idle-x)) calc(var(--text-mouse-y,0px) + var(--scroll-rise,0px) + var(--lettering-drift,0px) + var(--idle-y));
+}
+.emir-intro{transform:translateX(-50%) translate(calc(var(--caption-x,0px) + var(--idle-x)),calc(var(--caption-y,0px) + var(--lettering-drift,0px) + var(--idle-y)))}
+@media(prefers-reduced-motion:reduce){:root{animation:none}.emir-second,.tumama-caption,.wounded-caption,.parents-caption,.sanad-heading,.sanad-code,.portrait-speech,.dialogue{translate:none}.emir-intro{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
@@ -335,7 +351,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       <figure class="portrait-panel portrait-woman"><img src="woman_web.webp" decoding="async" width="4000" height="3666" alt="Portrait of a woman, revealed from a close-up of her eyes, nose and mouth."></figure>
       <figure class="portrait-panel portrait-baby"><img src="baby_web.webp" decoding="async" width="4000" height="3666" alt="A child sitting on a patterned sofa, alongside the woman."></figure>
 
-      <div class="portrait-speech"><svg class="speaker-tail" aria-hidden="true"><path class="morph-body" fill="white" stroke="black" stroke-width="2.5" stroke-linejoin="round"/></svg><div class="single-speech" data-portrait-speech="0"><p>IN JUST A FEW<br>SECONDS, WE<br>REALIZED THAT<br>THE HOUSE WAS<br>COLLAPSING ON<br>US, WITH THE<br>WALLS FALLING<br>AROUND US.</p></div><div class="single-speech" data-portrait-speech="1"><p>THE BED HAD<br>FALLEN ON THE<br>CHILD’S HEAD.</p></div><div class="single-speech" data-portrait-speech="2"><p>HIS HAND WAS<br>AMPUTATED AND<br>LEFT BESIDE HIM.</p></div><div class="single-speech" data-portrait-speech="3"><p>HIS OTHER HAND<br>WAS SHATTERED,<br>IN ANOTHER ROOM.</p></div><div class="single-speech" data-portrait-speech="4"><p>OH, GOD!<br>HIS FACE WAS<br>DEVASTATED.</p></div></div>
+      <div class="portrait-speech"><svg class="speaker-tail" aria-hidden="true"><path class="morph-body" fill="white" stroke="black" stroke-width="2.5" stroke-linejoin="round"/></svg><div class="single-speech" data-portrait-speech="0"><p>IN JUST A FEW<br>SECONDS, WE<br>REALIZED THAT<br>THE HOUSE WAS<br>COLLAPSING ON<br>US, WITH THE<br>WALLS FALLING<br>AROUND US.</p></div><div class="single-speech" data-portrait-speech="1"><p>THE BED HAD<br>FALLEN ON THE<br>CHILD’S HEAD.</p></div><div class="single-speech" data-portrait-speech="2"><p>HIS HAND WAS<br>AMPUTATED AND<br>LEFT BESIDE HIM.</p></div><div class="single-speech" data-portrait-speech="3"><p>HIS OTHER HAND<br>WAS SHATTERED, IN<br>ANOTHER ROOM.</p></div><div class="single-speech" data-portrait-speech="4"><p>OH, GOD!<br>HIS FACE WAS<br>DEVASTATED.</p></div></div>
     </div></section>
     <section class="amputated-track" aria-label="A wounded child"><div class="amputated-stage">
       <img src="amputated_1_web.webp" width="4000" height="3666" decoding="async" alt="A wounded child lying on a bed.">
@@ -971,12 +987,13 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const q=clamp((phase-.06)/.82)*5;
       const current=Math.min(4,Math.floor(q)), next=Math.min(4,current+1);
       const change=smooth((q-current-.72)/.28);
-      const bw=Math.min(400,w*(w<600?.43:.32));
-      const fs=Math.min(34,bw/7.7,h/15);
-      const counts=[8,3,3,3,3];
-      const heights=counts.map(n=>(n*1.12+2)*fs);
-      const bh=heights[current]+(heights[next]-heights[current])*change;
-      const x=w-bw-w*.035,bottom=Math.max(h*.64,heights[0]+h*.05),y=bottom-bh;
+      // Each outline retains the proportions of its corresponding printed balloon.
+      const profiles=[[9.3,10.2],[8.6,5.6],[9.8,5.4],[9.5,5.4],[6.8,5.6]];
+      const fs=Math.min(34,w*(w<600?.43:.32)/9.8,h/15);
+      const mix=(a,b)=>a+(b-a)*change;
+      const bw=mix(profiles[current][0],profiles[next][0])*fs;
+      const bh=mix(profiles[current][1],profiles[next][1])*fs;
+      const x=w-9.8*fs-w*.035,bottom=Math.max(h*.64,10.2*fs+h*.05),y=bottom-bh;
       const alpha=smooth((phase-.025)/.035)*(1-smooth((phase-.91)/.035));
       speech.style.opacity=alpha;
       boxes.forEach((box,i)=>{
@@ -989,17 +1006,14 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
       // Body and short tail are a single continuous outline, without a joining stroke.
       // Tail anchors depend only on the viewport, never on the morphing body height.
-      const mouth=JSON.parse(portraitStage.dataset.speakerMouth||'[0,0]');
-      const ax=x+bw*.055,ay=bottom-24;
-      const dx=mouth[0]-ax,dy=mouth[1]-ay,dist=Math.max(1,Math.hypot(dx,dy));
-      const tailLength=Math.min(68,bw*.22,Math.max(0,dist-24));
-      const tx=ax+dx/dist*tailLength,ty=ay+dy/dist*tailLength;
+      const ax=x+1,ay=bottom-1.3*fs;
+      const tx=ax-.55*fs,ty=ay-.05*fs;
       svg.querySelector('.morph-body').setAttribute('d',`M ${x+bw*.25} ${y+1}
         C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
         C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
-        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax-4} ${ay-8}
-        C ${ax-13} ${ay-2},${tx+12} ${ty+8},${tx} ${ty}
-        C ${tx+13} ${ty+13},${ax-8} ${ay+12},${ax+7} ${ay+8}
+        C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-.23*fs}
+        C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
+        C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}
         C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
         C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
         C ${x+bw*.82} ${bottom-4},${x+bw*.94} ${bottom-bh*.09},${x+bw*.97} ${bottom-bh*.22}
