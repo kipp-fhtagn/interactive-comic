@@ -388,7 +388,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       // Fade the supporting copy out in the first 22% of the approach.
       frame.classList.toggle('smoke-active', progress > .03 && coverTrack.getBoundingClientRect().bottom > 0 && !document.hidden);
 
-      const boyProgress = Math.max(0, Math.min(1, window.scrollY / Math.max(1, chapter * .9)));
+      const boyPhase = Math.max(0, Math.min(1, window.scrollY / Math.max(1, chapter * .65)));
+      const boyProgress = boyPhase * boyPhase * (3 - 2 * boyPhase);
       const boyWidth = mobile ? Math.min(viewportWidth * 1.85, viewportHeight * 1.15) : width;
       const boyHeight = boyWidth * 4046 / 8000;
       // Leave the opening headline clear, including on shallow viewports.
@@ -411,7 +412,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       // Keep the hairline above the reference limit throughout the zoom.
       const lowestHairline = viewportHeight * (mobile ? .38 : .28);
       const minimumBoyScale = (viewportHeight - lowestHairline) / (boyHeight * .973);
-      const finalScale = Math.min(initialScale, Math.max(minimumBoyScale, originalScale * (mobile ? 1.30 : .96)));
+      const finalScale = Math.min(initialScale, Math.max(minimumBoyScale, initialScale * .94));
       boy.style.bottom = '0px';
       boy.style.transformOrigin = mobile ? '42.5% 100%' : '42% 100%';
       boy.style.left = (mobile ? viewportWidth * .5 - boyWidth * .425 : rect.left - width * .12) + 'px';
@@ -420,11 +421,12 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       boy.style.transform = `scale(${initialScale + (finalScale - initialScale) * boyProgress})`;
       // The complete drawing starts below the viewport and rises with scroll.
       const sceneOffset = window.innerHeight - rect.top + 24;
-      // The scenery stops below the headline, then exits with the whole cover.
-      // Moving the illustration, never masking the lettering, preserves a white reading area.
+      // Reveal the complete scenery early, then hold it alongside the boy.
+      // Fade the heading before the incoming clouds reach its reading area.
       const titleBottom = start + titleDescent + title.querySelector('h1').offsetHeight;
-      const sceneryStop = Math.max(0, titleBottom + 28 - rect.top);
-      const sceneryOffset = sceneOffset + (sceneryStop - sceneOffset) * progress;
+      const sceneryPhase = Math.max(0, Math.min(1, progress / .65));
+      const sceneryArrival = sceneryPhase * sceneryPhase * (3 - 2 * sceneryPhase);
+      const sceneryOffset = sceneOffset * (1 - sceneryArrival);
       scene.style.transform = `translateY(${sceneryOffset}px)`;
       // Mobile buildings grow from the bottom, finishing before the scroll stop.
       const zoomProgress = Math.min(1, progress / .92);
@@ -433,6 +435,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       frame.style.transform = mobile ? `scale(${sceneryScale})` : '';
       // Fade only as the approaching smoke reaches the supporting copy.
       const smokeTop = viewportHeight - height * sceneryScale + sceneryOffset;
+      const headlineFade = Math.max(0, Math.min(1, (titleBottom + 100 - smokeTop) / 72));
+      title.querySelector('h1').style.opacity = 1 - headlineFade * headlineFade * (3 - 2 * headlineFade);
       const copyBottom = introCopy.getBoundingClientRect().bottom - coverStage.getBoundingClientRect().top;
       const gap = smokeTop - copyBottom;
       const currentBoyScale = initialScale + (finalScale - initialScale) * boyProgress;
