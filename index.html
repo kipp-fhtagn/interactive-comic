@@ -910,7 +910,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
       const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
       const opening = reducedMotion.matches ? 1 : smooth(p / .55);
-      const entry = smooth((soften('woman-dialogue-phase',p) - .22) / .49);
+      const dialoguePhase=soften('woman-dialogue-phase',p);
+      const entry=.5*smooth((dialoguePhase-.22)/.33)+.5*smooth((dialoguePhase-.66)/.056);
       const w = stage.clientWidth, h = stage.clientHeight;
       const woman = stage.querySelector('.portrait-woman');
       const baby = stage.querySelector('.portrait-baby');
@@ -1006,14 +1007,14 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const bw=mix(profiles[current][0],profiles[next][0])*fs;
       const bh=mix(profiles[current][1],profiles[next][1])*fs;
       const mouth=JSON.parse(portraitStage.dataset.speakerMouth||'[0,0]');
-      const entry=smooth((phase-.22)/.49);
+      const entry=.5*smooth((phase-.22)/.33)+.5*smooth((phase-.66)/.056);
       const last=current===4;
       const desktopSpeech = w >= 1024;
       const normalX=w-9.8*fs-w*.035-w*entry-(desktopSpeech?Math.min(110,w*.065):0);
       const seamX=w*(1-entry)-bw*.5;
-      const thirdWeight=current===2?1-change:next===2?change:0;
+      const seamWeight=current===3?1-change:next===3?change:0;
       const readableX=Math.max(w*.025,normalX);
-      const x=last?w*.055:readableX+(seamX-readableX)*thirdWeight;
+      const x=last?w*.055:readableX+(seamX-readableX)*seamWeight;
       const bottom=last?h*.88:Math.max(10.2*fs+h*.025, mouth[1]+1.15*fs-(desktopSpeech?Math.min(52,h*.06):0));
       const y=bottom-bh;
       const alpha=smooth((phase-.025)/.035)*(1-smooth((phase-.91)/.035));
@@ -1034,7 +1035,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
         C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
         C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-.23*fs}
-        ${last?`C ${ax-25} ${ay-.28*fs},${x-50} ${ay-.60*fs},${-35} ${ay-.72*fs} L ${-35} ${ay-.56*fs} C ${x-50} ${ay-.44*fs},${ax-25} ${ay-.02*fs},${ax+.08*fs} ${ay+.16*fs}`:current===2?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
+        ${last?`C ${ax-25} ${ay-.28*fs},${x-50} ${ay-.60*fs},${-35} ${ay-.72*fs} L ${-35} ${ay-.56*fs} C ${x-50} ${ay-.44*fs},${ax-25} ${ay-.02*fs},${ax+.08*fs} ${ay+.16*fs}`:current===3?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
         C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}`}
         C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
         C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
