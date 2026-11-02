@@ -329,7 +329,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 </defs></svg>
   <main aria-label="The mutilated fates of Gaza">
     <section class="cover-track" aria-label="Cover"><div class="cover-stage">
-    <header class="title"><h1><span>The mutilated</span><span>fates of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children<br>forever scarred by war</span><span class="mobile-copy"><span>The Palestinian children</span><span>forever scarred by war</span></span></p><p class="credits">A story by <span class="credit-author">Francesca Mannocchi</span> · Drawings by <a href="https://www.channeldraw.org/about/">Gianluca Costantini</a>.</p></div></header>
+    <header class="title"><h1><span>The mutilated</span><span>fates of <strong>Gaza</strong></span></h1><div class="intro-copy"><p class="subtitle"><span class="desktop-copy">The Palestinian children<br>forever scarred by war</span><span class="mobile-copy"><span>The Palestinian children</span><span>forever scarred by war</span></span></p><p class="credits">A story by <span class="credit-author">Francesca Mannocchi</span> · Drawings by <a href="https://www.channeldraw.org/about/">Gianluca Costantini</a> · Digital development by <a href="https://www.instagram.com/kipptales/">Chiara Fanelli</a>.</p></div></header>
     <div class="scene"><div class="frame">
       <div class="art buildings smoke-lines"><img src="cover_buildings_smoke_lines.png" width="3840" height="1757" alt="Illustrated buildings beneath billowing smoke"></div>
     </div></div>
@@ -1009,8 +1009,8 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const entry=smooth((phase-.22)/.49);
       const last=current===4;
       const desktopSpeech = w >= 1024;
-      const x=last?w*.055:w-9.8*fs-w*.035-w*entry-(desktopSpeech?Math.min(64,w*.04):0);
-      const bottom=last?h*.88:Math.max(10.2*fs+h*.025, mouth[1]+1.15*fs-(desktopSpeech?Math.min(28,h*.035):0));
+      const x=last?w*.055:w-9.8*fs-w*.035-w*entry-(desktopSpeech?Math.min(110,w*.065):0);
+      const bottom=last?h*.88:Math.max(10.2*fs+h*.025, mouth[1]+1.15*fs-(desktopSpeech?Math.min(52,h*.06):0));
       const y=bottom-bh;
       const alpha=smooth((phase-.025)/.035)*(1-smooth((phase-.91)/.035));
       speech.style.opacity=alpha;
