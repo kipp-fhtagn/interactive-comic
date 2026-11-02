@@ -269,7 +269,7 @@
 h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 .intro-copy .credits{margin:1rem 0 0;font:400 12px/18px Arial,Helvetica,sans-serif;color:#111;text-align:inherit}
 .intro-copy .credit-author,.intro-copy .credits a{color:#ff4d00;text-decoration:none}
-.emir-story{margin-top:-18svh;z-index:5}
+.emir-story{margin-top:0;z-index:5}
 .emir-stage{background:white}
 @media(max-width:760px){.intro-copy .credits{font-size:11px;line-height:16px;margin-top:.7rem}}
 
@@ -384,6 +384,11 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const distance = coverTrack.offsetHeight - coverStage.clientHeight;
       // Zoom finishes at 90% of the scenery arrival; scrolling ends with the cover.
       const chapter = Math.max(1, distance);
+      // Hold the final composition in place as the next section covers it.
+      // Counteract sticky's end-of-container upward motion; artwork never pans further.
+      const coverExit = Math.max(0, Math.min(coverStage.clientHeight, window.scrollY - distance));
+      coverStage.style.transform = `translateY(${coverExit}px)`;
+      coverStage.style.visibility = coverTrack.getBoundingClientRect().bottom <= 0 ? 'hidden' : 'visible';
       const progress = Math.max(0, Math.min(1, window.scrollY / chapter));
       // Fade the supporting copy out in the first 22% of the approach.
       frame.classList.toggle('smoke-active', progress > .03 && coverTrack.getBoundingClientRect().bottom > 0 && !document.hidden);
@@ -402,7 +407,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       title.style.width = (mobile ? viewportWidth * .92 : rect.width * .79) + 'px';
       title.style.setProperty('--title-size', titleSize + 'px');
       // Cap the headline at the reference composition (top at roughly 20% of the viewport).
-      const titleDescent = Math.min((end - start) * progress, Math.max(0, viewportHeight * .20 - start));
+      const titleDescent = 0;
       title.style.transform = `translateY(${titleDescent}px)`;
       const availableScale = Math.max(.2, (viewportHeight - headlineBottom) / (boyHeight * .973));
       const mobileHeadroom = Math.max(80, viewportHeight - start - title.offsetHeight - 18);
@@ -422,7 +427,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       // The complete drawing starts below the viewport and rises with scroll.
       const sceneOffset = window.innerHeight - rect.top + 24;
       // Reveal the complete scenery early, then hold it alongside the boy.
-      // Fade the heading before the incoming clouds reach its reading area.
+      // Keep the heading visible in its original white reading area.
       const titleBottom = start + titleDescent + title.querySelector('h1').offsetHeight;
       const sceneryPhase = Math.max(0, Math.min(1, progress / .65));
       const sceneryArrival = sceneryPhase * sceneryPhase * (3 - 2 * sceneryPhase);
@@ -435,8 +440,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       frame.style.transform = mobile ? `scale(${sceneryScale})` : '';
       // Fade only as the approaching smoke reaches the supporting copy.
       const smokeTop = viewportHeight - height * sceneryScale + sceneryOffset;
-      const headlineFade = Math.max(0, Math.min(1, (titleBottom + 100 - smokeTop) / 72));
-      title.querySelector('h1').style.opacity = 1 - headlineFade * headlineFade * (3 - 2 * headlineFade);
+      title.querySelector('h1').style.opacity = '1';
       const copyBottom = introCopy.getBoundingClientRect().bottom - coverStage.getBoundingClientRect().top;
       const gap = smokeTop - copyBottom;
       const currentBoyScale = initialScale + (finalScale - initialScale) * boyProgress;
