@@ -1034,7 +1034,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         C ${x+bw*.17} ${y-1},${x+bw*.10} ${y+bh*.035},${x+bw*.065} ${y+bh*.10}
         C ${x+bw*.015} ${y+bh*.18},${x-1} ${y+bh*.28},${x+1} ${y+bh*.40}
         C ${x-2} ${y+bh*.54},${x+2} ${bottom-48},${ax} ${ay-.23*fs}
-        ${current===2||last?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
+        ${last?`C ${ax-25} ${ay-.28*fs},${x-50} ${ay-.60*fs},${-35} ${ay-.72*fs} L ${-35} ${ay-.56*fs} C ${x-50} ${ay-.44*fs},${ax-25} ${ay-.02*fs},${ax+.08*fs} ${ay+.16*fs}`:current===2?`C ${ax} ${ay},${ax} ${ay+.12*fs},${ax+.08*fs} ${ay+.16*fs}`:`C ${ax-.15*fs} ${ay-.17*fs},${tx-.07*fs} ${ty-.12*fs},${tx} ${ty}
         C ${tx+.04*fs} ${ty+.12*fs},${ax-.18*fs} ${ay+.18*fs},${ax+.08*fs} ${ay+.16*fs}`}
         C ${x+bw*.12} ${bottom+1},${x+bw*.19} ${bottom-1},${x+bw*.28} ${bottom+1}
         C ${x+bw*.43} ${bottom-1},${x+bw*.57} ${bottom+2},${x+bw*.68} ${bottom-2}
