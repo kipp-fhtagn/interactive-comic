@@ -1068,26 +1068,28 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
        if(hasTail&&i===attachment){
         const ax=a[0],ay=a[1];
         if(last){
-         // Offset both edges along the normal, including at the open join.
+         // Cut the flank at the exact ribbon width, even between traced vertices.
+         const width=bw*.030, uy=ay-width;
          let upper=i+1;
-         while(upper+1<pts.length && pts[upper][1]>ay-Math.max(12,bw*.045)) upper++;
-         const [ux,uy]=pts[upper];
+         while(upper+1<pts.length && pts[upper][1]>uy) upper++;
+         const [px0,py0]=pts[upper-1], [px1,py1]=pts[upper];
+         const ux=px0+(px1-px0)*(uy-py0)/(py1-py0);
          const cx=(ax+ux)/2, cy=(ay+uy)/2;
-         const halfWidth=Math.hypot(ax-ux,ay-uy)/2;
+         const radius=Math.hypot(ax-ux,width)/2;
          const run=cx+40, rise=Math.min(44,run*.36);
+         // Match the opening normal exactly, then bend gently towards the left.
+         const initialSlope=(ux-ax)/width;
          const lower=[], higher=[];
-         for(let n=0;n<=40;n++){
-          const t=n/40, angle=t*Math.PI;
-          const px=cx-run*t, py=cy-rise*(1-Math.cos(angle*1.35))/2;
-          const slope=rise*Math.PI*1.35*Math.sin(angle*1.35)/(2*run);
-          const nx=-slope/Math.hypot(1,slope), ny=1/Math.hypot(1,slope);
-          // Align the first normal with the traced flank, then ease into the curve.
-          const blend=Math.min(1,t*6);
-          const theta=Math.atan2(ax-ux,ay-uy)*(1-blend)+Math.atan2(nx,ny)*blend;
-          const dx=halfWidth*Math.sin(theta), dy=halfWidth*Math.cos(theta);
+         for(let n=0;n<=64;n++){
+          const t=n/64, angle=t*Math.PI*1.35;
+          const px=cx-run*t;
+          const py=cy-initialSlope*run*t-rise*(1-Math.cos(angle))/2;
+          const slope=initialSlope+rise*Math.PI*1.35*Math.sin(angle)/(2*run);
+          const dy=radius/Math.hypot(1,slope), dx=-slope*dy;
           lower.push([px+dx,py+dy]); higher.push([px-dx,py-dy]);
          }
          for(const [px,py] of lower.slice(1).concat(higher.reverse())) d+=` L ${px} ${py}`;
+         d+=` L ${px1} ${py1}`;
          i=upper-1;
          continue;
         }else{
