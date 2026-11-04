@@ -1071,8 +1071,14 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
          const gap=Math.max(6,bw*.026),end=-40;
          d+=` C ${ax-28} ${ay-38},${end+35} ${ay-52},${end} ${ay-28} L ${end} ${ay-28-gap} C ${end+35} ${ay-52-gap},${ax-28} ${ay-38-gap},${ax} ${ay-gap}`;
         }else{
-         const tx=ax-.55*fs,ty=ay-.05*fs;
-         d+=` C ${ax-.18*fs} ${ay+.18*fs},${tx+.04*fs} ${ty+.12*fs},${tx} ${ty} C ${tx-.07*fs} ${ty-.12*fs},${ax-.15*fs} ${ay-.17*fs},${ax} ${ay-.23*fs}`;
+         // Replace this flank up to the upper root; do not retrace the join.
+         let j=i+1;
+         while(j+1<pts.length && pts[j][1]>ay-.40*fs) j++;
+         const [ux,uy]=pts[j], unit=(ay-uy)/48;
+         const tip=ux-50*unit;
+         d+=` C ${ax-20*unit} ${ay},${tip+2*unit} ${ay+unit},${tip} ${ay-11*unit} C ${tip-3*unit} ${ay-24*unit},${ux-17*unit} ${uy+19*unit},${ux} ${uy}`;
+         i=j-1;
+         continue;
         }
        }
        const k=.14;
