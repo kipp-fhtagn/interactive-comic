@@ -114,7 +114,7 @@
     .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading { translate: var(--text-mouse-x, 0px) calc(var(--text-mouse-y, 0px) + var(--scroll-rise, 0px)); transition: translate .7s ease-out, opacity 1.3s ease-in-out; }
     .sanad-balloon { translate: var(--text-mouse-x, 0px) var(--text-mouse-y, 0px); transition: translate .7s ease-out; }
     @media (prefers-reduced-motion: reduce) { .emir-second, .tumama-caption, .wounded-caption, .parents-caption, .sanad-heading, .sanad-balloon { translate: none; transition: none; } }
-    .portraits-track { position: relative; height: 760svh; background: white; }
+    .portraits-track { position: relative; height: 850svh; background: white; }
     .portraits-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: white; }
     .portrait-panel { position: absolute; top: 0; height: 100%; overflow: hidden; background: white; margin: 0; }
     .portrait-woman { left: 0; width: 100%; }
@@ -904,6 +904,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       if (sanadRevealStart !== null && t < 4.9 && !reducedMotion.matches) revealPending = true;
 
     }
+    let portraitPhase = 0;
     function renderPortraits() {
       const track = document.querySelector('.portraits-track');
       const stage = track.querySelector('.portraits-stage');
@@ -911,7 +912,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
       const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
       const opening = reducedMotion.matches ? 1 : smooth(p / .55);
-      const dialoguePhase=soften('woman-dialogue-phase',p);
+      const dialoguePhase=portraitPhase=soften('woman-dialogue-phase',p);
       const entry=.5*smooth((dialoguePhase-.22)/.33)+.5*smooth((dialoguePhase-.66)/.056);
       const w = stage.clientWidth, h = stage.clientHeight;
       const woman = stage.querySelector('.portrait-woman');
@@ -993,11 +994,11 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const timelines = [[.08,.25,.30],[.31,.51,.59],[.64,.74,.79],[.79,.87,.91],[.91,1.1,1.2],[.03,.36,.48],[.48,1.1,1.2]];
       const portraitTrack = document.querySelector('.portraits-track');
       const portraitStage = portraitTrack.querySelector('.portraits-stage');
-      const pp = clamp(-portraitTrack.getBoundingClientRect().top / (portraitTrack.offsetHeight-portraitStage.clientHeight));
+      // Use the camera's eased sample so the lettering stays in sync.
       const speech = portraitStage.querySelector('.portrait-speech');
       const boxes = [...speech.querySelectorAll('.single-speech')];
       const w=portraitStage.clientWidth,h=portraitStage.clientHeight;
-      const phase=soften('woman-dialogue-phase',pp);
+      const phase=portraitPhase;
       const q=clamp((phase-.06)/.82)*5;
       const current=Math.min(4,Math.floor(q)), next=Math.min(4,current+1);
       const change=smooth((q-current-.72)/.28);
@@ -1020,7 +1021,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
       const x=last?w*.055:readableX+(seamX-readableX)*seamWeight;
       const bottom=last?h*.88:Math.max(10.2*fs+h*.025, mouth[1]+1.15*fs-(desktopSpeech?Math.min(52,h*.06):0));
       const y=bottom-bh;
-      const alpha=smooth((phase-.025)/.035)*(1-smooth((phase-.91)/.035));
+      const alpha=smooth((phase-.014)/.009)*(1-smooth((phase-.91)/.035));
       speech.style.opacity=alpha;
       boxes.forEach((box,i)=>{
         // Fade out completely before fading the next text in.
