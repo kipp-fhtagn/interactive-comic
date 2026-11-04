@@ -1069,7 +1069,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
         const ax=a[0],ay=a[1];
         if(last){
          // Cut the flank at the exact ribbon width, even between traced vertices.
-         const width=bw*.030, uy=ay-width;
+         const width=bw*.018, uy=ay-width;
          let upper=i+1;
          while(upper+1<pts.length && pts[upper][1]>uy) upper++;
          const [px0,py0]=pts[upper-1], [px1,py1]=pts[upper];
@@ -1106,7 +1106,9 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
        const k=.14;
        d+=` C ${a[0]+(b[0]-prev[0])*k} ${a[1]+(b[1]-prev[1])*k},${b[0]-(after[0]-a[0])*k} ${b[1]-(after[1]-a[1])*k},${b[0]} ${b[1]}`;
       }
-      svg.querySelector('.morph-body').setAttribute('d',d+' Z');
+      const outline=svg.querySelector('.morph-body');
+      outline.setAttribute('stroke-width',last?Math.min(1.5,bw*.006):2.5);
+      outline.setAttribute('d',d+' Z');
       document.querySelectorAll('.dialogue').forEach(box => {
         const i = Number(box.dataset.speech), stage = box.parentElement, track = stage.parentElement;
         const p = clamp(-track.getBoundingClientRect().top / Math.max(1, track.offsetHeight - stage.clientHeight));
