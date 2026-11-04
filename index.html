@@ -1068,12 +1068,26 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
        if(hasTail&&i===attachment){
         const ax=a[0],ay=a[1];
         if(last){
-         // Leave an opening in the body contour for the full width of the ribbon.
+         // Offset both edges along the normal, including at the open join.
          let upper=i+1;
-         while(upper+1<pts.length && pts[upper][1]>ay-Math.max(9,bw*.036)) upper++;
-         const [ux,uy]=pts[upper], gap=ay-uy, end=-40;
-         const run=ax-end, rise=Math.min(44,run*.35);
-         d+=` C ${ax-run*.32} ${ay-rise},${end+run*.28} ${ay-rise*1.3},${end} ${ay-rise*.65} L ${end} ${ay-rise*.65-gap} C ${end+run*.28} ${ay-rise*1.3-gap},${ux-run*.32} ${uy-rise},${ux} ${uy}`;
+         while(upper+1<pts.length && pts[upper][1]>ay-Math.max(12,bw*.045)) upper++;
+         const [ux,uy]=pts[upper];
+         const cx=(ax+ux)/2, cy=(ay+uy)/2;
+         const halfWidth=Math.hypot(ax-ux,ay-uy)/2;
+         const run=cx+40, rise=Math.min(44,run*.36);
+         const lower=[], higher=[];
+         for(let n=0;n<=40;n++){
+          const t=n/40, angle=t*Math.PI;
+          const px=cx-run*t, py=cy-rise*(1-Math.cos(angle*1.35))/2;
+          const slope=rise*Math.PI*1.35*Math.sin(angle*1.35)/(2*run);
+          const nx=-slope/Math.hypot(1,slope), ny=1/Math.hypot(1,slope);
+          // Align the first normal with the traced flank, then ease into the curve.
+          const blend=Math.min(1,t*6);
+          const theta=Math.atan2(ax-ux,ay-uy)*(1-blend)+Math.atan2(nx,ny)*blend;
+          const dx=halfWidth*Math.sin(theta), dy=halfWidth*Math.cos(theta);
+          lower.push([px+dx,py+dy]); higher.push([px-dx,py-dy]);
+         }
+         for(const [px,py] of lower.slice(1).concat(higher.reverse())) d+=` L ${px} ${py}`;
          i=upper-1;
          continue;
         }else{
