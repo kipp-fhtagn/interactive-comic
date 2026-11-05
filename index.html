@@ -319,11 +319,11 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 #work-back-top{right:16px;bottom:max(20px,env(safe-area-inset-bottom))}
 .work-nav-button small{display:block;font-size:10px;line-height:1.5;opacity:.85;text-align:left}
 @media(max-width:480px){.work-nav-button{padding:10px 12px;font-size:12px}}
-.jaw-white{position:absolute;inset:0;z-index:12;background:white;opacity:0;display:grid;place-items:center;pointer-events:none}
+.jaw-white{position:absolute;inset:0;z-index:40;background:white;opacity:0;display:grid;place-items:center;pointer-events:none}
 .jaw-white p{font:normal clamp(26px,3vw,46px)/1.08 CaptionCostantini;text-align:center;margin:0}
 .rubble-speech{position:absolute;width:min(28vw,38svh,390px);opacity:0;pointer-events:none;bottom:13%;left:6%}
-.rubble-2{left:36%;bottom:8%}.rubble-3{left:auto;right:5%;top:10%;bottom:auto}
-@media(max-width:700px){.rubble-speech{width:min(71vw,37svh);left:4%;bottom:33%}.rubble-2{left:auto;right:4%;bottom:8%}.rubble-3{left:5%;right:auto;top:8%;bottom:auto}}
+.rubble-2{left:36%;bottom:8%}.rubble-3{left:5%;right:auto;top:9%;bottom:auto}
+@media(max-width:700px){.rubble-speech{width:min(71vw,37svh);left:4%;bottom:33%}.rubble-2{left:auto;right:4%;bottom:8%}.rubble-3{left:4%;right:auto;top:7%;bottom:auto}}
 </style>
 </head>
 <body>
@@ -1011,7 +1011,7 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
     function renderDialogue() {
       const clamp = v => Math.max(0, Math.min(1, v));
       const smooth = v => { v = clamp(v); return v * v * (3 - 2 * v); };
-      const timelines = [[.08,.25,.30],[.31,.51,.59],[.64,.74,.79],[.79,.87,.91],[.91,1.1,1.2],[.012,.51,.57],[.57,.89,.97]];
+      const timelines = [[.08,.25,.30],[.31,.51,.59],[.64,.74,.79],[.79,.87,.91],[.91,1.1,1.2],[.012,.51,.57],[.57,.84,.92]];
       const portraitTrack = document.querySelector('.portraits-track');
       const portraitStage = portraitTrack.querySelector('.portraits-stage');
       // Use the camera's eased sample so the lettering stays in sync.
