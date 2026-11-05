@@ -1255,6 +1255,57 @@ h1{color:#000}h1 span{margin-top:0}h1 strong{color:#d90000;filter:none}
 </script>
 
 
+<style>
+#comic-language{position:fixed;z-index:10000;right:max(12px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;background:#191919;border:1px solid #888;color:white;padding:0 8px;font:600 13px/1 system-ui}
+#comic-language button{background:none;border:0;color:#aaa;font:inherit;letter-spacing:.1em;min-height:42px;padding:0 8px;cursor:pointer}
+#comic-language button[aria-pressed=true]{color:#ff681b}#comic-language button:focus-visible{outline:2px solid white;outline-offset:-3px}
+@media(max-width:700px){#work-scene-link{top:calc(max(12px,env(safe-area-inset-top)) + 52px)}}
+</style>
+<nav id="comic-language" aria-label="Balloon language"></nav>
+<script>
+(()=>{
+const langs=['en','it','de','fr','es'], names=['English','Italiano','Deutsch','Français','Español'];
+const copy=[["Dicevano che Nuseirat era un posto sicuro!", "Sie sagten, Nuseirat sei ein sicherer Ort!", "On disait que Nuseirat était un endroit sûr !", "¡Decían que Nuseirat era un lugar seguro!"], ["Ora non ci sono più posti sicuri, bombardano ovunque.", "Jetzt gibt es keine sicheren Orte mehr. Sie bombardieren überall.", "Il n’y a plus aucun endroit sûr. Ils bombardent partout.", "Ya no quedan lugares seguros. Bombardean por todas partes."], ["In pochi secondi ci siamo resi conto che la casa ci stava crollando addosso, con i muri che cadevano intorno a noi.", "In wenigen Sekunden begriffen wir, dass das Haus über uns einstürzte. Rings um uns brachen die Wände zusammen.", "En quelques secondes, nous avons compris que la maison s’effondrait sur nous. Les murs tombaient tout autour de nous.", "En pocos segundos nos dimos cuenta de que la casa se nos venía encima. Las paredes caían a nuestro alrededor."], ["Il letto era caduto sulla testa del bambino.", "Das Bett war dem Kind auf den Kopf gefallen.", "Le lit était tombé sur la tête de l’enfant.", "La cama le había caído al niño en la cabeza."], ["La sua mano era stata amputata ed era lì, accanto a lui.", "Seine Hand war abgetrennt worden und lag neben ihm.", "Sa main avait été amputée et reposait à côté de lui.", "Le habían amputado la mano y estaba allí, a su lado."], ["L’altra mano era a pezzi, in un’altra stanza.", "Seine andere Hand war zertrümmert, in einem anderen Zimmer.", "Son autre main était en morceaux, dans une autre pièce.", "La otra mano estaba destrozada, en otra habitación."], ["Oh, Dio! Aveva il viso devastato.", "Oh Gott! Sein Gesicht war entstellt.", "Mon Dieu ! Son visage était défiguré.", "¡Dios mío! Tenía la cara destrozada."], ["Questa foto è stata scattata il giorno in cui eravamo in viaggio.", "Dieses Foto wurde an dem Tag aufgenommen, an dem wir unterwegs waren.", "Cette photo a été prise le jour où nous étions en route.", "Esta foto se tomó el día que estábamos de viaje."], ["La sua mano destra era in condizioni terribili. In questa foto non si vede bene, ma dall’altro lato era davvero uno strazio.", "Seine rechte Hand war in einem schrecklichen Zustand. Auf diesem Bild sieht man es nicht gut, aber die andere Seite sah wirklich furchtbar aus.", "Sa main droite était dans un état terrible. On ne le voit pas bien sur cette photo, mais de l’autre côté, c’était vraiment tragique.", "Tenía la mano derecha en un estado terrible. En esta foto no se ve bien, pero el otro lado daba verdadera pena."], ["Ancora oggi ha una frattura alla mandibola e non riesce a mangiare.", "Noch heute ist sein Kiefer gebrochen und er kann nicht essen.", "Aujourd’hui encore, il a la mâchoire fracturée et ne peut pas manger.", "Todavía tiene una fractura en la mandíbula y no puede comer."], ["Quel giorno terribile hanno bombardato tutto l’edificio, l’intero complesso residenziale.", "An jenem schrecklichen Tag bombardierten sie das ganze Gebäude, die gesamte Wohnanlage.", "Ce jour terrible, ils ont bombardé tout l’immeuble, tout le complexe résidentiel.", "Aquel día terrible bombardearon todo el edificio, todo el complejo residencial."], ["La mattina seguente abbiamo visto una luce tra le macerie. Abbiamo cominciato a scavare, a scavare…", "Am nächsten Morgen sahen wir ein Licht in den Trümmern. Wir fingen an zu graben, immer weiter…", "Le lendemain matin, nous avons vu une lumière parmi les décombres. Nous avons commencé à creuser, à creuser…", "A la mañana siguiente vimos una luz entre los escombros. Empezamos a cavar, a cavar…"], ["Sanad aveva una ferita aperta alla testa. Non pensavo che sarebbe sopravvissuto. Sembrava davvero in fin di vita.", "Sanad hatte eine klaffende Kopfwunde. Ich dachte nicht, dass er überleben würde. Er schien wirklich dem Tod nahe.", "Sanad avait une plaie béante à la tête. Je ne pensais pas qu’il survivrait. Il semblait vraiment à l’article de la mort.", "Sanad tenía una herida abierta en la cabeza. No creía que fuera a sobrevivir. De verdad parecía estar al borde de la muerte."], ["I soccorritori lo hanno portato via subito.", "Die Rettungskräfte brachten ihn sofort weg.", "Les secouristes l’ont tout de suite emmené.", "Los equipos de rescate se lo llevaron enseguida."], ["L’ho visto solo il giorno dopo e pensavo che fosse morto.", "Ich sah ihn erst am nächsten Tag und dachte, er sei tot.", "Je ne l’ai vu que le lendemain et je le croyais mort.", "No lo vi hasta el día siguiente y pensaba que había muerto."], ["Ma grazie a Dio si è ripreso piano piano, anche se la sua mano destra emanava un cattivo odore.", "Aber Gott sei Dank erholte er sich langsam, obwohl seine rechte Hand übel roch.", "Mais grâce à Dieu, il s’est rétabli peu à peu, même si sa main droite dégageait une odeur nauséabonde.", "Pero gracias a Dios se fue recuperando poco a poco, aunque su mano derecha desprendía mal olor."], ["Quando lo hanno visitato di nuovo ci hanno detto che dovevamo portarlo fuori dal Paese.", "Als sie ihn erneut untersuchten, sagten sie uns, wir müssten ihn außer Landes bringen.", "Quand ils l’ont examiné de nouveau, ils nous ont dit qu’il fallait l’emmener hors du pays.", "Cuando volvieron a examinarlo, nos dijeron que teníamos que sacarlo del país."], ["Siamo arrivati in Qatar il 28 aprile.", "Wir kamen am 28. April in Katar an.", "Nous sommes arrivés au Qatar le 28 avril.", "Llegamos a Catar el 28 de abril."], ["Ringrazio Dio per tutto e giuro che non l’ho mai lasciato solo, nemmeno per un istante.", "Ich danke Gott für alles und schwöre, dass ich ihm keinen Augenblick von der Seite gewichen bin.", "Je remercie Dieu pour tout et je jure que je ne l’ai pas quitté un seul instant.", "Doy gracias a Dios por todo y juro que no me aparté de su lado ni un momento."], ["Quando hanno tolto le bende hanno scoperto che aveva la cancrena.", "Als sie die Verbände abnahmen, stellten sie fest, dass er Wundbrand hatte.", "Quand ils ont retiré les bandages, ils ont découvert qu’il avait la gangrène.", "Cuando le quitaron las vendas, descubrieron que tenía gangrena."]];
+const blocks=[...document.querySelectorAll('.sanad-code .font-text,.single-speech p,.dialogue-6 svg text,.dialogue-7 svg text,.jaw-white p,.rubble-speech text,.rescue-speech text,.aid-speech text')];
+const nav=document.querySelector('#comic-language');
+const ctx=document.createElement('canvas').getContext('2d');
+ctx.font='100px CaptionCostantini';
+const width=s=>ctx.measureText(s).width;
+const records=blocks.map(el=>{
+ const html=el.localName==='p', nodes=html?[]:[...el.children];
+ const english=html?el.innerHTML.split(/<br\s*\/?>/i):nodes.map(n=>n.textContent);
+ return {el,html,english,original:el.innerHTML,size:nodes.map(n=>n.getAttribute('font-size')||el.getAttribute('font-size')),label:el.closest('svg')?.getAttribute('aria-label')};
+});
+// Balance each translation across the original number of baselines.
+function wrap(str,n){
+ const words=str.split(/\s+/), count=words.length;
+ n=Math.min(n,count);const goal=width(str)/n, memo=new Map();
+ function solve(i,k){if(!k)return i===count?[0,[]]:[Infinity,[]];const key=i+':'+k;if(memo.has(key))return memo.get(key);
+ let best=[Infinity,[]];for(let j=i+1;j<=count-k+1;j++){const line=words.slice(i,j).join(' '),[cost,rest]=solve(j,k-1),score=(width(line)-goal)**2+cost;if(score<best[0])best=[score,[line,...rest]]}memo.set(key,best);return best}
+ return solve(0,n)[1];
+}
+let active='en';
+function select(lang){
+ active=lang;const idx=langs.indexOf(lang)-1;
+ records.forEach(({el,html,english,original,size,label},i)=>{
+ el.innerHTML=original;el.setAttribute('lang',lang);
+ let svg=el.closest('svg');if(svg&&label)svg.setAttribute('aria-label',label);
+ if(idx<0)return;
+ const value=copy[i][idx].toLocaleUpperCase(lang), lines=wrap(value,english.length);
+ if(html){el.replaceChildren();lines.forEach((line,j)=>{if(j)el.append(document.createElement('br'));el.append(line)});}
+ else{const scale=Math.min(1,Math.max(...english.map(width))/Math.max(...lines.map(width)));[...el.children].forEach((node,j)=>{node.textContent=lines[j]||'';node.setAttribute('font-size',Number(size[j])*scale)});if(svg&&!svg.matches('.sanad-code'))svg.setAttribute('aria-label',value)}
+ });
+ if(idx>=0)document.querySelector('.sanad-code').setAttribute('aria-label',copy.slice(0,2).map(r=>r[idx]).join(' '));
+ nav.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.lang===lang)));
+ try{localStorage.setItem('comic-language',lang)}catch{}
+ update();
+}
+langs.forEach((lang,i)=>{if(i){let sep=document.createElement('span');sep.textContent='/';sep.setAttribute('aria-hidden','true');nav.append(sep)}let b=document.createElement('button');b.type='button';b.lang=lang;b.textContent=lang.toUpperCase();b.setAttribute('aria-label',names[i]);b.onclick=()=>select(lang);nav.append(b)});
+try{const saved=localStorage.getItem('comic-language');if(langs.includes(saved))active=saved}catch{}
+select(active);document.fonts.ready.then(()=>select(active));
+})();
+</script>
+
 </body>
 </html>
 
